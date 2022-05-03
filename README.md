@@ -24,59 +24,53 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
-
 <br />
-
 <div  align="center">
+    <a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection">
+    <img  src="/images/logo.png"  alt="Logo"  width="80"  height="80">
+    </a>
 
-<a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection">
+    <h3  align="center">The Renee Lane Collection</h3>
 
-<img  src="/images/logo.png"  alt="Logo"  width="80"  height="80">
+    <p  align="center">
+        The Renee Lane Collection is a bespoke non-fungible token art collection developed by Ms. Viola Voltairine and her submissives. The collections’s main components are a set of smart contracts running on the blockchain, a website where the gallery can be viewed and individual art pieces can be minted directly to collectors. The pieces of artwork contained in this collection were created by various women artists.
+        <br />
+        <a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection"><strong>Explore the docs »</strong></a>
+        <br />
+        <br />
+        <a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection">View Demo</a>
+        ·
+        <a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection/issues">Report Bug</a>
+        ·
+        <a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection/issues">Request Feature</a>
+    </p>
 
-</a>
-
-<h3  align="center">The Renee Lane Collection</h3>
-
-<p  align="center">
-The Renee Lane Collection is a bespoke non-fungible token art collection developed by Ms. Viola Voltairine and her submissives. The collections’s main components are a set of smart contracts running on the blockchain, a website where the gallery can be viewed and individual art pieces can be minted directly to collectors. The pieces of artwork contained in this collection were created by various women artists.
-<br />
-<a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection"><strong>Explore the docs »</strong></a>
-<br />
-<br />
-<a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection">View Demo</a>
-·
-<a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection/issues">Report Bug</a>
-·
-<a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection/issues">Request Feature</a>
-</p>
 </div>
 
 <!-- TABLE OF CONTENTS -->
-
 <details>
-
-<summary>Table of Contents</summary>
-<ol>
-<li>
-<a  href="#about-the-project">About The Project</a>
-<ul>
-<li><a  href="#built-with">Built With</a></li>
-</ul>
-</li>
-<li>
-<a  href="#getting-started">Getting Started</a>
-<ul>
-<li><a  href="#prerequisites">Prerequisites</a></li>
-<li><a  href="#installation">Installation</a></li>
-</ul>
-</li>
-<li><a  href="#usage">Usage</a></li>
-<li><a  href="#roadmap">Roadmap</a></li>
-<li><a  href="#contributing">Contributing</a></li>
-<li><a  href="#license">License</a></li>
-<li><a  href="#contact">Contact</a></li>
-<li><a  href="#acknowledgments">Acknowledgments</a></li>
-</ol>
+    <summary>Table of Contents</summary>
+    <ol>
+        <li>
+            <a  href="#about-the-project">About The Project</a>
+            <ul>
+                <li><a  href="#built-with">Built With</a></li>
+            </ul>
+        </li>
+        <li>
+            <a  href="#getting-started">Getting Started</a>
+            <ul>
+                <li><a  href="#prerequisites">Prerequisites</a></li>
+                <li><a  href="#installation">Installation</a></li>
+            </ul>
+        </li>
+        <li><a  href="#usage">Usage</a></li>
+        <li><a  href="#roadmap">Roadmap</a></li>
+        <li><a  href="#contributing">Contributing</a></li>
+        <li><a  href="#license">License</a></li>
+        <li><a  href="#contact">Contact</a></li>
+        <li><a  href="#acknowledgments">Acknowledgments</a></li>
+    </ol>
 </details>
 
 <!-- ABOUT THE PROJECT -->
@@ -87,109 +81,67 @@ The Renee Lane Collection is a bespoke non-fungible token art collection develop
 
 The Renee Lane Collection is a bespoke non-fungible token art collection developed by Ms. Viola Voltairine and her submissives. The collections’s main components are a set of smart contracts running on the blockchain, a website where the gallery can be viewed and individual art pieces can be minted directly to collectors. The pieces of artwork contained in this collection were created by various women artists.
 
-For more information regarding the NFT Collection view the [whitepaper](https://assets.website-files.com/621167ee0b0a4ac70dfcf374/6223c38bdea9db9bbb79398f_ReneeLaneNFTCollection.pdf)
-
-Collaboration and design document loacted [here](https://bit.ly/rl_collab)
+*For more information regarding the NFT Collection view the [whitepaper](https://assets.website-files.com/621167ee0b0a4ac70dfcf374/6223c38bdea9db9bbb79398f_ReneeLaneNFTCollection.pdf).
+*Collaboration and design document loacted [here](https://bit.ly/rl_collab).
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 
 ### Built With
 
 - [React.js](https://reactjs.org/)
-
 - [Brownie](https://eth-brownie.readthedocs.io/)
-
 - [useDApp](https://usedapp.io/)
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
-
 <!-- Temporarily Removed
-
 ## Getting Started
-
-
 
 This is an example of how you may give instructions on setting up your project locally.
 
 To get a local copy up and running follow these simple example steps.
 
-
-
 ### Prerequisites
-
-
 
 This is an example of how to list things you need to use the software and how to install them.
 
 * npm
-
-```sh
-
+    ```sh
 npm install npm@latest -g
-
-```
-
+    ```
 -->
 
 <!-- Temporarily Removed
 
 ### Installation
 
-
+_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 1. Get a free API Key at [https://example.com](https://example.com)
-
 2. Clone the repo
-
-```sh
-
-git clone https://github.com/ScottSucksAtProgramming/renee-lane-collection.git
-
-```
-
+   ```sh
+   git clone https://github.com/your_username_/Project-Name.git
+   ```
 3. Install NPM packages
-
-```sh
-
-npm install
-
-```
-
+   ```sh
+   npm install
+   ```
 4. Enter your API in `config.js`
-
-```js
-
-const API_KEY = 'ENTER YOUR API';
-
-```
-
-
+   ```js
+   const API_KEY = 'ENTER YOUR API';
+   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 -->
 
 <!-- USAGE EXAMPLES -->
 
-<!-- Temporarily Removed
-
 ## Usage
 
-
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
+_For more examples, please refer to the [Documentation](https://bit.ly/rl_collab)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
--->
 
 <!-- ROADMAP -->
 
@@ -203,7 +155,6 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] Smart Contracts
 
   - [ ] Non-Fungible Tokens - Art Collection
-
     - [ ] Contract Development
       - [ ] Single Collection
       - [ ] Investor and Owner Lists
@@ -215,7 +166,6 @@ _For more examples, please refer to the [Documentation](https://example.com)_
       - [ ] Gas Optimization
       - [ ] Testing
     - [ ] Metadata
-
   - [ ] Fungible Tokens - Renee Coins
     - [ ] Contract Devlopment
       - [ ] Initial Mint
@@ -242,13 +192,9 @@ If you have a suggestion that would make this better, please fork the repo and c
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
-
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
-
 5. Open a Pull Request
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
@@ -265,7 +211,11 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Scott Kostolni - [@scottkostolni](https://twitter.com/@scottkostolni) - scottkostolni@gmail.com
+Ms. Viola Voltairine - [@MVoltairine](https://twitter.com/@MVoltairine) - [Gynarchy.io](https://www.gynarchy.io/)
+
+Scott Kostolni - [@scottkostolni](https://twitter.com/@scottkostolni)
+
+CryptoNewbie - [@cryto_newbie](https://twitter.com/cryto_newbie)
 
 Project Link: [https://github.com/ScottSucksAtProgramming/renee-lane-collection](https://github.com/ScottSucksAtProgramming/renee-lane-collection)
 
@@ -276,11 +226,8 @@ Project Link: [https://github.com/ScottSucksAtProgramming/renee-lane-collection]
 ## Acknowledgments
 
 - [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
-
 - [OpenZeppelin](https://openzeppelin.com/)
-
 - [Patrick Collins](https://github.com/PatrickAlphaC)
-
 - [freeCodeCamp.org Solidity, Blockchain, and Smart Contract Course](https://www.youtube.com/watch?v=M576WGiDBdQ)
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
