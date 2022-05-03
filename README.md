@@ -55,7 +55,7 @@
 
 <a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection">
 
-<img  src="tree/main/images/logo.jpeg"  alt="Logo"  width="80"  height="80">
+<img  src="/blob/main/images/logo.png"  alt="Logo"  width="80"  height="80">
 
 </a>
 
@@ -155,7 +155,7 @@ The Renee Lane Collection is a bespoke non-fungible token art collection develop
 
   
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/ScottSucksAtProgramming/renee-lane-collection/tree/main/imagescathexis-house-logo.jpeg)
+[![Product Name Screen Shot][product-screenshot]](https://github.com/ScottSucksAtProgramming/renee-lane-collection/tree/main/images/cathexis-house-logo.jpeg)
 
   
 
