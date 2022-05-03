@@ -155,7 +155,7 @@ The Renee Lane Collection is a bespoke non-fungible token art collection develop
 
   
 
-[![Cathexis House Screen Shot][product-screenshot]](https://github.com/ScottSucksAtProgramming/renee-lane-collection/blob/main/images/cathexis-house-logo.jpeg?raw=true)
+[![Cathexis House Screen Shot][product-screenshot]](https://gynarchy.io)
 
   
 
@@ -458,4 +458,4 @@ Project Link: [https://github.com/ScottSucksAtProgramming/renee-lane-collection]
 
 [linkedin-url]: https://linkedin.com/in/scottkostolni
 
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/cathexis-house-logo.jpeg
