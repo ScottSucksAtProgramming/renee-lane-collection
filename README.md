@@ -155,7 +155,7 @@ The Renee Lane Collection is a bespoke non-fungible token art collection develop
 
   
 
-[![Cathexis House Screen Shot][product-screenshot]](https://github.com/ScottSucksAtProgramming/renee-lane-collection/main/images/cathexis-house-logo.jpeg)
+[![Cathexis House Screen Shot][product-screenshot]](https://github.com/ScottSucksAtProgramming/renee-lane-collection/blob/main/images/cathexis-house-logo.jpeg?raw=true)
 
   
 
