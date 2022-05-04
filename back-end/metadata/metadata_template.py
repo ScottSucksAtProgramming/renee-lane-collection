@@ -1,10 +1,12 @@
 # ------------------------------ Documentation ------------------------------ #
-# Module:  sample_metadata.py
-# Containes the template for the metadata of this project.
+# Module:  metadata_template.py
+# This module contains the metadata template used to create finalized metadata
+# for the Non-Fungible Tokens. It is used in conjunction with the
+# create_metadata.py script to create the JSON files.
 #
 #
 # Modification History
-# 04-18-2022 SRK Project Created
+# 05-03-2022 | SRK | Module Imported to Project.
 
 # -------------------------------- Tasks ----------------------------------- #
 
@@ -12,9 +14,19 @@
 metadata_template = {
     "name": "",
     "description": "",
+    "external_url": "",
     "image": "",
-    "attributes": [{"trait_Type": "cuteness", "value": 100}],
+    "attributes": [
+        {
+            "trait_type": "Artist",
+            "value": "",
+        },
+        {
+            "display_type": "",
+            "trait_type": "Edition",
+            "value": "",
+            "max_value": "",
+        },
+    ],
 }
 # ------------------------------ Functions --------------------------------- #
-
-# ------------------------------ PythonHeader ------------------------------ #
