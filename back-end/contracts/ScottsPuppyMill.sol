@@ -1,21 +1,31 @@
 // SPDX-License-Identifier: MIT
 // ------------------------------ Documentation --------------------------- //
 // Module:  ScottsPuppyMill.sol
-// This smart contract creates 3 different types of puppy NFTs. A St. Bernard,
-// a Shiba Inu, and a Pug. It serves as a test for future NFT collections for
-// Gynarchy.io.
+// This is a smart contract which creates ERC-721 non-fungible tokens. It was
+// originally written as a test contract used in the Scott's Puppy Mill
+// project. It is being repurposed and expanded upon for use in the Renee Lane Collection.
 //
 //
 //
 //
 // Modification History
-// 04-28-2022 SRK Project Created.
-// 04-30-2022 SRK Mark Tomlin saves Gas
+// 04-28-2022 | SRK | Project Created.
+// 04-30-2022 | SRK | Added counters to a struct to help save gas.
+// 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
 
 // -------------------------------- Tasks --------------------------------- //
-// 1. Be able to Mint 3 different puppy breeds.
-//      Solved by selecting tokenId ranges for each breed.
-// 2. Limit the number of puppies to 100 per breed.
+// Todo: Add royalty support.
+// Todo: Add support for other wallets.
+// Todo: Add access control support.
+// Todo: Add investor list.
+// Todo: Add functionality to accept and withdraw payments.
+// Todo: Update _baseURI to new IPFS metdata address.
+// Todo: Gas Optimization.
+// Todo: Ensure code is written for self-documentation. Comments are
+// Todo: adjusted to provide additional information. Context available in
+// Todo: design document.
+// Todo: Implement Minting Payment Splits
+// Todo: Implement Royalty Payment Splits
 // ------------------------------ Resources ------------------------------- //
 pragma solidity ^0.8.4;
 
@@ -95,6 +105,10 @@ contract ScottsPuppyMill is ERC721 {
             "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/";
     }
 
+    // ? Why is this function here? - I feel like there was an error that
+    // ? required me to put it in but it serves no actual purpose as far as
+    // ? minting ERC-721s go in this contract. Metadata is being hosted
+    // ? off-chain through IPFS.
     function tokenURI(uint256 tokenId)
         public
         view
