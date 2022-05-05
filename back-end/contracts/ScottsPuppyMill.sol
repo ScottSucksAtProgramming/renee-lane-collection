@@ -14,18 +14,18 @@
 // 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
 
 // -------------------------------- Tasks --------------------------------- //
+// Todo: Update minting functions and counters to model the collection.
 // Todo: Add royalty support.
-// Todo: Add support for other wallets.
 // Todo: Add access control support.
-// Todo: Add investor list.
+// Todo: Add functionality for the investor list.
 // Todo: Add functionality to accept and withdraw payments.
+// Todo: Implement Minting Payment Splits
+// Todo: Implement Royalty Payment Splits
 // Todo: Update _baseURI to new IPFS metdata address.
 // Todo: Gas Optimization.
 // Todo: Ensure code is written for self-documentation. Comments are
 // Todo: adjusted to provide additional information. Context available in
 // Todo: design document.
-// Todo: Implement Minting Payment Splits
-// Todo: Implement Royalty Payment Splits
 // ------------------------------ Resources ------------------------------- //
 pragma solidity ^0.8.4;
 
