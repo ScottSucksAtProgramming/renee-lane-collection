@@ -14,7 +14,7 @@
 // 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
 
 // -------------------------------- Tasks --------------------------------- //
-// Todo: Update minting functions and counters to model the collection.
+// Todo: Update minting functions and counters to model the collection. - In Progress (05/05/2022)
 // Todo: Add royalty support.
 // Todo: Add access control support.
 // Todo: Add functionality for the investor list.
@@ -31,72 +31,53 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-struct Kennel {
-    uint64 stBernard;
-    uint64 shibaInu;
-    uint64 pug;
-    uint64 padding;
-}
-
 // ------------------------------ Contract -------------------------------- //
-contract ScottsPuppyMill is ERC721 {
+contract ReneeLaneCollection is ERC721 {
     // We will be creating NFTs for 3 breeds of puppies, St. Bernards,
-    //Shiba Inus, and Pugs. These Kennel variables will be used to create
+    //Shiba Inus, and Pugs. These Counter variables will be used to create
     //the unique tokenId for each minted puppy.
     //St. Bernard Token IDs: 1-100;
     //Shiba Inu Token IDs: 101-200;
     //Pug Token IDs: 201-300;
     //Using unique TokenIds like this will allow metadata to be pre-uploaded to IPFS.
 
-    Kennel public kennel;
-
-    constructor() ERC721("Scott Dogs", "SDOG") {
-        //Initalize the breed Kennels.
-        kennel.stBernard = 1;
-        kennel.shibaInu = 1;
-        kennel.pug = 1;
+    struct Image {
+        uint64 id;
+        uint64 price;
+        uint64 supplyLimit;
+        uint64 padding;
     }
 
-    // ------------------------------ Functions ------------------------------ //
-    /** 
-    This function will mint a new St. Bernard Puppy NFT. The transaction will 
-    revert if there are already 100 St. Bernards. The tokenURI will be 
-    generated using the newTokenId and the ipfs address.
-    */
-    function createStBernard() public returns (uint256) {
+    mapping(uint256 => Image) images;
+
+    constructor() ERC721("The Renee Lane Collection", "TRLC") {
+        for (uint256 index = 1; index <= 10; index++) {
+            images[index] = Image(index, 12, 20);
+        }
+        for (uint256 index = 11; index <= 20; index++) {
+            images[index] = Image(index, 24, 20);
+        }
+        for (uint256 index = 21; index <= 30; index++) {
+            images[index] = Image(index, 36, 10);
+        }
+        for (uint256 index = 31; index <= 40; index++) {
+            images[index] = Image(index, 48, 5);
+        }
+        for (uint256 index = 41; index <= 50; index++) {
+            images[index] = Image(index, 60, 3);
+        }
+    }
+
+    // ------------------------ Minting Functions ------------------------- //
+
+    function mintImage(uint256 _imgId) public returns (uint256) {
         require(
-            kennel.stBernard <= 100,
-            "No more St. Bernard Puppies Available!"
+            counter.imageOne <= 100,
+            "No more editions of this image are available."
         );
-        uint256 newTokenId = kennel.stBernard;
+        uint256 newTokenId = counter.imageOne;
         _safeMint(msg.sender, newTokenId);
-        kennel.stBernard = kennel.stBernard + 1;
-        return newTokenId;
-    }
-
-    /** 
-    This function will mint a new Shiba Inu Puppy NFT. The transaction will 
-    revert if there are already 100 St. Bernards. The tokenURI will be 
-    generated using the newTokenId and the ipfs address.
-    */
-    function createShibaInu() public returns (uint256) {
-        require(kennel.shibaInu <= 100, "No more Shiba Inu Puppies Available!");
-        uint256 newTokenId = kennel.shibaInu + 100;
-        _safeMint(msg.sender, newTokenId);
-        kennel.shibaInu = kennel.shibaInu + 1;
-        return newTokenId;
-    }
-
-    /** 
-    This function will mint a new Shiba Inu Puppy NFT. The transaction will 
-    revert if there are already 100 St. Bernards. The tokenURI will be 
-    generated using the newTokenId and the ipfs address.
-    */
-    function createPug() public returns (uint256) {
-        require(kennel.pug <= 100, "No more Pug Puppies Available!");
-        uint256 newTokenId = kennel.pug + 200;
-        _safeMint(msg.sender, newTokenId);
-        kennel.pug = kennel.pug + 1;
+        counter.imageOne = counter.imageOne + 1;
         return newTokenId;
     }
 
@@ -105,10 +86,7 @@ contract ScottsPuppyMill is ERC721 {
             "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/";
     }
 
-    // ? Why is this function here? - I feel like there was an error that
-    // ? required me to put it in but it serves no actual purpose as far as
-    // ? minting ERC-721s go in this contract. Metadata is being hosted
-    // ? off-chain through IPFS.
+    // ------------------------ Minting Functions ------------------------- //
     function tokenURI(uint256 tokenId)
         public
         view
