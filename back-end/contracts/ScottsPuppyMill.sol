@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
-// ------------------------------ Documentation --------------------------- //
+
+//* ----------------------------- Documentation --------------------------- //
 // Module:  ScottsPuppyMill.sol
 // This is a smart contract which creates ERC-721 non-fungible tokens. It was
 // originally written as a test contract used in the Scott's Puppy Mill
@@ -13,7 +14,7 @@
 // 04-30-2022 | SRK | Added counters to a struct to help save gas.
 // 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
 
-// -------------------------------- Tasks --------------------------------- //
+//* ------------------------------- Tasks --------------------------------- //
 // Todo: Update minting functions and counters to model the collection. - In Progress (05/05/2022)
 // Todo: Add royalty support.
 // Todo: Add access control support.
@@ -26,12 +27,12 @@
 // Todo: Ensure code is written for self-documentation. Comments are
 // Todo: adjusted to provide additional information. Context available in
 // Todo: design document.
-// ------------------------------ Resources ------------------------------- //
+//* ----------------------------- Resources ------------------------------- //
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-// ------------------------------ Contract -------------------------------- //
+//* ----------------------------- Contract -------------------------------- //
 contract ReneeLaneCollection is ERC721 {
     // We will be creating NFTs for 3 breeds of puppies, St. Bernards,
     //Shiba Inus, and Pugs. These Counter variables will be used to create
@@ -68,7 +69,7 @@ contract ReneeLaneCollection is ERC721 {
         }
     }
 
-    // ------------------------ Minting Functions ------------------------- //
+    //* ----------------------- Minting Functions ------------------------- //
 
     function mintImage(uint256 _imgId) public returns (uint256) {
         require(
@@ -86,7 +87,7 @@ contract ReneeLaneCollection is ERC721 {
             "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/";
     }
 
-    // ------------------------ Minting Functions ------------------------- //
+    //* ----------------------- Other Functions ------------------------- //
     function tokenURI(uint256 tokenId)
         public
         view
