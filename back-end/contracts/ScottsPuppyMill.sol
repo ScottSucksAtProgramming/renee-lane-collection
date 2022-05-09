@@ -27,6 +27,7 @@
 // Todo: Ensure code is written for self-documentation. Comments are
 // Todo: adjusted to provide additional information. Context available in
 // Todo: design document.
+
 //* ----------------------------- Resources ------------------------------- //
 pragma solidity ^0.8.4;
 
@@ -34,19 +35,48 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 //* ----------------------------- Contract -------------------------------- //
 contract ReneeLaneCollection is ERC721 {
-    // We will be creating NFTs for 3 breeds of puppies, St. Bernards,
-    //Shiba Inus, and Pugs. These Counter variables will be used to create
-    //the unique tokenId for each minted puppy.
-    //St. Bernard Token IDs: 1-100;
-    //Shiba Inu Token IDs: 101-200;
-    //Pug Token IDs: 201-300;
-    //Using unique TokenIds like this will allow metadata to be pre-uploaded to IPFS.
+    // The Renee Lane Collection contains 50 pieces of artwork with varying
+    // prices, and supply for minting. To save gas fees metadata will uploaded
+    // to IPFS separately and organized by tokenId.
+    //
+    // Supply of 20
+    // TokenId 01-20: Image 1       TokenId 21-40: Image 2
+    // TokenId 41-60: Image 3       TokenId 61-80: Image 4
+    // TokenId 81-100: Image 5      TokenId 101-120: Image 6
+    // TokenId 121-140: Image 7     TokenId 141-160: Image 8
+    // TokenId 161-180: Image 9     TokenId 181-200: Image 10
+    // TokenId 201-220: Image 11    TokenId 221-240: Image 12
+    // TokenId 241-260: Image 13    TokenId 261-280: Image 14
+    // TokenId 281-300: Image 15    TokenId 301-320: Image 16
+    // TokenId 321-340: Image 17    TokenId 341-360: Image 18
+    // TokenId 361-380: Image 19    TokenId 381-400: Image 20
+
+    // Supply of 10
+    // TokenId 401-410: Image 21    TokenId 411-420: Image 22
+    // TokenId 421-430: Image 23    TokenId 431-440: Image 24
+    // TokenId 441-450: Image 25    TokenId 451-460: Image 26
+    // TokenId 461-470: Image 27    TokenId 471-480: Image 28
+    // TokenId 481-490: Image 29    TokenId 491-500: Image 30
+
+    // Supply of 5
+    // TokenId 501-505: Image 31    TokenId 506-510: Image 32
+    // TokenId 511-515: Image 33    TokenId 516-520: Image 34
+    // TokenId 521-525: Image 35    TokenId 526-530: Image 36
+    // TokenId 531-535: Image 37    TokenId 536-540: Image 38
+    // TokenId 541-545: Image 39    TokenId 546-550: Image 40
+
+    // Supply of 3
+    // TokenId 551-553: Image 41    TokenId 554-556: Image 42
+    // TokenId 557-559: Image 43    TokenId 560-562: Image 44
+    // TokenId 563-565: Image 45    TokenId 566-568: Image 46
+    // TokenId 569-571: Image 47    TokenId 572-574: Image 48
+    // TokenId 575-577: Image 49    TokenId 578-580: Image 45
 
     struct Image {
         uint64 id;
         uint64 price;
         uint64 supplyLimit;
-        uint64 padding;
+        uint64 counter;
     }
 
     mapping(uint256 => Image) images;
