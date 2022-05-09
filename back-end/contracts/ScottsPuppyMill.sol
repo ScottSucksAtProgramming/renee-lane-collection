@@ -13,9 +13,10 @@
 // 04-28-2022 | SRK | Project Created.
 // 04-30-2022 | SRK | Added counters to a struct to help save gas.
 // 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
+// 05-09-2022 | SRK | Minting Function
 
 //* ------------------------------- Tasks --------------------------------- //
-// Todo: Update minting functions and counters to model the collection. - In Progress (05/05/2022)
+// Update minting functions and counters to model the collection. - Complete (05/09/2022)
 // Todo: Add royalty support.
 // Todo: Add access control support.
 // Todo: Add functionality for the investor list.
@@ -35,86 +36,95 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 //* ----------------------------- Contract -------------------------------- //
 contract ReneeLaneCollection is ERC721 {
-    // The Renee Lane Collection contains 50 pieces of artwork with varying
-    // prices, and supply for minting. To save gas fees metadata will uploaded
-    // to IPFS separately and organized by tokenId.
-    //
-    // Supply of 20
-    // TokenId 01-20: Image 1       TokenId 21-40: Image 2
-    // TokenId 41-60: Image 3       TokenId 61-80: Image 4
-    // TokenId 81-100: Image 5      TokenId 101-120: Image 6
-    // TokenId 121-140: Image 7     TokenId 141-160: Image 8
-    // TokenId 161-180: Image 9     TokenId 181-200: Image 10
-    // TokenId 201-220: Image 11    TokenId 221-240: Image 12
-    // TokenId 241-260: Image 13    TokenId 261-280: Image 14
-    // TokenId 281-300: Image 15    TokenId 301-320: Image 16
-    // TokenId 321-340: Image 17    TokenId 341-360: Image 18
-    // TokenId 361-380: Image 19    TokenId 381-400: Image 20
-
-    // Supply of 10
-    // TokenId 401-410: Image 21    TokenId 411-420: Image 22
-    // TokenId 421-430: Image 23    TokenId 431-440: Image 24
-    // TokenId 441-450: Image 25    TokenId 451-460: Image 26
-    // TokenId 461-470: Image 27    TokenId 471-480: Image 28
-    // TokenId 481-490: Image 29    TokenId 491-500: Image 30
-
-    // Supply of 5
-    // TokenId 501-505: Image 31    TokenId 506-510: Image 32
-    // TokenId 511-515: Image 33    TokenId 516-520: Image 34
-    // TokenId 521-525: Image 35    TokenId 526-530: Image 36
-    // TokenId 531-535: Image 37    TokenId 536-540: Image 38
-    // TokenId 541-545: Image 39    TokenId 546-550: Image 40
-
-    // Supply of 3
-    // TokenId 551-553: Image 41    TokenId 554-556: Image 42
-    // TokenId 557-559: Image 43    TokenId 560-562: Image 44
-    // TokenId 563-565: Image 45    TokenId 566-568: Image 46
-    // TokenId 569-571: Image 47    TokenId 572-574: Image 48
-    // TokenId 575-577: Image 49    TokenId 578-580: Image 45
-
+    // Image information stored here. Packages into single 256byte container
+    // when compiled.
     struct Image {
-        uint64 id;
+        uint64 imgNumber;
         uint64 price;
-        uint64 supplyLimit;
-        uint64 counter;
+        uint64 currentTokenId;
+        uint64 lastTokenId;
     }
-
-    mapping(uint256 => Image) images;
+    // Stores Image objects for each image by imageNumber.
+    mapping(uint256 => Image) imageGallery;
 
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
-        for (uint256 index = 1; index <= 10; index++) {
-            images[index] = Image(index, 12, 20);
+        // Initializes Image Struct Objects. I couldn't come up with a
+        // better way to do this math. This works.
+        imageGallery[1] = Image(1, 12, 1, 20);
+        for (uint64 index = 2; index <= 10; index++) {
+            imageGallery[index] = Image({
+                imgNumber: index,
+                price: 12,
+                currentTokenId: imageGallery[index - 1].currentTokenId + 20,
+                lastTokenId: imageGallery[index - 1].lastTokenId + 20
+            });
         }
-        for (uint256 index = 11; index <= 20; index++) {
-            images[index] = Image(index, 24, 20);
+        for (uint64 index = 11; index <= 20; index++) {
+            imageGallery[index] = Image({
+                imgNumber: index,
+                price: 24,
+                currentTokenId: imageGallery[index - 1].currentTokenId + 20,
+                lastTokenId: imageGallery[index - 1].lastTokenId + 20
+            });
         }
-        for (uint256 index = 21; index <= 30; index++) {
-            images[index] = Image(index, 36, 10);
+        imageGallery[21] = Image(21, 36, 401, 410);
+        for (uint64 index = 22; index <= 30; index++) {
+            imageGallery[index] = Image({
+                imgNumber: index,
+                price: 36,
+                currentTokenId: imageGallery[index - 1].currentTokenId + 10,
+                lastTokenId: imageGallery[index - 1].lastTokenId + 10
+            });
         }
-        for (uint256 index = 31; index <= 40; index++) {
-            images[index] = Image(index, 48, 5);
+        imageGallery[31] = Image(31, 48, 501, 505);
+        for (uint64 index = 32; index <= 40; index++) {
+            imageGallery[index] = Image({
+                imgNumber: index,
+                price: 48,
+                currentTokenId: imageGallery[index - 1].currentTokenId + 5,
+                lastTokenId: imageGallery[index - 1].lastTokenId + 5
+            });
         }
-        for (uint256 index = 41; index <= 50; index++) {
-            images[index] = Image(index, 60, 3);
+        imageGallery[41] = Image(41, 60, 551, 553);
+        for (uint64 index = 42; index <= 50; index++) {
+            imageGallery[index] = Image({
+                imgNumber: index,
+                price: 60,
+                currentTokenId: imageGallery[index - 1].currentTokenId + 3,
+                lastTokenId: imageGallery[index - 1].lastTokenId + 3
+            });
         }
     }
 
     //* ----------------------- Minting Functions ------------------------- //
 
-    function mintImage(uint256 _imgId) public returns (uint256) {
+    /**
+        This function will mint a token of the specified image passed to it. 
+        Will revert if there are no tokens left for that image.
+
+        Arguments:
+            - _imageNumber - The number of the image the user wants to mint (1-50).
+
+        Returns:
+            - newTokenId - The tokenId of the token which was last created.
+    */
+    function mintImage(uint256 _imageNumber) public returns (uint256) {
         require(
-            counter.imageOne <= 100,
+            imageGallery[_imageNumber].currentTokenId <=
+                imageGallery[_imageNumber].lastTokenId,
             "No more editions of this image are available."
         );
-        uint256 newTokenId = counter.imageOne;
+        uint256 newTokenId = imageGallery[_imageNumber].currentTokenId;
         _safeMint(msg.sender, newTokenId);
-        counter.imageOne = counter.imageOne + 1;
+        imageGallery[_imageNumber].currentTokenId =
+            imageGallery[_imageNumber].currentTokenId +
+            1;
         return newTokenId;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
         return
-            "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/";
+            "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/"; // Old URI
     }
 
     //* ----------------------- Other Functions ------------------------- //
