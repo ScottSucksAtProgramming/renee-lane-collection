@@ -110,6 +110,10 @@ contract ReneeLaneCollection is ERC721 {
     */
     function mintImage(uint256 _imageNumber) public returns (uint256) {
         require(
+            _imageNumber > 0 && _imageNumber < 51,
+            "The image you have selected does not exist in this collection."
+        );
+        require(
             imageGallery[_imageNumber].currentTokenId <=
                 imageGallery[_imageNumber].lastTokenId,
             "No more editions of this image are available."
