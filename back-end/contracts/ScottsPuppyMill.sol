@@ -13,12 +13,13 @@
 // 04-28-2022 | SRK | Project Created.
 // 04-30-2022 | SRK | Added counters to a struct to help save gas.
 // 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
-// 05-09-2022 | SRK | Minting Function
+// 05-09-2022 | SRK | Minting Function Completed.
+// 05-10-2022 | SRK | Contract Ownership Functionality Added.
 
 //* ------------------------------- Tasks --------------------------------- //
 // Update minting functions and counters to model the collection. - Complete (05/09/2022)
+// Add access control support. - Complete (05/10/2022)
 // Todo: Add royalty support.
-// Todo: Add access control support.
 // Todo: Add functionality for the investor list.
 // Todo: Add functionality to accept and withdraw payments.
 // Todo: Implement Minting Payment Splits
