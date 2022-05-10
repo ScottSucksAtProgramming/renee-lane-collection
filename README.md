@@ -33,7 +33,7 @@
 <h3  align="center">The Renee Lane Collection</h3>
 
 <p  align="center">
-    The Renee Lane Collection is a bespoke non-fungible token art collection developed by Ms. Viola Voltairine and her submissives. The collections’s main components are a set of smart contracts running on the blockchain, a website where the gallery can be viewed and individual art pieces can be minted directly to collectors. The pieces of artwork contained in this collection were created by various women artists.
+    The Renee Lane Collection is a bespoke non-fungible token art collection developed by Ms. Viola Voltairine and her community. The collections’s main components are a set of smart contracts running on the blockchain, a website where the gallery can be viewed and individual art pieces can be minted directly to collectors. The pieces of artwork contained in this collection were created by various women artists.
     <br />
     <a  href="https://github.com/ScottSucksAtProgramming/renee-lane-collection/tree/main/documentation"><strong>Explore the docs »</strong></a>
     <br />
