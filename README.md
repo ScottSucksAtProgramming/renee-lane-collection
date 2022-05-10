@@ -149,16 +149,16 @@ _For more examples, please refer to the [Documentation](https://bit.ly/rl_collab
 
 - [ ] Design Descisions
 
-  - [ ] Token Standards
-  - [ ] Blockchain Choice
+  - [x] Token Standards
+  - [x] Blockchain Choice
 
 - [ ] Smart Contracts
 
   - [ ] Non-Fungible Tokens - Art Collection
     - [ ] Contract Development
-      - [ ] Single Collection
+      - [x] Single Collection
       - [ ] Investor and Owner Lists
-      - [ ] Minting Functions
+      - [x] Minting Function
       - [ ] Payout Splits
         - [ ] Minting Payouts
         - [ ] Royalty Payouts
