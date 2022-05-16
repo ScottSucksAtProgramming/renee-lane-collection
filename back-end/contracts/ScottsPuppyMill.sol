@@ -15,29 +15,33 @@
 // 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
 // 05-09-2022 | SRK | Minting Function Completed.
 // 05-10-2022 | SRK | Contract Ownership Functionality Added.
+// 05-15-2022 | SRK | Royalty Functionality Added.
 
 //* ------------------------------- Tasks --------------------------------- //
 // Update minting functions and counters to model the collection. - Complete (05/09/2022)
 // Add access control support. - Complete (05/10/2022)
-// Todo: Add royalty support.
-// Todo: Add functionality for the investor list.
-// Todo: Add functionality to accept and withdraw payments.
+// Add royalty support. - Complete (05/15/2022)
+// Todo: Add Investor List functionality.
+// Todo: Add Withdraw Payment functionality.
 // Todo: Implement Minting Payment Splits
+// Todo: Create MoneyPipe Contracts for each Artist with a 50/50 split between
+// Todo: the Artist and Ms. Viola's Wallet.
 // Todo: Implement Royalty Payment Splits
+// Todo: Create/Add MoneyPipe Contract Address for Royalty Splits
 // Todo: Update _baseURI to new IPFS metdata address.
-// Todo: Gas Optimization.
-// Todo: Ensure code is written for self-documentation. Comments are
-// Todo: adjusted to provide additional information. Context available in
-// Todo: design document.
+// Todo: Gas Optimization Passes.
+// Todo: Clean up code and make self-documenting.
 
 //* ----------------------------- Resources ------------------------------- //
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 
 //* ----------------------------- Contract -------------------------------- //
-contract ReneeLaneCollection is ERC721, Ownable {
+contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
+    //* ---------------------------- Variables ---------------------------- //
     // Image information stored here. Packages into single 256byte container
     // when compiled.
     struct Image {
@@ -46,9 +50,16 @@ contract ReneeLaneCollection is ERC721, Ownable {
         uint64 currentTokenId;
         uint64 lastTokenId;
     }
+
+    //! This will be updated when we get actual moneypipe contracts set.
+    address dummyMoneypipeAddress = 0x0A098Eda01Ce92ff4A4CCb7A4fFFb5A43EBC70DC;
+    //* ---------------------------- Mappings ----------------------------- //
     // Stores Image objects for each image by imageNumber.
     mapping(uint256 => Image) imageGallery;
 
+    //* ------------------------------ Events ----------------------------- //
+
+    //* --------------------------- Contructor ---------------------------- //
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
         // Initializes Image Struct Objects. I couldn't come up with a
         // better way to do this math. This works.
@@ -122,6 +133,11 @@ contract ReneeLaneCollection is ERC721, Ownable {
         );
         uint256 newTokenId = imageGallery[_imageNumber].currentTokenId;
         _safeMint(msg.sender, newTokenId);
+        _setTokenRoyalty(
+            imageGallery[_imageNumber].currentTokenId,
+            dummyMoneypipeAddress,
+            1000
+        );
         imageGallery[_imageNumber].currentTokenId =
             imageGallery[_imageNumber].currentTokenId +
             1;
@@ -133,7 +149,26 @@ contract ReneeLaneCollection is ERC721, Ownable {
             "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/"; // Old URI
     }
 
-    //* ----------------------- Other Functions ------------------------- //
+    //* ----------------------- Royalty Functions ------------------------- //
+    function _burn(uint256 tokenId)
+        internal
+        virtual
+        override(ERC721, ERC721Royalty)
+    {
+        super._burn(tokenId);
+        _resetTokenRoyalty(tokenId);
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Royalty)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
+
+    //* ----------------------- Metadata Functions ------------------------ //
     function tokenURI(uint256 tokenId)
         public
         view
