@@ -179,6 +179,11 @@ _For more examples, please refer to the [Documentation](https://bit.ly/rl_collab
 
 See the [open issues](https://github.com/ScottSucksAtProgramming/renee-lane-collection/issues) for a full list of proposed features (and known issues).
 
+### Releases
+
+- [x] Alpha
+  - [x] 0.1.0 Alpha - Released 05/15/2022
+
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
