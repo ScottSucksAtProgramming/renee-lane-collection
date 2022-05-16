@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: MIT
 
 //* ----------------------------- Documentation --------------------------- //
-// Module:  ScottsPuppyMill.sol
+// Module:  ReneeLaneCollection.sol
 // This is a smart contract which creates ERC-721 non-fungible tokens. It was
 // originally written as a test contract used in the Scott's Puppy Mill
 // project. It is being repurposed and expanded upon for use in the Renee Lane Collection.
 //
-//
+// Current Statistics as of 0.1.0 alpha
+// Deployment Cost  |   4,407,964 Gas
+// 1st Minting Cost |     101,137 Gas
+// Additional Mints |      84,037 Gas
 //
 //
 // Modification History
@@ -16,6 +19,7 @@
 // 05-09-2022 | SRK | Minting Function Completed.
 // 05-10-2022 | SRK | Contract Ownership Functionality Added.
 // 05-15-2022 | SRK | Royalty Functionality Added.
+// 05-15-2022 | SRK | Version 0.1.0 alpha created.
 
 //* ------------------------------- Tasks --------------------------------- //
 // Update minting functions and counters to model the collection. - Complete (05/09/2022)
