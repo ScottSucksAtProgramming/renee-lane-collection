@@ -68,8 +68,8 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
         // Initializes Image Struct Objects. I couldn't come up with a
         // better way to do this math. This works.
-        /** ! All of these addresses must be changed for the production version 
-        or your Ether will be lost. */
+        //! All of these addresses must be changed for the production version
+        //! or your Ether will be lost.
         imageGallery[1] = Image(
             1,
             120000000000000000,
