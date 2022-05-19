@@ -116,7 +116,9 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     /**
         This function will mint a token of the specified image passed to it. 
-        Will revert if there are no tokens left for that image.
+        Will revert if there are no tokens left for that image, if the 
+        imageNumber is out of range or if the amount of Ether sent is less 
+        than the price of the image.
 
         Arguments:
             - _imageNumber - The number of the image the user wants to mint (1-50).
