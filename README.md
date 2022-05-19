@@ -91,6 +91,7 @@ The Renee Lane Collection is a bespoke non-fungible token art collection develop
 - [React.js](https://reactjs.org/)
 - [Brownie](https://eth-brownie.readthedocs.io/)
 - [useDApp](https://usedapp.io/)
+- [MoneyPipe](https://moneypipe.xyz)
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 
@@ -183,6 +184,7 @@ See the [open issues](https://github.com/ScottSucksAtProgramming/renee-lane-coll
 
 - [x] Alpha
   - [x] [0.1.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.1.0-alpha) - Released 05/15/2022
+  - [x] [0.2.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.2.0-alpha) - Released 05/19/2022
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 
