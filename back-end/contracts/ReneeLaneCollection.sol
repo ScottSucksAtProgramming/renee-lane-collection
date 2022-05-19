@@ -28,10 +28,10 @@
 // Update minting functions and counters to model the collection. - Complete (05/09/2022)
 // Add access control support. - Complete (05/10/2022)
 // Add royalty support. - Complete (05/15/2022)
-// Todo: Add Withdraw Payment functionality. - Complete (5/19/2022)
-// Todo: Implement Minting Payment Splits.  - Complete (5/19/2022)
-// Todo: Implement Royalty Payment Splits.  - Complete (5/19/2022)
-// Todo: Create/Add MoneyPipe Contract Address for Royalty Splits.  - Complete (5/19/2022)
+// Add Withdraw Payment functionality. - Complete (5/19/2022)
+// Implement Minting Payment Splits.  - Complete (5/19/2022)
+// Implement Royalty Payment Splits.  - Complete (5/19/2022)
+// Create/Add MoneyPipe Contract Address for Royalty Splits.  - Complete (5/19/2022)
 // Todo: Update _baseURI to new IPFS metdata address.
 // Todo: Add Investor List functionality.
 // Todo: Gas Optimization Passes.
