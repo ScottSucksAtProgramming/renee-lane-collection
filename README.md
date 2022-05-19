@@ -160,9 +160,9 @@ _For more examples, please refer to the [Documentation](https://bit.ly/rl_collab
       - [x] Single Collection
       - [ ] Investor and Owner Lists
       - [x] Minting Function
-      - [ ] Payout Splits
-        - [ ] Minting Payouts
-        - [ ] Royalty Payouts
+      - [x] Payout Splits
+        - [x] Minting Payouts
+        - [x] Royalty Payouts
       - [ ] Pre-Sale Whitelist
       - [ ] Gas Optimization
       - [ ] Testing
