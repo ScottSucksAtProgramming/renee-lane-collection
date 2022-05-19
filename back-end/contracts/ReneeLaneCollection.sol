@@ -26,14 +26,12 @@
 // Update minting functions and counters to model the collection. - Complete (05/09/2022)
 // Add access control support. - Complete (05/10/2022)
 // Add royalty support. - Complete (05/15/2022)
-// Todo: Add Investor List functionality.
 // Todo: Add Withdraw Payment functionality.
 // Todo: Implement Minting Payment Splits
-// Todo: Create MoneyPipe Contracts for each Artist with a 50/50 split between
-// Todo: the Artist and Ms. Viola's Wallet.
 // Todo: Implement Royalty Payment Splits
-// Todo: Create/Add MoneyPipe Contract Address for Royalty Splits
+//      Todo: Create/Add MoneyPipe Contract Address for Royalty Splits
 // Todo: Update _baseURI to new IPFS metdata address.
+// Todo: Add Investor List functionality.
 // Todo: Gas Optimization Passes.
 // Todo: Clean up code and make self-documenting.
 
