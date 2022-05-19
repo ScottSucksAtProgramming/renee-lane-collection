@@ -131,6 +131,10 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             _newTokenId <= imageGallery[_imageNumber].lastTokenId,
             "No more editions of this image are available."
         );
+        require(
+            msg.value >= imageGallery[_imageNumber].price,
+            "You didn't send enough Ether."
+        );
         _safeMint(msg.sender, _newTokenId);
         _setTokenRoyalty(_newTokenId, dummyMoneypipeAddress, 1000);
         imageGallery[_imageNumber].currentTokenId = _newTokenId + 1;
