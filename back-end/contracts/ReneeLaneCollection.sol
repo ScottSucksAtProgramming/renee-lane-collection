@@ -20,6 +20,7 @@
 // 05-10-2022 | SRK | Contract Ownership Functionality Added.
 // 05-15-2022 | SRK | Royalty Functionality Added.
 // 05-15-2022 | SRK | Version 0.1.0 alpha created.
+// 05-18-2022 | SRK | mintImage() gas optimization pass.
 
 //* ------------------------------- Tasks --------------------------------- //
 // Update minting functions and counters to model the collection. - Complete (05/09/2022)
@@ -121,31 +122,20 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
         Arguments:
             - _imageNumber - The number of the image the user wants to mint (1-50).
-
-        Returns:
-            - newTokenId - The tokenId of the token which was last created.
     */
-    function mintImage(uint256 _imageNumber) public returns (uint256) {
+    function mintImage(uint256 _imageNumber) public payable {
         require(
             _imageNumber > 0 && _imageNumber < 51,
             "The image you have selected does not exist in this collection."
         );
+        uint64 _newTokenId = imageGallery[_imageNumber].currentTokenId;
         require(
-            imageGallery[_imageNumber].currentTokenId <=
-                imageGallery[_imageNumber].lastTokenId,
+            _newTokenId <= imageGallery[_imageNumber].lastTokenId,
             "No more editions of this image are available."
         );
-        uint256 newTokenId = imageGallery[_imageNumber].currentTokenId;
-        _safeMint(msg.sender, newTokenId);
-        _setTokenRoyalty(
-            imageGallery[_imageNumber].currentTokenId,
-            dummyMoneypipeAddress,
-            1000
-        );
-        imageGallery[_imageNumber].currentTokenId =
-            imageGallery[_imageNumber].currentTokenId +
-            1;
-        return newTokenId;
+        _safeMint(msg.sender, _newTokenId);
+        _setTokenRoyalty(_newTokenId, dummyMoneypipeAddress, 1000);
+        imageGallery[_imageNumber].currentTokenId = _newTokenId + 1;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
