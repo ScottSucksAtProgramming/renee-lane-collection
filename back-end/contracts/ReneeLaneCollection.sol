@@ -66,11 +66,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
         // Initializes Image Struct Objects. I couldn't come up with a
         // better way to do this math. This works.
-        imageGallery[1] = Image(1, 12, 1, 20);
+        imageGallery[1] = Image(1, 120000000000000000, 1, 20);
         for (uint64 index = 2; index <= 10; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 12,
+                price: 120000000000000000,
                 currentTokenId: imageGallery[index - 1].currentTokenId + 20,
                 lastTokenId: imageGallery[index - 1].lastTokenId + 20
             });
@@ -78,34 +78,34 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         for (uint64 index = 11; index <= 20; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 24,
+                price: 240000000000000000,
                 currentTokenId: imageGallery[index - 1].currentTokenId + 20,
                 lastTokenId: imageGallery[index - 1].lastTokenId + 20
             });
         }
-        imageGallery[21] = Image(21, 36, 401, 410);
+        imageGallery[21] = Image(21, 360000000000000000, 401, 410);
         for (uint64 index = 22; index <= 30; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 36,
+                price: 360000000000000000,
                 currentTokenId: imageGallery[index - 1].currentTokenId + 10,
                 lastTokenId: imageGallery[index - 1].lastTokenId + 10
             });
         }
-        imageGallery[31] = Image(31, 48, 501, 505);
+        imageGallery[31] = Image(31, 480000000000000000, 501, 505);
         for (uint64 index = 32; index <= 40; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 48,
+                price: 480000000000000000,
                 currentTokenId: imageGallery[index - 1].currentTokenId + 5,
                 lastTokenId: imageGallery[index - 1].lastTokenId + 5
             });
         }
-        imageGallery[41] = Image(41, 60, 551, 553);
+        imageGallery[41] = Image(41, 600000000000000000, 551, 553);
         for (uint64 index = 42; index <= 50; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 60,
+                price: 600000000000000000,
                 currentTokenId: imageGallery[index - 1].currentTokenId + 3,
                 lastTokenId: imageGallery[index - 1].lastTokenId + 3
             });
