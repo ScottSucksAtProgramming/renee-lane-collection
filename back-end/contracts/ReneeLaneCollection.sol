@@ -138,11 +138,6 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         imageGallery[_imageNumber].currentTokenId = _newTokenId + 1;
     }
 
-    function _baseURI() internal view virtual override returns (string memory) {
-        return
-            "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/"; // Old URI
-    }
-
     //* ----------------------- Royalty Functions ------------------------- //
     function _burn(uint256 tokenId)
         internal
@@ -163,6 +158,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     //* ----------------------- Metadata Functions ------------------------ //
+    function _baseURI() internal view virtual override returns (string memory) {
+        return
+            "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/"; // Old URI
+    }
+
     function tokenURI(uint256 tokenId)
         public
         view
