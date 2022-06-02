@@ -6,10 +6,10 @@
 // originally written as a test contract used in the Scott's Puppy Mill
 // project. It is being repurposed and expanded upon for use in the Renee Lane Collection.
 //
-// Current Statistics as of 0.2.0 Alpha - Optmizer: 1000 Runs
-// Deployment Cost  |   6,165,943 Gas   | Approx: $370.00
-// 1st Minting Cost |     127,008 Gas   | Approx:   $7.62
-// Additional Mints |     107,343 Gas   | Approx:   $6.44
+// Current Statistics as of 0.3.0 Alpha - Optmizer: 1000 Runs
+// Deployment Cost  |   6,286,789 Gas   | Approx: $377.20
+// 1st Minting Cost |     203,682 Gas   | Approx:  $12.22
+// Additional Mints |     109,876 Gas   | Approx:   $6.59
 //
 //
 // Modification History
@@ -23,6 +23,8 @@
 // 05-18-2022 | SRK | mintImage() gas optimization pass.
 // 05-19-2022 | SRK | Implemented Minting and Royalty Payouts.
 // 05-19-2022 | SRK | Version 0.2.0 Alpha released.
+// 06-02-2022 | SRK | Implemented Investor List functionality.
+// 06-02-2022 | SRK | Version 0.3.0 Alpha released.
 
 //* ------------------------------- Tasks --------------------------------- //
 // Update minting functions and counters to model the collection. - Complete (05/09/2022)
@@ -32,8 +34,8 @@
 // Implement Minting Payment Splits.  - Complete (5/19/2022)
 // Implement Royalty Payment Splits.  - Complete (5/19/2022)
 // Create/Add MoneyPipe Contract Address for Royalty Splits.  - Complete (5/19/2022)
+// Add Investor List functionality. - Complete (6/02/2022)
 // Todo: Update _baseURI to new IPFS metdata address.
-// Todo: Add Investor List functionality.
 // Todo: Gas Optimization Passes.
 // Todo: Clean up code and make self-documenting.
 
@@ -58,9 +60,14 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         address royaltyPayoutAddress;
     }
 
+    address[] public investorList;
+
     //* ---------------------------- Mappings ----------------------------- //
     // Stores Image objects for each image by imageNumber.
     mapping(uint256 => Image) imageGallery;
+
+    // Stores a list of investors
+    mapping(address => bool) investors;
 
     //* ------------------------------ Events ----------------------------- //
 
@@ -193,6 +200,10 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             imageGallery[_imageNumber].royaltyPayoutAddress,
             1000
         );
+        if (!investors[msg.sender]) {
+            investors[msg.sender] = true;
+            investorList.push(msg.sender);
+        }
         payable(imageGallery[_imageNumber].mintingPayoutAddress).transfer(
             msg.value
         );
@@ -281,5 +292,33 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
                     )
                 )
                 : "";
+    }
+
+    //* ----------------------- Investor Functions ------------------------ //
+    /** @notice The isInvestor() function will check to see if a specified
+     * @notice address is listed as an original investor in this collection.
+     *
+     * @param _possibleInvestor Wallet address of possible investor.
+     * @return isAnInvestor True/False value
+     */
+    function isInvestor(address _possibleInvestor)
+        public
+        view
+        returns (bool isAnInvestor)
+    {
+        return investors[_possibleInvestor];
+    }
+
+    /** @notice The printInvestorList() function will return each address
+     * @notice stored in the investorList[] array.
+     *
+     * @return allInvestors The address stored on the investorList[] array.
+     */
+    function printInvestorList()
+        public
+        view
+        returns (address[] memory allInvestors)
+    {
+        return investorList;
     }
 }
