@@ -26,6 +26,24 @@
 // 06-02-2022 | SRK | Implemented Investor List functionality.
 // 06-02-2022 | SRK | Version 0.3.0 Alpha released.
 
+/**
+    @title The Renee Lane Collection
+    @author Scott Kostolni
+
+    @notice This is a bespoke smart contract written to manage The Renee Lane 
+    Collection, a 50 piece art collection created by women artists from all 
+    over the world. Funds invested into this collection will be used to 
+    finance an independent film being produced by Ms. Viola Voltairine and 
+    ArtVamp Productions.
+    
+    @notice This contract mints a limited number of tokens per image, sets 
+    royalties via the ERC-2981 standard, accept payments for minting and 
+    disperses 10% of those funds directly to wallets owned by the artists 
+    when funds are withdrawn. It also maintains a list of addresses of anyone 
+    who mints an image so they can permanently retain the benefits associated 
+    with investing in this collection. 
+ */
+
 //* ------------------------------- Tasks --------------------------------- //
 // Update minting functions and counters to model the collection. - Complete (05/09/2022)
 // Add access control support. - Complete (05/10/2022)
@@ -164,21 +182,21 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     //* ----------------------- Minting Functions ------------------------- //
 
     /**
-        This function will mint a token of the specified image passed to it. 
-        It wll revert if the image number is out side of this collection, if 
-        there are no tokens left for that image, or if the minter failed to 
-        send enough ether to cover the price.
+        @notice This function will mint a token of the specified image passed 
+        to it.  It wll revert if the image number is out side of this 
+        collection, if there are no tokens left for that image, or if the 
+        minter failed to send enough ether to cover the price.
 
-        Following the minting the royalty information is set via the 
-        _setTokenRoyalty() function inherited from OpenZeppelin's ERC721Royalty 
-        extension.
+        @notice Following the minting the royalty information is set via the 
+        _setTokenRoyalty() function inherited from OpenZeppelin's 
+        ERC721Royalty extension.
 
-        Finally, The price of the image is then transferred to a MoneyPipe 
-        contract which pays out 90% to the project and a 10% commision back to 
-        the artist.
+        @notice Finally, The price of the image is then transferred to a 
+        MoneyPipe contract which pays out 90% to the project and a 10% 
+        commision back to the artist.
 
-        Arguments:
-            - _imageNumber - The number of the image the user wants to mint (1-50).
+        @param _imageNumber - The number of the image the user wants to mint 
+        (1-50).
     */
     function mintImage(uint256 _imageNumber) public payable {
         require(
@@ -295,11 +313,12 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     //* ----------------------- Investor Functions ------------------------ //
-    /** @notice The isInvestor() function will check to see if a specified
-     * @notice address is listed as an original investor in this collection.
-     *
-     * @param _possibleInvestor Wallet address of possible investor.
-     * @return isAnInvestor True/False value
+    /**
+        @notice The isInvestor() function will check to see if a specified
+        address is listed as an original investor in this collection.
+
+        @param _possibleInvestor Wallet address of possible investor.
+        @return isAnInvestor True/False value
      */
     function isInvestor(address _possibleInvestor)
         public
@@ -309,10 +328,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         return investors[_possibleInvestor];
     }
 
-    /** @notice The printInvestorList() function will return each address
-     * @notice stored in the investorList[] array.
-     *
-     * @return allInvestors The address stored on the investorList[] array.
+    /**
+        @notice The printInvestorList() function will return each address
+        stored in the investorList[] array.
+     
+        @return allInvestors The address stored on the investorList[] array.
      */
     function printInvestorList()
         public
