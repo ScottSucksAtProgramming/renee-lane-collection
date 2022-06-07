@@ -2,70 +2,69 @@
 
 //* ----------------------------- Documentation --------------------------- //
 /**
-    @title The Renee Lane Collection
-    @author Scott Kostolni
-
-    @notice This is a bespoke smart contract written to manage NFTs for The 
-    Renee Lane Collection, a 50 piece art gallery created by women artists 
-    from all over the world. Funds invested into this collection will be used 
-    to finance an independent film being produced by Ms. Viola Voltairine and 
-    ArtVamp Productions.
-    
-    @notice This contract mints a limited number of tokens per image, sets 
-    royalties via the ERC-2981 standard, accept payments for minting and 
-    disperses 10% of those funds directly to wallets owned by the artists 
-    when funds are withdrawn. It also maintains a list of addresses of anyone 
-    who mints an image so they can permanently retain the benefits associated 
-    with investing in this collection. 
-
-*/
+  * @title The Renee Lane Collection
+  * @author Scott Kostolni
+  *  
+  * @notice This is a bespoke smart contract written to manage NFTs for The 
+  * Renee Lane Collection, a 50 piece art gallery created by women artists 
+  * from all over the world. Funds invested into this collection will be used 
+  * to finance an independent film being produced by Ms. Viola Voltairine and 
+  * ArtVamp Productions.
+  * 
+  * @notice This contract mints a limited number of tokens per image, sets 
+  * royalties via the ERC-2981 standard, accept payments for minting and 
+  * disperses 10% of those funds directly to wallets owned by the artists 
+  * when funds are withdrawn. It also maintains a list of addresses of anyone 
+  * who mints an image so they can permanently retain the benefits associated 
+  * with investing in this collection. 
+**/
 
 //* ------------------------- Modification History ------------------------ //
 /**
-//  04-28-2022 | SRK | Project Created.
-//  04-30-2022 | SRK | Added counters to a struct to help save gas.
-//  05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
-//  05-09-2022 | SRK | Minting Function Completed.
-//  05-10-2022 | SRK | Contract Ownership Functionality Added.
-//  05-15-2022 | SRK | Royalty Functionality Added.
-//  05-15-2022 | SRK | Version 0.1.0 Alpha released.
-//  05-18-2022 | SRK | mintImage() gas optimization pass.
-//  05-19-2022 | SRK | Implemented Minting and Royalty Payouts.
-//  05-19-2022 | SRK | Version 0.2.0 Alpha released.
-//  06-02-2022 | SRK | Implemented Investor List functionality.
-//  06-02-2022 | SRK | Version 0.3.0 Alpha released.
-//  06-06-2022 | SRK | Updated to pull-style payouts.
-//  06-06-2022 | SRK | Updated documentation to NatSpec standard.
-//  06-06-2022 | SRK | Version 0.4.0 Alpha released.
+  * 04-28-2022 | SRK | Project Created.
+  * 04-30-2022 | SRK | Added counters to a struct to help save gas.
+  * 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
+  * 05-09-2022 | SRK | Minting Function Completed.
+  * 05-10-2022 | SRK | Contract Ownership Functionality Added.
+  * 05-15-2022 | SRK | Royalty Functionality Added.
+  * 05-15-2022 | SRK | Version 0.1.0 Alpha released.
+  * 05-18-2022 | SRK | mintImage() gas optimization pass.
+  * 05-19-2022 | SRK | Implemented Minting and Royalty Payouts.
+  * 05-19-2022 | SRK | Version 0.2.0 Alpha released.
+  * 06-02-2022 | SRK | Implemented Investor List functionality.
+  * 06-02-2022 | SRK | Version 0.3.0 Alpha released.
+  * 06-06-2022 | SRK | Updated to pull-style payouts.
+  * 06-06-2022 | SRK | Updated documentation to NatSpec standard.
+  * 06-06-2022 | SRK | Version 0.4.0 Alpha released.
 
 */
 
 //* ------------------------------ Statistics ----------------------------- //
 /**
-//  Current Statistics as of 0.4.0 Alpha - Optmizer: 1000 Runs
-//  Deployment Cost  |   5,532,686 Gas   | Approx: $331.96
-//  1st Minting Cost |     218,710 Gas   | Approx:  $13.12
-//  Additional Mints |     124,904 Gas   | Approx:   $7.49
-//  PayoutFunds(1)   |      64,205 Gas   | Approx:   $3.85
-//  PayoutFunds(5)   |     114,550 Gas   | Approx:   $6.87
+  * Current Statistics as of 0.4.0 Alpha - Optmizer: 1000 Runs
+  * Deployment Cost  |   5,532,686 Gas   | Approx: $331.96
+  * 1st Minting Cost |     218,710 Gas   | Approx:  $13.12
+  * Additional Mints |     124,904 Gas   | Approx:   $7.49
+  * PayoutFunds(1)   |      64,205 Gas   | Approx:   $3.85
+  * PayoutFunds(5)   |     114,550 Gas   | Approx:   $6.87
 
 */
 
 //* ------------------------------- Tasks --------------------------------- //
 /**
-//  Update minting functions and counters to model the collection. - Complete 
-//  (05/09/2022)
-//  Add access control support. - Complete (05/10/2022)
-//  Add royalty support. - Complete (05/15/2022)
-//  Add Withdraw Payment functionality. - Complete (5/19/2022)
-//  Implement Minting Payment Splits.  - Complete (5/19/2022)
-//  Implement Royalty Payment Splits.  - Complete (5/19/2022)
-//  Create/Add MoneyPipe Contract Address for Royalty Splits.  - Complete 
-//  (5/19/2022)
-//  Add Investor List functionality. - Complete (6/02/2022)
-//  Todo: Update _baseURI to new IPFS metdata address.
-//  Todo: Gas Optimization Passes.
-//  Todo: Clean up code and make self-documenting.
+  * Update minting functions and counters to model the collection. - Complete 
+  * (05/09/2022)
+  * Add access control support. - Complete (05/10/2022)
+  * Add royalty support. - Complete (05/15/2022)
+  * Add Withdraw Payment functionality. - Complete (5/19/2022)
+  * Implement Minting Payment Splits.  - Complete (5/19/2022)
+  * Implement Royalty Payment Splits.  - Complete (5/19/2022)
+  * Create/Add MoneyPipe Contract Address for Royalty Splits.  - Complete 
+  * (5/19/2022)
+  * Add Investor List functionality. - Complete (6/02/2022)
+  * Todo: Update _baseURI to new IPFS metdata address.
+  * Todo: Gas Optimization Passes.
+  * Todo: Clean up code and make self-documenting.
 
 */
 
@@ -196,21 +195,20 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     //* ----------------------- Minting Functions ------------------------- //
 
     /**
-    //   @notice This function will mint a token of the specified image passed
-    //   to it.  It wll revert if the image number is out side of this 
-    //   collection, if there are no tokens left for that image, or if the 
-    //   minter failed to send enough ether to cover the price.
-    //
-    //   @notice Following the minting the royalty information is set via the 
-    //   _setTokenRoyalty() function inherited from OpenZeppelin's 
-    //   ERC721Royalty extension.
-    //
-    //   @notice Finally, The price of the image is then transferred to a 
-    //   MoneyPipe contract which pays out 90% to the project and a 10% 
-    //   commision back to the artist.
-    //   
-    //   @param _imageNumber - The number of the image the user wants to mint 
-    //   (1-50).
+      *   @notice This function will mint a token of the specified image passed
+      *   to it.  It wll revert if the image number is out side of this 
+      *   collection, if there are no tokens left for that image, or if the 
+      *   minter failed to send enough ether to cover the price.
+      *
+      *   @notice Following the minting the royalty information is set via the 
+      *   _setTokenRoyalty() function inherited from OpenZeppelin's 
+      *   ERC721Royalty extension.
+      *
+      *   @notice Finally, The price of the image is then transferred to a 
+      *   MoneyPipe contract which pays out 90% to the project and a 10% 
+      *   commision back to the artist.
+      *   
+      *   @param _imageNumber The number of the image the user wants to mint (1-50).
     */
     function mintImage(uint256 _imageNumber) public payable {
         require(
@@ -240,11 +238,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* ----------------------- Metadata Functions ------------------------ //
     /**
-    //  @notice The _baseURI() function sets the base IPFS address where this 
-    //  collection's metadata is stored.
-    //
-    //  @return string - The baseURI address.
-    //
+      * @notice The _baseURI() function sets the base IPFS address where this 
+      * collection's metadata is stored.
+      *    
+      * @return string The baseURI address.
+      *    
     */
     function _baseURI() internal view virtual override returns (string memory) {
         return
@@ -252,14 +250,14 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-    //  @notice The tokenURI() function works in conjunction with the _baseURI() 
-    //  function to set the tokenURI address for the specified token.
-    //
-    //  @param tokenId - The number of the token for which the URI is being 
-    //  set.
-    //
-    //  @return string - The full tokenURI address for the specified token.
-    //
+      * @notice The tokenURI() function works in conjunction with the _baseURI() 
+      * function to set the tokenURI address for the specified token.
+      *    
+      * @param tokenId - The number of the token for which the URI is being 
+      * set.
+      *    
+      * @return string - The full tokenURI address for the specified token.
+      *    
     */
     function tokenURI(uint256 tokenId)
         public
@@ -288,14 +286,14 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* ----------------------- Investor Functions ------------------------ //
     /**
-    //  @notice The isInvestor() function will check to see if a specified
-    //  address is listed as an original investor in this collection.
-    //
-    //  @param _possibleInvestor Wallet address of possible investor.
-    //
-    //  @return isAnInvestor True/False value
-    //
-     */
+      * @notice The isInvestor() function will check to see if a specified
+      * address is listed as an original investor in this collection.
+      *      
+      * @param _possibleInvestor Wallet address of possible investor.
+      *      
+      * @return isAnInvestor True/False value
+      *     
+    */
     function isInvestor(address _possibleInvestor)
         public
         view
@@ -305,12 +303,12 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-    //  @notice The printInvestorList() function will return each address
-    //  stored in the investorList[] array.
-    // 
-    //  @return allInvestors The address stored on the investorList[] array.
-    //
-     */
+      * @notice The printInvestorList() function will return each address
+      * stored in the investorList[] array.
+      *       
+      * @return allInvestors The address stored on the investorList[] array.
+      *     
+    */
     function printInvestorList()
         public
         view
@@ -321,13 +319,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* -------------------- Administrative Functions --------------------- //
     /**
-    //  @notice The checkArtisBalances() function will return the current balance 
-    //  of Ether (from the Artist struct) owed to the specified artist.
-    //
-    //  @param _artistId - The numberic identifier for the artist (1-5).
-    //
-    //  @return balanceOwed - The amount of Ether (in Wei) owed to the artist.
-    //    
+      * @notice The checkArtisBalances() function will return the current balance 
+      * of Ether (from the Artist struct) owed to the specified artist.
+      *      
+      * @param _artistId - The numberic identifier for the artist (1-5).
+      *      
+      * @return balanceOwed - The amount of Ether (in Wei) owed to the artist.
+      *   
     */
     function checkArtisBalances(uint256 _artistId)
         public
@@ -338,12 +336,12 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-    //  @notice The payoutFunds() function will pay each artist what they are 
-    //  owed (pulled from their balance in the artist struct) and then pay the
-    //  remainder of the funds stored in the contract to the project wallet.
-    //
-    //  @notice This function can only be called by the owner of the contract.
-    //    
+      * @notice The payoutFunds() function will pay each artist what they are 
+      * owed (pulled from their balance in the artist struct) and then pay the
+      * remainder of the funds stored in the contract to the project wallet.
+      *      
+      * @notice This function can only be called by the owner of the contract.
+      *   
     */
     function payoutFunds() public onlyOwner {
         require(address(this).balance > 0, "No Funds to Pay Out");
@@ -355,15 +353,15 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-    //  @notice The payArtist() function pays out the balance owed to the 
-    //  specified artist and sets their owed balance to 0. These balances 
-    //  are stored inside the Artist struct.
-    //
-    //  @notice This is an internal function which is not called on it's 
-    //  own, it is called as part of the payoutFunds() function.
-    //
-    //  @param _artistId - The numeric identifier for the artist (1-5).
-    //
+      * @notice The payArtist() function pays out the balance owed to the 
+      * specified artist and sets their owed balance to 0. These balances 
+      * are stored inside the Artist struct.
+      *     
+      * @notice This is an internal function which is not called on it's 
+      * own, it is called as part of the payoutFunds() function.
+      *     
+      * @param _artistId The numeric identifier for the artist (1-5).
+      *    
     */
     function payArtist(uint256 _artistId) internal {
         payable(artist[_artistId].directAddress).transfer(
@@ -373,24 +371,23 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-    //   @notice The getImageInfo() function returns the image information for 
-    //   a specified image.
-    //
-    //   @notice This information comes from both the Image Struct and the 
-    //   Artist Struct.
-    //
-    //   @param _imageNumber - The number of the image (1-50) you wish to 
-    //   obtain information about.
-    //
-    //   @return imgNumber - The image number.
-    //   @return price - The minimum price of the image (in wei).
-    //   @return currentTokenId - The next token Id to be minted.
-    //   @return artistId - The number (1-5) of the artist who created the 
-    //   image.
-    //   @return artistWalletAddress - The address of the artist's wallet.
-    //   @return royaltyPayoutAddress - The address where royalties are paid 
-    //   (Moneypipe Splitter).
-//
+      * @notice The getImageInfo() function returns the image information for 
+      * a specified image.
+      *     
+      * @notice This information comes from both the Image Struct and the 
+      * Artist Struct.
+      *     
+      * @param _imageNumber The number of the image (1-50) you wish to 
+      * obtain information about.
+      *     
+      * @return imgNumber The image number.
+      * @return price The minimum price of the image (in wei).
+      * @return currentTokenId The next token Id to be minted.
+      * @return artistId The number (1-5) of the artist who created the 
+      * image.
+      * @return artistWalletAddress The address of the artist's wallet.
+      * @return royaltyPayoutAddress The address where royalties are paid 
+      * (Moneypipe Splitter).
    */
     function getImageInfo(uint256 _imageNumber)
         public
@@ -415,11 +412,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-    //  @notice The getContractBalance() function returns current amount of 
-    //  Ether stored in the contract.
-    //
-    //  @return ContractBalance - The amount of Ether (in Wei)
-    //
+      * @notice The getContractBalance() function returns current amount of 
+      * Ether stored in the contract.
+      *      
+      * @return ContractBalance The amount of Ether (in Wei)
+      * 
     */
     function getContractBalance()
         public
@@ -432,13 +429,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* ----------------------- Royalty Functions ------------------------- //
     /**
-    //  @notice The _burn() function allows token owners to destroy the 
-    //  specified token which they own. The Royalty information for that token
-    //  will also be removed. WARNING: This is irreversible. If you burn your 
-    //  token it can NEVER be recovered.
-    //
-    //   @param tokenId - The token ID which is to be destroyed.
-    //
+      * @notice The _burn() function allows token owners to destroy the 
+      * specified token which they own. The Royalty information for that token
+      * will also be removed. WARNING: This is irreversible. If you burn your 
+      * token it can NEVER be recovered.
+      *      
+      * @param tokenId The token ID which is to be destroyed.
+      *    
     */
     function _burn(uint256 tokenId)
         internal
@@ -450,13 +447,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-    //  @notice The supportsInterface() function returns 'true' for supported 
-    //  interfaces. Returns 'false' if the interface is not supported.
-    //
-    //  @param interfaceId - The 4 byte identifier for an interface.
-    //
-    //  @return bool - A True of False value.
-    //
+      * @notice The supportsInterface() function returns 'true' for supported 
+      * interfaces. Returns 'false' if the interface is not supported.
+      *      
+      * @param interfaceId The 4 byte identifier for an interface.
+      *      
+      * @return bool A True of False value.
+      *    
     */
     function supportsInterface(bytes4 interfaceId)
         public
