@@ -186,6 +186,7 @@ See the [open issues](https://github.com/ScottSucksAtProgramming/renee-lane-coll
   - [x] [0.1.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.1.0-alpha) - Released 05/15/2022
   - [x] [0.2.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.2.0-alpha) - Released 05/19/2022
   - [x] [0.3.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.3.0-alpha) - Released 06/02/2022
+  - [x] [0.4.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.4.0-alpha) - Released 06/06/2022
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 
