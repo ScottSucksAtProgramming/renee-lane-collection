@@ -204,21 +204,21 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     //* ----------------------- Minting Functions ------------------------- //
 
     /**
-      *  @notice This function will mint a token of the specified image passed
-      *  to it.  It wll revert if the image number is out side of this 
-      *  collection, if there are no tokens left for that image, or if the 
-      *  minter failed to send enough ether to cover the price.
-      *      
-      *  @notice Following the minting the royalty information is set via the 
-      *  _setTokenRoyalty() function inherited from OpenZeppelin's 
-      *  ERC721Royalty extension.
-      *      
-      *  @notice Finally, The price of the image is then transferred to a 
-      *  MoneyPipe contract which pays out 90% to the project and a 10% 
-      *  commision back to the artist.
-      *  
-      *  @param _imageNumber The number of the image the user wants to mint 
-      *  (1-50).
+      * @notice This function will mint a token of the specified image passed
+      * to it.  It wll revert if the image number is out side of this 
+      * collection, if there are no tokens left for that image, or if the 
+      * minter failed to send enough ether to cover the price.
+      *     
+      * @notice Following the minting the royalty information is set via the 
+      * _setTokenRoyalty() function inherited from OpenZeppelin's 
+      * ERC721Royalty extension.
+      *     
+      * @notice Finally, The price of the image is then transferred to a 
+      * MoneyPipe contract which pays out 90% to the project and a 10% 
+      * commision back to the artist.
+      * 
+      * @param _imageNumber The number of the image the user wants to mint 
+      * (1-50).
     */
     function mintImage( uint256 _imageNumber ) public payable {
         require(
