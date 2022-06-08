@@ -36,6 +36,7 @@
   * 06-06-2022 | SRK | Updated to pull-style payouts.
   * 06-06-2022 | SRK | Updated documentation to NatSpec standard.
   * 06-06-2022 | SRK | Version 0.4.0 Alpha released.
+  * 06-07-2022 | SRK | Updated to follow Solidity and Project Style Guides.
 
 */
 
@@ -69,23 +70,27 @@
 */
 
 //* ----------------------------- Resources ------------------------------- //
+
 pragma solidity 0.8.14;
+
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 
 //* ----------------------------- Contract -------------------------------- //
+
 contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
-    //* ---------------------------- Variables ---------------------------- //
+
+    //* -------------------------- Structs -------------------------------- //
     // Image information stored here. Packages into single 256byte container
     // when compiled.
     struct Image {
         uint64 imgNumber;
         uint64 price;
-        uint64 currentTokenId;
-        uint64 lastTokenId;
-        uint256 artistId;
+        uint64 currentTokenID;
+        uint64 lastTokenID;
+        uint256 artistID;
     }
 
     struct Artist {
@@ -94,10 +99,8 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         int256 balance;
     }
 
+    //* --------------------------- Arrays -------------------------------- //
     address[] public investorList;
-
-    // Stores the project's Wallet Address.
-    address projectWalletAddress = 0xdD870fA1b7C4700F2BD7f44238821C26f7392148;
 
     //* ---------------------------- Mappings ----------------------------- //
     // Stores Image objects for each image by imageNumber.
@@ -107,6 +110,10 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     mapping(address => bool) investors;
 
     mapping(uint256 => Artist) artist;
+
+    //* --------------------------- Variables ----------------------------- //
+    // Stores the project's Wallet Address.
+    address PROJECT_WALLET_ADDRESS = 0xdD870fA1b7C4700F2BD7f44238821C26f7392148;
 
     //* ------------------------------ Events ----------------------------- //
 
@@ -146,18 +153,18 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             imageGallery[index] = Image({
                 imgNumber: index,
                 price: 120000000000000000,
-                currentTokenId: imageGallery[index - 1].currentTokenId + 20,
-                lastTokenId: imageGallery[index - 1].lastTokenId + 20,
-                artistId: 1
+                currentTokenID: imageGallery[index - 1].currentTokenID + 20,
+                lastTokenID: imageGallery[index - 1].lastTokenID + 20,
+                artistID: 1
             });
         }
         for (uint64 index = 11; index <= 20; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
                 price: 240000000000000000,
-                currentTokenId: imageGallery[index - 1].currentTokenId + 20,
-                lastTokenId: imageGallery[index - 1].lastTokenId + 20,
-                artistId: 2
+                currentTokenID: imageGallery[index - 1].currentTokenID + 20,
+                lastTokenID: imageGallery[index - 1].lastTokenID + 20,
+                artistID: 2
             });
         }
         imageGallery[21] = Image(21, 360000000000000000, 401, 410, 3);
@@ -165,9 +172,9 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             imageGallery[index] = Image({
                 imgNumber: index,
                 price: 360000000000000000,
-                currentTokenId: imageGallery[index - 1].currentTokenId + 10,
-                lastTokenId: imageGallery[index - 1].lastTokenId + 10,
-                artistId: 3
+                currentTokenID: imageGallery[index - 1].currentTokenID + 10,
+                lastTokenID: imageGallery[index - 1].lastTokenID + 10,
+                artistID: 3
             });
         }
         imageGallery[31] = Image(31, 480000000000000000, 501, 505, 4);
@@ -175,9 +182,9 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             imageGallery[index] = Image({
                 imgNumber: index,
                 price: 480000000000000000,
-                currentTokenId: imageGallery[index - 1].currentTokenId + 5,
-                lastTokenId: imageGallery[index - 1].lastTokenId + 5,
-                artistId: 4
+                currentTokenID: imageGallery[index - 1].currentTokenID + 5,
+                lastTokenID: imageGallery[index - 1].lastTokenID + 5,
+                artistID: 4
             });
         }
         imageGallery[41] = Image(41, 600000000000000000, 551, 553, 5);
@@ -185,9 +192,9 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             imageGallery[index] = Image({
                 imgNumber: index,
                 price: 600000000000000000,
-                currentTokenId: imageGallery[index - 1].currentTokenId + 3,
-                lastTokenId: imageGallery[index - 1].lastTokenId + 3,
-                artistId: 5
+                currentTokenID: imageGallery[index - 1].currentTokenID + 3,
+                lastTokenID: imageGallery[index - 1].lastTokenID + 3,
+                artistID: 5
             });
         }
     }
@@ -210,30 +217,30 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       *   
       *   @param _imageNumber The number of the image the user wants to mint (1-50).
     */
-    function mintImage(uint256 _imageNumber) public payable {
+    function mintImage( uint256 _imageNumber ) public payable {
         require(
             _imageNumber > 0 && _imageNumber < 51,
             "The image you have selected does not exist in this collection."
         );
-        uint64 _newTokenId = imageGallery[_imageNumber].currentTokenId;
+        uint64 _newTokenID = imageGallery[_imageNumber].currentTokenID;
         require(
-            _newTokenId <= imageGallery[_imageNumber].lastTokenId,
+            _newTokenID <= imageGallery[_imageNumber].lastTokenID,
             "No more editions of this image are available."
         );
         require(
             msg.value >= imageGallery[_imageNumber].price,
             "You didn't send enough Ether."
         );
-        uint256 _artistId = imageGallery[_imageNumber].artistId;
+        uint256 _artistID = imageGallery[_imageNumber].artistID;
         int256 _artistCut = int256(msg.value) / 10**1;
-        artist[_artistId].balance += _artistCut;
-        _safeMint(msg.sender, _newTokenId);
-        _setTokenRoyalty(_newTokenId, artist[_artistId].royaltyAddress, 1000);
+        artist[_artistID].balance += _artistCut;
+        _safeMint(msg.sender, _newTokenID);
+        _setTokenRoyalty(_newTokenID, artist[_artistID].royaltyAddress, 1000);
         if (!investors[msg.sender]) {
             investors[msg.sender] = true;
             investorList.push(msg.sender);
         }
-        imageGallery[_imageNumber].currentTokenId = _newTokenId + 1;
+        imageGallery[_imageNumber].currentTokenID = _newTokenID + 1;
     }
 
     //* ----------------------- Metadata Functions ------------------------ //
@@ -244,7 +251,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       * @return string The baseURI address.
       *    
     */
-    function _baseURI() internal view virtual override returns (string memory) {
+    function _baseURI() internal view virtual override returns ( string memory ) {
         return
             "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/"; // Old URI
     }
@@ -253,21 +260,21 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       * @notice The tokenURI() function works in conjunction with the _baseURI() 
       * function to set the tokenURI address for the specified token.
       *    
-      * @param tokenId - The number of the token for which the URI is being 
+      * @param tokenID - The number of the token for which the URI is being 
       * set.
       *    
       * @return string - The full tokenURI address for the specified token.
       *    
     */
-    function tokenURI(uint256 tokenId)
+    function tokenURI( uint256 tokenID )
         public
         view
         virtual
         override
-        returns (string memory)
+        returns ( string memory )
     {
         require(
-            _exists(tokenId),
+            _exists( tokenID ),
             "ERC721Metadata: URI query for nonexistent token"
         );
 
@@ -277,7 +284,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
                 ? string(
                     abi.encodePacked(
                         baseURI,
-                        Strings.toString(tokenId),
+                        Strings.toString(tokenID),
                         ".json"
                     )
                 )
@@ -294,10 +301,10 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       * @return isAnInvestor True/False value
       *     
     */
-    function isInvestor(address _possibleInvestor)
+    function isInvestor( address _possibleInvestor )
         public
         view
-        returns (bool isAnInvestor)
+        returns ( bool isAnInvestor )
     {
         return investors[_possibleInvestor];
     }
@@ -312,7 +319,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     function printInvestorList()
         public
         view
-        returns (address[] memory allInvestors)
+        returns ( address[] memory allInvestors )
     {
         return investorList;
     }
@@ -322,17 +329,17 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       * @notice The checkArtisBalances() function will return the current balance 
       * of Ether (from the Artist struct) owed to the specified artist.
       *      
-      * @param _artistId - The numberic identifier for the artist (1-5).
+      * @param _artistID - The numberic identifier for the artist (1-5).
       *      
       * @return balanceOwed - The amount of Ether (in Wei) owed to the artist.
       *   
     */
-    function checkArtisBalances(uint256 _artistId)
+    function checkArtisBalances( uint256 _artistID )
         public
         view
-        returns (int256 balanceOwed)
+        returns ( int256 balanceOwed )
     {
-        return artist[_artistId].balance;
+        return artist[_artistID].balance;
     }
 
     /**
@@ -349,7 +356,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             if (artist[i].balance > 0) {
                 payArtist(i);
             }
-        payable(projectWalletAddress).transfer(address(this).balance);
+        payable( PROJECT_WALLET_ADDRESS).transfer(address(this).balance );
     }
 
     /**
@@ -360,14 +367,14 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       * @notice This is an internal function which is not called on it's 
       * own, it is called as part of the payoutFunds() function.
       *     
-      * @param _artistId The numeric identifier for the artist (1-5).
+      * @param _artistID The numeric identifier for the artist (1-5).
       *    
     */
-    function payArtist(uint256 _artistId) internal {
-        payable(artist[_artistId].directAddress).transfer(
-            uint256(artist[1].balance)
+    function payArtist( uint256 _artistID ) internal {
+        payable( artist[_artistID].directAddress ).transfer(
+            uint256( artist[1].balance )
         );
-        artist[_artistId].balance = 0;
+        artist[_artistID].balance = 0;
     }
 
     /**
@@ -382,21 +389,21 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       *     
       * @return imgNumber The image number.
       * @return price The minimum price of the image (in wei).
-      * @return currentTokenId The next token Id to be minted.
-      * @return artistId The number (1-5) of the artist who created the 
+      * @return currentTokenID The next token Id to be minted.
+      * @return artistID The number (1-5) of the artist who created the 
       * image.
       * @return artistWalletAddress The address of the artist's wallet.
       * @return royaltyPayoutAddress The address where royalties are paid 
       * (Moneypipe Splitter).
    */
-    function getImageInfo(uint256 _imageNumber)
+    function getImageInfo( uint256 _imageNumber )
         public
         view
         returns (
             uint64 imgNumber,
             uint64 price,
-            uint64 currentTokenId,
-            uint256 artistId,
+            uint64 currentTokenID,
+            uint256 artistID,
             address artistWalletAddress,
             address royaltyPayoutAddress
         )
@@ -404,10 +411,10 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         return (
             imageGallery[_imageNumber].imgNumber,
             imageGallery[_imageNumber].price,
-            imageGallery[_imageNumber].currentTokenId,
-            imageGallery[_imageNumber].artistId,
-            artist[imageGallery[_imageNumber].artistId].directAddress,
-            artist[imageGallery[_imageNumber].artistId].royaltyAddress
+            imageGallery[_imageNumber].currentTokenID,
+            imageGallery[_imageNumber].artistID,
+            artist[imageGallery[_imageNumber].artistID].directAddress,
+            artist[imageGallery[_imageNumber].artistID].royaltyAddress
         );
     }
 
@@ -422,7 +429,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         public
         view
         onlyOwner
-        returns (uint256 ContractBalance)
+        returns ( uint256 ContractBalance )
     {
         return address(this).balance;
     }
@@ -434,33 +441,34 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       * will also be removed. WARNING: This is irreversible. If you burn your 
       * token it can NEVER be recovered.
       *      
-      * @param tokenId The token ID which is to be destroyed.
+      * @param tokenID The token ID which is to be destroyed.
       *    
     */
-    function _burn(uint256 tokenId)
+    function _burn( uint256 tokenID )
         internal
         virtual
         override(ERC721, ERC721Royalty)
     {
-        super._burn(tokenId);
-        _resetTokenRoyalty(tokenId);
+        super._burn(tokenID);
+        _resetTokenRoyalty(tokenID);
     }
 
     /**
       * @notice The supportsInterface() function returns 'true' for supported 
       * interfaces. Returns 'false' if the interface is not supported.
       *      
-      * @param interfaceId The 4 byte identifier for an interface.
+      * @param interfaceID The 4 byte identifier for an interface.
       *      
       * @return bool A True of False value.
       *    
     */
-    function supportsInterface(bytes4 interfaceId)
+    function supportsInterface( bytes4 interfaceID )
         public
         view
         override(ERC721, ERC721Royalty)
-        returns (bool)
+        returns ( bool )
     {
-        return super.supportsInterface(interfaceId);
+        return super.supportsInterface(interfaceID);
     }
+
 }

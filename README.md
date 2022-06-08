@@ -148,7 +148,7 @@ _For more examples, please refer to the [Documentation](https://bit.ly/rl_collab
 
 ## Roadmap
 
-- [ ] Design Descisions
+- [ ] Design Decisions
 
   - [x] Token Standards
   - [x] Blockchain Choice
@@ -205,6 +205,8 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+This project uses the [Official Solidity Style Guide](https://docs.soliditylang.org/en/v0.8.14/style-guide.html) and a [Project Style Guide](https://github.com/ScottSucksAtProgramming/renee-lane-collection/blob/main/documentation/StyleGuide.md)
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 
