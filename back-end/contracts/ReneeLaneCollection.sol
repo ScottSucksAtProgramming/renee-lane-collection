@@ -113,7 +113,9 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* --------------------------- Variables ----------------------------- //
     // Stores the project's Wallet Address.
-    address PROJECT_WALLET_ADDRESS = 0xdD870fA1b7C4700F2BD7f44238821C26f7392148;
+    address PROJECT_WALLET_ADDRESS = (
+        0xdD870fA1b7C4700F2BD7f44238821C26f7392148
+    );
 
     //* ------------------------------ Events ----------------------------- //
 
@@ -202,20 +204,21 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     //* ----------------------- Minting Functions ------------------------- //
 
     /**
-      *   @notice This function will mint a token of the specified image passed
-      *   to it.  It wll revert if the image number is out side of this 
-      *   collection, if there are no tokens left for that image, or if the 
-      *   minter failed to send enough ether to cover the price.
-      *
-      *   @notice Following the minting the royalty information is set via the 
-      *   _setTokenRoyalty() function inherited from OpenZeppelin's 
-      *   ERC721Royalty extension.
-      *
-      *   @notice Finally, The price of the image is then transferred to a 
-      *   MoneyPipe contract which pays out 90% to the project and a 10% 
-      *   commision back to the artist.
-      *   
-      *   @param _imageNumber The number of the image the user wants to mint (1-50).
+      *  @notice This function will mint a token of the specified image passed
+      *  to it.  It wll revert if the image number is out side of this 
+      *  collection, if there are no tokens left for that image, or if the 
+      *  minter failed to send enough ether to cover the price.
+      *      
+      *  @notice Following the minting the royalty information is set via the 
+      *  _setTokenRoyalty() function inherited from OpenZeppelin's 
+      *  ERC721Royalty extension.
+      *      
+      *  @notice Finally, The price of the image is then transferred to a 
+      *  MoneyPipe contract which pays out 90% to the project and a 10% 
+      *  commision back to the artist.
+      *  
+      *  @param _imageNumber The number of the image the user wants to mint 
+      *  (1-50).
     */
     function mintImage( uint256 _imageNumber ) public payable {
         require(
@@ -252,13 +255,14 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
       *    
     */
     function _baseURI() internal view virtual override returns ( string memory ) {
-        return
+        return 
             "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/"; // Old URI
     }
 
     /**
-      * @notice The tokenURI() function works in conjunction with the _baseURI() 
-      * function to set the tokenURI address for the specified token.
+      * @notice The tokenURI() function works in conjunction with the 
+      * _baseURI() function to set the tokenURI address for the specified 
+      * token.
       *    
       * @param tokenID - The number of the token for which the URI is being 
       * set.
@@ -326,8 +330,9 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* -------------------- Administrative Functions --------------------- //
     /**
-      * @notice The checkArtisBalances() function will return the current balance 
-      * of Ether (from the Artist struct) owed to the specified artist.
+      * @notice The checkArtisBalances() function will return the current 
+      * balance of Ether (from the Artist struct) owed to the specified 
+      * artist.
       *      
       * @param _artistID - The numberic identifier for the artist (1-5).
       *      
