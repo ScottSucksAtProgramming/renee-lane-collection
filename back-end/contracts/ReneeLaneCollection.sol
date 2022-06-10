@@ -149,7 +149,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* ------------------------------ Events ----------------------------- //
 
-    //* --------------------------- Contructor ---------------------------- //
+    //* --------------------------- Constructor --------------------------- //
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
         //Intialize Artist
         artist[1] = Artist({
