@@ -67,14 +67,15 @@
   * 06-06-2022 | SRK | Updated documentation to NatSpec standard.
   * 06-06-2022 | SRK | Version 0.4.0 Alpha released.
   * 06-07-2022 | SRK | Updated to follow Solidity and Project Style Guides.
+  * 06-10-2022 | SRK | Adjusted Image prices for readability.
 */
 
 //* ------------------------------ Statistics ----------------------------- //
 /**
   * Current Statistics as of 0.4.0 Alpha - Optmizer: 1000 Runs
-  * Deployment Cost  |   5,532,686 Gas   | Approx: $331.96
-  * 1st Minting Cost |     218,710 Gas   | Approx:  $13.12
-  * Additional Mints |     124,904 Gas   | Approx:   $7.49
+  * Deployment Cost  |   5,469,346 Gas   | Approx: $328.16
+  * 1st Minting Cost |     218,720 Gas   | Approx:  $13.12
+  * Additional Mints |     105,250 Gas   | Approx:   $6.31
   * PayoutFunds(1)   |      64,205 Gas   | Approx:   $3.85
   * PayoutFunds(5)   |     114,550 Gas   | Approx:   $6.87
 
@@ -179,11 +180,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
         // Initializes Image Struct Objects. I couldn't come up with a
         // better way to do this math. This works.
-        imageGallery[1] = Image(1, 120000000000000000, 1, 20, 1);
+        imageGallery[1] = Image(1, .12 ether, 1, 20, 1);
         for (uint64 index = 2; index <= 10; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 120000000000000000,
+                price: .12 ether,
                 currentTokenID: imageGallery[index - 1].currentTokenID + 20,
                 lastTokenID: imageGallery[index - 1].lastTokenID + 20,
                 artistID: 1
@@ -192,37 +193,37 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         for (uint64 index = 11; index <= 20; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 240000000000000000,
+                price: .24 ether,
                 currentTokenID: imageGallery[index - 1].currentTokenID + 20,
                 lastTokenID: imageGallery[index - 1].lastTokenID + 20,
                 artistID: 2
             });
         }
-        imageGallery[21] = Image(21, 360000000000000000, 401, 410, 3);
+        imageGallery[21] = Image(21, .36 ether, 401, 410, 3);
         for (uint64 index = 22; index <= 30; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 360000000000000000,
+                price: .36 ether,
                 currentTokenID: imageGallery[index - 1].currentTokenID + 10,
                 lastTokenID: imageGallery[index - 1].lastTokenID + 10,
                 artistID: 3
             });
         }
-        imageGallery[31] = Image(31, 480000000000000000, 501, 505, 4);
+        imageGallery[31] = Image(31, .48 ether, 501, 505, 4);
         for (uint64 index = 32; index <= 40; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 480000000000000000,
+                price: .48 ether,
                 currentTokenID: imageGallery[index - 1].currentTokenID + 5,
                 lastTokenID: imageGallery[index - 1].lastTokenID + 5,
                 artistID: 4
             });
         }
-        imageGallery[41] = Image(41, 600000000000000000, 551, 553, 5);
+        imageGallery[41] = Image(41, .6 ether, 551, 553, 5);
         for (uint64 index = 42; index <= 50; index++) {
             imageGallery[index] = Image({
                 imgNumber: index,
-                price: 600000000000000000,
+                price: .6 ether,
                 currentTokenID: imageGallery[index - 1].currentTokenID + 3,
                 lastTokenID: imageGallery[index - 1].lastTokenID + 3,
                 artistID: 5
