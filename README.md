@@ -169,11 +169,11 @@ _For more examples, please refer to the [Documentation](https://bit.ly/rl_collab
     - [ ] Metadata
   - [ ] Fungible Tokens - Renee Coins
     - [ ] Contract Development
-      - [ ] Initial Mint
-      - [ ] Additional Mints
-      - [ ] Airdrops
-      - [ ] Trading for Benefits
-      - [ ] Buyback Mechanics
+      - [x] Initial Mint
+      - [x] Additional Mints
+      - [x] Airdrops
+      - [x] Trading for Benefits (Will be done manually)
+      - [x] Buyback Mechanics (Will be done manually)
 
 - [ ] Minting Website
   - [ ] TBD
