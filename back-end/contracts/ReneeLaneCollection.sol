@@ -68,16 +68,16 @@
  * 06-06-2022 | SRK | Version 0.4.0 Alpha released.
  * 06-07-2022 | SRK | Updated to follow Solidity and Project Style Guides.
  * 06-10-2022 | SRK | Adjusted Image prices for readability.
+ * 06-12-2022 | SRK | Updated fund withdrawal with more secure logic.
  */
 
 //* ----------------------------- Statistics ------------------------------ //
 /**
   * Current Statistics as of 0.4.0 Alpha - Optmizer: 1000 Runs
-  * Deployment Cost  |   5,469,346 Gas   | Approx: $328.16
-  * 1st Minting Cost |     218,720 Gas   | Approx:  $13.12
-  * Additional Mints |     105,250 Gas   | Approx:   $6.31
-  * PayoutFunds(1)   |      64,205 Gas   | Approx:   $3.85
-  * PayoutFunds(5)   |     114,550 Gas   | Approx:   $6.87
+  * Deployment Cost  |   5,517,795 Gas   | Approx: $331.07
+  * 1st Minting Cost |     249,379 Gas   | Approx:  $14.96
+  * Additional Mints |     116,244 Gas   | Approx:   $6.97
+  * Withdraw Funds   |      38,509 Gas   | Approx:   $2.31
 
 */
 
@@ -124,7 +124,6 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     struct Artist {
         address directAddress;
         address royaltyAddress;
-        int256 balance;
     }
 
     //* --------------------------- Arrays -------------------------------- //
@@ -139,6 +138,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     mapping(uint256 => Artist) artist;
 
+    mapping(address => uint256) payoutsOwed;
     //* -------------------------- Variables ------------------------------ //
     // Stores the project's Wallet Address.
     address PROJECT_WALLET_ADDRESS = (
@@ -152,28 +152,23 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         //Intialize Artist
         artist[1] = Artist({
             directAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2,
-            royaltyAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2,
-            balance: 0
+            royaltyAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
         });
         artist[2] = Artist({
             directAddress: 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db,
-            royaltyAddress: 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db,
-            balance: 0
+            royaltyAddress: 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db
         });
         artist[3] = Artist({
             directAddress: 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB,
-            royaltyAddress: 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB,
-            balance: 0
+            royaltyAddress: 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB
         });
         artist[4] = Artist({
             directAddress: 0x617F2E2fD72FD9D5503197092aC168c91465E7f2,
-            royaltyAddress: 0x617F2E2fD72FD9D5503197092aC168c91465E7f2,
-            balance: 0
+            royaltyAddress: 0x617F2E2fD72FD9D5503197092aC168c91465E7f2
         });
         artist[5] = Artist({
             directAddress: 0x17F6AD8Ef982297579C203069C1DbfFE4348c372,
-            royaltyAddress: 0x17F6AD8Ef982297579C203069C1DbfFE4348c372,
-            balance: 0
+            royaltyAddress: 0x17F6AD8Ef982297579C203069C1DbfFE4348c372
         });
 
         // Initializes Image Struct Objects. I couldn't come up with a
@@ -262,11 +257,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             msg.value >= imageGallery[_imageNumber].price,
             "You didn't send enough Ether."
         );
-        uint256 _artistID = imageGallery[_imageNumber].artistID;
+        Artist memory _artist = artist[imageGallery[_imageNumber].artistID];
         int256 _artistCut = int256(msg.value) / 10**1;
-        artist[_artistID].balance += _artistCut;
+        int256 _projectCut = int256(msg.value) - _artistCut;
+        payoutsOwed[_artist.directAddress] += uint256(_artistCut);
+        payoutsOwed[PROJECT_WALLET_ADDRESS] += uint256(_projectCut);
         _safeMint(msg.sender, _newTokenID);
-        _setTokenRoyalty(_newTokenID, artist[_artistID].royaltyAddress, 1000);
+        _setTokenRoyalty(_newTokenID, _artist.royaltyAddress, 1000);
         if (!investors[msg.sender]) {
             investors[msg.sender] = true;
             investorList.push(msg.sender);
@@ -370,26 +367,25 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     function checkArtisBalances(uint256 _artistID)
         public
         view
-        returns (int256 balanceOwed)
+        returns (uint256 balanceOwed)
     {
-        return artist[_artistID].balance;
+        return payoutsOwed[artist[_artistID].directAddress];
     }
 
     /**
-     * @notice The payoutFunds() function will pay each artist what they are
-     * owed (pulled from their balance in the artist struct) and then pay the
-     * remainder of the funds stored in the contract to the project wallet.
+     * @notice The withdrawFunds() function can be called by anyone, it will
+     * check to see if the caller's wallet address is owed any funds. If so
+     * those funds will paid out and the balance of that wallet address will
+     * be set to 0. If no money is owed to that address the transaction is 
+     * reverted.
      *
-     * @notice This function can only be called by the owner of the contract.
      *
      */
-    function payoutFunds() public onlyOwner {
+    function withdrawFunds() public {
+        require(payoutsOwed[msg.sender] > 0, "No funds owed to this wallet.");
         require(address(this).balance > 0, "No Funds to Pay Out");
-        for (uint256 i = 1; i < 6; i++)
-            if (artist[i].balance > 0) {
-                payArtist(i);
-            }
-        payable(PROJECT_WALLET_ADDRESS).transfer(address(this).balance);
+        payable(msg.sender).transfer(payoutsOwed[msg.sender]);
+        payoutsOwed[msg.sender] = 0;
     }
 
     /**
@@ -400,14 +396,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      * @notice This is an internal function which is not called on it's
      * own, it is called as part of the payoutFunds() function.
      *
-     * @param _artistID The numeric identifier for the artist (1-5).
+     * @param _address The address of the wallet you want to force payment to.
      *
      */
-    function payArtist(uint256 _artistID) internal {
-        payable(artist[_artistID].directAddress).transfer(
-            uint256(artist[1].balance)
-        );
-        artist[_artistID].balance = 0;
+    function forcePayment(address _address) public onlyOwner {
+        require(payoutsOwed[_address] > 0, "No money owed to this address.");
+        payable(_address).transfer(uint256(payoutsOwed[_address]));
+        payoutsOwed[_address] = 0;
     }
 
     /**
