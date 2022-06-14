@@ -20,7 +20,7 @@ from brownie import accounts, config, network, ReneeCoins, reverts
 # * ------------------------------- Variables -------------------------------- #
 
 # * ----------------------------- Contract Tests ---------------------------------- #
-def test_deploy():
+def test_contract_can_deploy():
     # Arrange
     account = get_account()
     # Act

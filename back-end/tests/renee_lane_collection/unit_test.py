@@ -36,9 +36,26 @@
 
 
 # ------------------------------- Resources -------------------------------- #
+from scripts.deploy_renee_coins import deploy_contract
+from scripts.helpful_scripts import get_account
+from brownie import accounts, config, network, ReneeLaneCollection, reverts
 
 # ------------------------------- Variables -------------------------------- #
 
-# ------------------------------ Functions --------------------------------- #
+# ---------------------------- Contract Tests ------------------------------ #
+def test_contract_can_deploy():
+    # Arrange
+    account = get_account()
+    # Act
+    reneeLaneCollection = ReneeLaneCollection.deploy(
+        {"from": account},
+        publish_source=config["networks"][network.show_active()]["verify"],
+    )
+    print(
+        f"\nThe Renee Lane Collection contract was deployed to: {reneeLaneCollection.address}.\n"
+    )
+    # Assert
+    assert reneeLaneCollection.address != 0
+
 
 # ----------------------------- Main Function ------------------------------ #
