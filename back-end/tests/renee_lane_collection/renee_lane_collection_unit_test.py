@@ -1,5 +1,5 @@
 # ------------------------------ Documentation ------------------------------ #
-# Module:  unit_tests.py
+# Module:  renee_lane_collection_unit_test.py
 # This module contains all the unit tests for The Renee Lane Collection smart
 # contracts.
 #
