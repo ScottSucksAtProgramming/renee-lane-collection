@@ -1,4 +1,5 @@
-# ------------------------------ Documentation ------------------------------ #
+#
+# * ------------------------------ Documentation ---------------------------- #
 # Module:  renee_lane_collection_unit_test.py
 # This module contains all the unit tests for The Renee Lane Collection smart
 # contracts.
@@ -7,42 +8,29 @@
 # Modification History
 # 05-31-22 | SRK | Module Created
 
-# -------------------------------- Tasks ----------------------------------- #
-# TODO: Write test to ensure functions of ERC721 are available on this contract.
-# TODO: Write test to ensure functions of ERC721Royalty are available on this contract.
-# TODO: Write test to ensure functions of Ownble are available on this contract.
-# TODO: Write a test that confirms the collection `name` is set correctly.
-# TODO: Write a test that confirms that the collection `symbol` is set correctly.
-# TODO: Write a test that confirms that the `imgNumber` is set correctly for all tokens.
-# TODO: Write a test that confirms that the `price` is set correctly for all tokens.
-# TODO: Write a test that confirms that the `currentTokenId` is set correctly for all tokens.
-# TODO: Write a test that confirms that the `lastTokenId` is set correctly for all tokens.
-# TODO: Write a test that confirms that the `mintingPayoutAddress` is set correctly for all tokens.
-# TODO: Write a test that confirms that the `royaltyPayoutAddress` is set correctly for all tokens.
-# TODO: Write a test that confirms the number passed to the function is the number that is used to for minting. (This is probably better done as an integration test with the frontend.)
-# TODO: Write a test to confirm the minting function will revert if the image number passed is out side of the range (1-50).
-# TODO: Write a test that confirms that `imageGallery[_imageNumber].currentTokenId` and `_newTokenId` are the same.
-# TODO: Write a test that confirms that the minting function will revert  if `_newTokenId` is greater than `imageGallery[_imageNumber].lastTokenId`.
-# TODO: Write a test that confirms that the minting function will revert if `msg.value` is less than `imageGallery[_imageNumber].price`.
-# TODO: Write a function that confirms that the minting function mints the correct image.
-# TODO: Write a test that confirms the minting function assigns the correct tokenId.
-# TODO: Write a test that confirms the minted token has the correct `imageGallery[_imageNumber].royaltyPayoutAddress`.
-# TODO: Write a test that confirms the minted token has the correct basis points for royalty split.
-# TODO: Write a test that confirms that after minting `imageGallery[_imageNumber].currentTokenId` has been correctly incremented by 1.
-# TODO: Write a test that confirms that the `_burn` function burns the correct token.
-# TODO: Write a test that confirms that the correct token's royalty information is erased after burning.
-# TODO: Write a test that confirms that `_baseURI` returns the expected address.
-# TODO: Write a test that confirms once a token is minted that the metadata for that token is created correctly.
+# * -------------------------------- Tasks ---------------------------------- #
+# Write Contract Tests - Completed (6/13/2022)
+# Write Constructor Tests - Completed (6/14/2022)
+# Todo: Write mintImage() Tests
+# Todo: Write tokenURI() Tests
+# Todo: Write isInvestor() Tests
+# Todo: Write printInvestorList() Tests
+# Todo: Write checkArtistBalances() Tests
+# Todo: Write withdrawFunds() Tests
+# Todo: Write forcePayment() Tests
+# Todo: Write getImageInfo() Tests
+# Todo: Write getContractBalance() Tests
 
 
-# ------------------------------- Resources -------------------------------- #
-from scripts.deploy_renee_coins import deploy_contract
+# * ------------------------------- Resources ------------------------------- #
 from scripts.helpful_scripts import get_account
 from brownie import accounts, config, network, ReneeLaneCollection, reverts
+from web3 import Web3
+import pytest
 
-# ------------------------------- Variables -------------------------------- #
+# * ------------------------------- Variables ------------------------------- #
 
-# ---------------------------- Contract Tests ------------------------------ #
+# * ---------------------------- Contract Tests ----------------------------- #
 def test_contract_can_deploy():
     # Arrange
     account = get_account()
@@ -58,4 +46,110 @@ def test_contract_can_deploy():
     assert reneeLaneCollection.address != 0
 
 
-# ----------------------------- Main Function ------------------------------ #
+# * --------------------------- Constructor Tests --------------------------- #
+# Todo: Test Collection Name
+def test_collection_name_is_correct():
+    # Arrange
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy(
+        {"from": account},
+        publish_source=config["networks"][network.show_active()]["verify"],
+    )
+    # Act
+    expected_name = "The Renee Lane Collection"
+    print(f"\nThe expected name is: {expected_name}")
+    print(f"The contract name is: {reneeLaneCollection.name()}\n")
+    # Assert
+    assert reneeLaneCollection.name() == expected_name
+
+
+# Todo: Test collection Symbol
+def test_collection_symbol_is_correct():
+    # Arrange
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy(
+        {"from": account},
+        publish_source=config["networks"][network.show_active()]["verify"],
+    )
+    # Act
+    expected_symbol = "TRLC"
+    print(f"\nThe expected symbol is: {expected_symbol}")
+    print(f"The contract symbol is: {reneeLaneCollection.symbol()}\n")
+    # Assert
+    assert reneeLaneCollection.symbol() == expected_symbol
+
+
+# Todo: Confirm artist mapping initiates correctly.
+@pytest.mark.parametrize("artistID", [1, 2, 3, 4, 5])
+def test_artist_mapping_is_correct(artistID):
+    # Arrange
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy(
+        {"from": account},
+        publish_source=config["networks"][network.show_active()]["verify"],
+    )
+    # Act
+    expected_addresses = [
+        (
+            "0x0000000000000000000000000000000000000000,"
+            "0x0000000000000000000000000000000000000000,"
+        ),
+        (
+            "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
+            "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
+        ),
+        (
+            "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
+            "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
+        ),
+        (
+            "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB",
+            "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB",
+        ),
+        (
+            "0x617F2E2fD72FD9D5503197092aC168c91465E7f2",
+            "0x617F2E2fD72FD9D5503197092aC168c91465E7f2",
+        ),
+        (
+            "0x17F6AD8Ef982297579C203069C1DbfFE4348c372",
+            "0x17F6AD8Ef982297579C203069C1DbfFE4348c372",
+        ),
+    ]
+    contract_addresses = reneeLaneCollection.artist(artistID)
+    print(f"\nThe expected directAddress is: {expected_addresses[artistID]}")
+    print(f"The contract directAddress is: {contract_addresses}\n")
+    # Assert
+    assert contract_addresses == expected_addresses[artistID]
+
+
+# Todo: Confirm imageGallery initiates correctly.
+@pytest.mark.parametrize("_imageNumber", [0, 1, 10, 20, 21, 30, 31, 40, 41, 50])
+def test_imageGallery_mapping_is_correct(_imageNumber):
+    # Arrange
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy(
+        {"from": account},
+        publish_source=config["networks"][network.show_active()]["verify"],
+    )
+    # Act
+    expected_properties = {
+        0: (0, Web3.toWei(0.0, "ether"), 0, 0, 0),
+        1: (1, Web3.toWei(0.12, "ether"), 1, 20, 1),
+        10: (10, Web3.toWei(0.12, "ether"), 181, 200, 1),
+        20: (20, Web3.toWei(0.24, "ether"), 381, 400, 2),
+        21: (21, Web3.toWei(0.36, "ether"), 401, 410, 3),
+        30: (30, Web3.toWei(0.36, "ether"), 491, 500, 3),
+        31: (31, Web3.toWei(0.48, "ether"), 501, 505, 4),
+        40: (40, Web3.toWei(0.48, "ether"), 546, 550, 4),
+        41: (41, Web3.toWei(0.60, "ether"), 551, 553, 5),
+        50: (50, Web3.toWei(0.60, "ether"), 578, 580, 5),
+    }
+
+    contract_properties = reneeLaneCollection.imageGallery(_imageNumber)
+    print(f"\nThe expected image information is: {expected_properties[_imageNumber]}")
+    print(f"The contract image information is: {contract_properties}\n")
+    # Assert
+    assert contract_properties == expected_properties[_imageNumber]
+
+
+# *  ------------------------ mintImage() Tests ---------------------------- #
