@@ -131,14 +131,14 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* -------------------------- Mappings ------------------------------- //
     // Stores Image objects for each image by imageNumber.
-    mapping(uint256 => Image) imageGallery;
+    mapping(uint256 => Image) public imageGallery;
 
     // Stores a list of investors
-    mapping(address => bool) investors;
+    mapping(address => bool) public investors;
 
-    mapping(uint256 => Artist) artist;
+    mapping(uint256 => Artist) public artist;
 
-    mapping(address => uint256) payoutsOwed;
+    mapping(address => uint256) public payoutsOwed;
     //* -------------------------- Variables ------------------------------ //
     // Stores the project's Wallet Address.
     address PROJECT_WALLET_ADDRESS = (
@@ -243,7 +243,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      * @param _imageNumber The number of the image the user wants to mint
      * (1-50).
      */
-    function mintImage(uint256 _imageNumber) public payable {
+    function mintImage(uint256 _imageNumber)
+        public
+        payable
+        returns (uint64, uint64)
+    {
         require(
             _imageNumber > 0 && _imageNumber < 51,
             "The image you have selected does not exist in this collection."
@@ -254,8 +258,8 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             "No more editions of this image are available."
         );
         require(
-            msg.value >= imageGallery[_imageNumber].price,
-            "You didn't send enough Ether."
+            msg.value == imageGallery[_imageNumber].price,
+            "You didn't send the correct amount of Ether."
         );
         Artist memory _artist = artist[imageGallery[_imageNumber].artistID];
         int256 _artistCut = int256(msg.value) / 10**1;
@@ -268,7 +272,8 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             investors[msg.sender] = true;
             investorList.push(msg.sender);
         }
-        imageGallery[_imageNumber].currentTokenID = _newTokenID + 1;
+        imageGallery[_imageNumber].currentTokenID++;
+        return (_newTokenID, imageGallery[_imageNumber].currentTokenID);
     }
 
     //* --------------------- Metadata Functions -------------------------- //
@@ -321,22 +326,6 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     //* --------------------- Investor Functions -------------------------- //
-    /**
-     * @notice The isInvestor() function will check to see if a specified
-     * address is listed as an original investor in this collection.
-     *
-     * @param _possibleInvestor Wallet address of possible investor.
-     *
-     * @return isAnInvestor True/False value
-     *
-     */
-    function isInvestor(address _possibleInvestor)
-        public
-        view
-        returns (bool isAnInvestor)
-    {
-        return investors[_possibleInvestor];
-    }
 
     /**
      * @notice The printInvestorList() function will return each address
@@ -354,29 +343,12 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     //* ------------------ Administrative Functions ----------------------- //
-    /**
-     * @notice The checkArtisBalances() function will return the current
-     * balance of Ether (from the Artist struct) owed to the specified
-     * artist.
-     *
-     * @param _artistID - The numberic identifier for the artist (1-5).
-     *
-     * @return balanceOwed - The amount of Ether (in Wei) owed to the artist.
-     *
-     */
-    function checkArtisBalances(uint256 _artistID)
-        public
-        view
-        returns (uint256 balanceOwed)
-    {
-        return payoutsOwed[artist[_artistID].directAddress];
-    }
 
     /**
      * @notice The withdrawFunds() function can be called by anyone, it will
      * check to see if the caller's wallet address is owed any funds. If so
      * those funds will paid out and the balance of that wallet address will
-     * be set to 0. If no money is owed to that address the transaction is 
+     * be set to 0. If no money is owed to that address the transaction is
      * reverted.
      *
      *
@@ -403,47 +375,6 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         require(payoutsOwed[_address] > 0, "No money owed to this address.");
         payable(_address).transfer(uint256(payoutsOwed[_address]));
         payoutsOwed[_address] = 0;
-    }
-
-    /**
-     * @notice The getImageInfo() function returns the image information for
-     * a specified image.
-     *
-     * @notice This information comes from both the Image Struct and the
-     * Artist Struct.
-     *
-     * @param _imageNumber The number of the image (1-50) you wish to
-     * obtain information about.
-     *
-     * @return imgNumber The image number.
-     * @return price The minimum price of the image (in wei).
-     * @return currentTokenID The next token Id to be minted.
-     * @return artistID The number (1-5) of the artist who created the
-     * image.
-     * @return artistWalletAddress The address of the artist's wallet.
-     * @return royaltyPayoutAddress The address where royalties are paid
-     * (Moneypipe Splitter).
-     */
-    function getImageInfo(uint256 _imageNumber)
-        public
-        view
-        returns (
-            uint64 imgNumber,
-            uint64 price,
-            uint64 currentTokenID,
-            uint256 artistID,
-            address artistWalletAddress,
-            address royaltyPayoutAddress
-        )
-    {
-        return (
-            imageGallery[_imageNumber].imgNumber,
-            imageGallery[_imageNumber].price,
-            imageGallery[_imageNumber].currentTokenID,
-            imageGallery[_imageNumber].artistID,
-            artist[imageGallery[_imageNumber].artistID].directAddress,
-            artist[imageGallery[_imageNumber].artistID].royaltyAddress
-        );
     }
 
     /**
