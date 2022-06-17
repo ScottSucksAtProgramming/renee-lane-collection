@@ -101,7 +101,7 @@
 
 //* ------------------------------ Resources ------------------------------ //
 
-pragma solidity 0.8.14;
+pragma solidity 0.8.15;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -141,7 +141,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     mapping(address => uint256) public payoutsOwed;
     //* -------------------------- Variables ------------------------------ //
     // Stores the project's Wallet Address.
-    address PROJECT_WALLET_ADDRESS = (
+    address public PROJECT_WALLET_ADDRESS = (
         0xdD870fA1b7C4700F2BD7f44238821C26f7392148
     );
 

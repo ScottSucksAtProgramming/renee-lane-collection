@@ -27,7 +27,7 @@ from scripts.helpful_scripts import get_account
 from brownie import accounts, config, network, ReneeLaneCollection, reverts
 from brownie.test import given, strategy
 from web3 import Web3
-import random, string, pytest
+import gc, random, string, pytest
 
 # * ------------------------------- Variables ------------------------------- #
 letters = [string.ascii_letters, string.punctuation]
@@ -38,144 +38,40 @@ def generate_random_string():
     return _string
 
 
-# * ---------------------------- Contract Tests ----------------------------- #
-def test_contract_can_deploy():
-    # Arrange
-    account = get_account()
-    # Act
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
-    print(
-        f"\nThe Renee Lane Collection contract was deployed to: {reneeLaneCollection.address}.\n"
-    )
-    # Assert
-    assert reneeLaneCollection.address != 0
-
-
-# * --------------------------- Constructor Tests --------------------------- #
-# Todo: Test Collection Name
-def test_collection_name_is_correct():
-    # Arrange
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
-    # Act
-    expected_name = "The Renee Lane Collection"
-    print(f"\nThe expected name is: {expected_name}")
-    print(f"The contract name is: {reneeLaneCollection.name()}\n")
-    # Assert
-    assert reneeLaneCollection.name() == expected_name
-
-
-# Todo: Test collection Symbol
-def test_collection_symbol_is_correct():
-    # Arrange
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
-    # Act
-    expected_symbol = "TRLC"
-    print(f"\nThe expected symbol is: {expected_symbol}")
-    print(f"The contract symbol is: {reneeLaneCollection.symbol()}\n")
-    # Assert
-    assert reneeLaneCollection.symbol() == expected_symbol
-
-
-# Todo: Confirm artist mapping initiates correctly.
-@pytest.mark.parametrize("artistID", [1, 2, 3, 4, 5])
-def test_artist_mapping_is_correct(artistID):
-    # Arrange
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
-    # Act
-    expected_addresses = [
-        (
-            "0x0000000000000000000000000000000000000000,"
-            "0x0000000000000000000000000000000000000000,"
-        ),
-        (
-            "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
-            "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
-        ),
-        (
-            "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
-            "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
-        ),
-        (
-            "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB",
-            "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB",
-        ),
-        (
-            "0x617F2E2fD72FD9D5503197092aC168c91465E7f2",
-            "0x617F2E2fD72FD9D5503197092aC168c91465E7f2",
-        ),
-        (
-            "0x17F6AD8Ef982297579C203069C1DbfFE4348c372",
-            "0x17F6AD8Ef982297579C203069C1DbfFE4348c372",
-        ),
-    ]
-    contract_addresses = reneeLaneCollection.artist(artistID)
-    print(f"\nThe expected directAddress is: {expected_addresses[artistID]}")
-    print(f"The contract directAddress is: {contract_addresses}\n")
-    # Assert
-    assert contract_addresses == expected_addresses[artistID]
-
-
-# Todo: Confirm imageGallery initiates correctly.
-@pytest.mark.parametrize("_imageNumber", [0, 1, 10, 20, 21, 30, 31, 40, 41, 50])
-def test_imageGallery_mapping_is_correct(_imageNumber):
-    # Arrange
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
-    # Act
-    expected_properties = {
-        0: (0, Web3.toWei(0.0, "ether"), 0, 0, 0),
-        1: (1, Web3.toWei(0.12, "ether"), 1, 20, 1),
-        10: (10, Web3.toWei(0.12, "ether"), 181, 200, 1),
-        20: (20, Web3.toWei(0.24, "ether"), 381, 400, 2),
-        21: (21, Web3.toWei(0.36, "ether"), 401, 410, 3),
-        30: (30, Web3.toWei(0.36, "ether"), 491, 500, 3),
-        31: (31, Web3.toWei(0.48, "ether"), 501, 505, 4),
-        40: (40, Web3.toWei(0.48, "ether"), 546, 550, 4),
-        41: (41, Web3.toWei(0.60, "ether"), 551, 553, 5),
-        50: (50, Web3.toWei(0.60, "ether"), 578, 580, 5),
-    }
-
-    contract_properties = reneeLaneCollection.imageGallery(_imageNumber)
-    print(f"\nThe expected image information is: {expected_properties[_imageNumber]}")
-    print(f"The contract image information is: {contract_properties}\n")
-    # Assert
-    assert contract_properties == expected_properties[_imageNumber]
-
+PROJECT_WALLET_ADDRESS = 0xDD870FA1B7C4700F2BD7F44238821C26F7392148
 
 # *  ------------------------ mintImage() Tests ---------------------------- #
 # Todo: Test transaction reverts if _imageNumber is out of range.
-@given(_imageNumber=strategy("uint256", exclude=range(1, 50)))
+@pytest.mark.parametrize(
+    "_imageNumber",
+    [
+        random.randint(51, 990),
+        random.randint(51, 9990),
+        random.randint(51, 9990),
+    ],
+)
 def test_mintImage_reverts_when_imageNumber_is_out_of_range(_imageNumber):
     # Arrange
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     print(f"\nAttempting to mint imageNumber: {_imageNumber}.")
-    print(f"If this transaction revert, test will pass.\n")
+    print(f"If this transaction reverts, test will pass.\n")
     # Act and Assert
     with reverts():
         reneeLaneCollection.mintImage(_imageNumber, {"from": account})
+    del _imageNumber
+    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if _imageNumber is negative.
-@given(_imageNumber=strategy("int256", max_value=-1))
+@pytest.mark.parametrize(
+    "_imageNumber",
+    [
+        random.randint(-9999, -1),
+        random.randint(-9999, -1),
+        random.randint(-9999, -1),
+    ],
+)
 def test_mintImage_reverts_when_imageNumber_is_negative(_imageNumber):
     # Arrange
     account = get_account()
@@ -185,19 +81,30 @@ def test_mintImage_reverts_when_imageNumber_is_negative(_imageNumber):
     # Act and Assert
     with pytest.raises(OverflowError):
         reneeLaneCollection.mintImage(_imageNumber, {"from": account})
+    del _imageNumber
+    gc.collect(generation=2)
 
 
-# Todo: Test transaction reverts if _imageNumber is negative.
-@given(_imageNumber=strategy("int256", max_value=-1))
+# Todo: Test transaction reverts if _imageNumber is a float.
+@pytest.mark.parametrize(
+    "_imageNumber",
+    [
+        random.random(),
+        random.random(),
+        random.random(),
+    ],
+)
 def test_mintImage_reverts_when_imageNumber_is_float(_imageNumber):
     # Arrange
+    gc.collect()
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     print(f"\nAttempting to mint imageNumber: {_imageNumber}.")
     print(f"If this transaction raises an OverflowError, test will pass.\n")
     # Act and Assert
-    with pytest.raises(OverflowError):
+    with reverts("The image you have selected does not exist in this collection."):
         reneeLaneCollection.mintImage(_imageNumber, {"from": account})
+    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if _imageNumber is a string.
@@ -207,12 +114,11 @@ def test_mintImage_reverts_when_imageNumber_is_float(_imageNumber):
         generate_random_string(),
         generate_random_string(),
         generate_random_string(),
-        generate_random_string(),
-        generate_random_string(),
     ],
 )
 def test_mintImage_reverts_when_imageNumber_is_string(_imageNumber):
     # Arrange
+    gc.collect()
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     print(f"\nAttempting to mint imageNumber: {_imageNumber}.")
@@ -220,15 +126,22 @@ def test_mintImage_reverts_when_imageNumber_is_string(_imageNumber):
     # Act and Assert
     with pytest.raises(TypeError):
         reneeLaneCollection.mintImage(_imageNumber, {"from": account})
+    gc.collect(generation=2)
 
 
 # Todo: Test _newTokenID is expected value based on _imageNumber parameter.
-@given(
-    transactions=strategy("uint256", min_value=0, max_value=10),
-    image=strategy("uint256", min_value=1, max_value=10),
+@pytest.mark.parametrize(
+    "transactions",
+    [
+        random.randint(0, 10),
+        random.randint(0, 10),
+        random.randint(0, 10),
+    ],
 )
-def test_newTokenID_is_set_correctly(transactions, image):
+def test_newTokenID_is_set_correctly(transactions):
     # Arrange
+    gc.collect()
+    image = random.randint(1, 10)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     for i in range(transactions):
@@ -240,11 +153,13 @@ def test_newTokenID_is_set_correctly(transactions, image):
     print(f"The returned _newTokenID() is: {tx_one.return_value[0]}.")
     # Assert
     assert tx_one.return_value[0] == expected_tokenID
+    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if no more tokens are available.
 def test_mintImage_reverts_if_no_more_tokens_available():
     # Arrange
+    gc.collect()
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     for i in range(20):
@@ -257,29 +172,197 @@ def test_mintImage_reverts_if_no_more_tokens_available():
     # Act and Assert
     with reverts("No more editions of this image are available."):
         reneeLaneCollection.mintImage(1, {"value": Web3.toWei(0.12, "ether")})
+    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if msg.value isn't equal to price.
-@given(_imageNumber=strategy("int256", min_value=1, max_value=50))
+@pytest.mark.parametrize(
+    "_imageNumber",
+    [
+        random.randint(1, 50),
+        random.randint(1, 50),
+        random.randint(1, 50),
+    ],
+)
 def test_mintImage_reverts_if_incorrect_value_sent(_imageNumber):
     # Arrange
+    gc.collect()
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     # Act and Asset
     with reverts("You didn't send the correct amount of Ether."):
         reneeLaneCollection.mintImage(_imageNumber, {"value": Web3.toWei(1, "ether")})
+    gc.collect(generation=2)
 
 
-# Todo: Test _artist is expected values.
-# Todo: Test _artistCut is correct value.
-# Todo: Test _projectCut is correct value.
 # Todo: Test payouts owed to artist is adjusted correctly.
+@pytest.mark.parametrize(
+    "_imageNumber",
+    [
+        random.randint(1, 50),
+        random.randint(1, 50),
+        random.randint(1, 50),
+    ],
+)
+def test_artist_payout_calculated_correctly(_imageNumber):
+    # Arrange
+    gc.collect()
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
+    img_price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    artist_id = reneeLaneCollection.imageGallery(_imageNumber)[4]
+    artist_address = reneeLaneCollection.artist(artist_id)[0]
+    expected_payout = img_price * 0.1
+    # Act
+    reneeLaneCollection.mintImage(_imageNumber, {"value": img_price})
+    # Assert
+    print(f"\nThe expected payout for this image is: {expected_payout}.")
+    print(
+        f"The returned payout for this image is: {reneeLaneCollection.payoutsOwed(artist_address)}.\n"
+    )
+    assert reneeLaneCollection.payoutsOwed(artist_address) == expected_payout
+
+
 # Todo: Test payouts owed to project is adjusted correctly.
-# Todo: Test that _safeMint works correctly.
-# Todo: Test _setTokenRoyalty works correctly.
+@pytest.mark.parametrize(
+    "_imageNumber",
+    [
+        random.randint(1, 50),
+        random.randint(1, 50),
+        random.randint(1, 50),
+    ],
+)
+def test_project_payout_calculated_correctly(_imageNumber):
+    # Arrange
+    gc.collect()
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
+    project_address = reneeLaneCollection.PROJECT_WALLET_ADDRESS()
+    img_price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    artist_payout = img_price * 0.1
+    expected_payout = img_price - artist_payout
+    # Act
+    reneeLaneCollection.mintImage(_imageNumber, {"value": img_price})
+    # Assert
+    print(f"\nThe expected payout for this image is: {expected_payout}.")
+    print(
+        f"The returned payout for this image is: {reneeLaneCollection.payoutsOwed(project_address)}.\n"
+    )
+    assert reneeLaneCollection.payoutsOwed(project_address) == expected_payout
+
+
 # Todo: Test that investors mapping is updated when address is not investor.
+def test_investors_map_is_updated_if_minter_is_not_yet_an_investor():
+    # Arrange
+    gc.collect()
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
+    investor_address = get_account(2)
+    initial_investor_status = reneeLaneCollection.investors(investor_address)
+    if initial_investor_status == True:
+        return
+    else:
+        print(
+            f"\nThe current investor status of {investor_address} is: {initial_investor_status}."
+        )
+        print(f"Minting token to {investor_address}.")
+    # Act
+    reneeLaneCollection.mintImage(
+        1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
+    )
+    print(
+        f"The current investor status of {investor_address} is: {reneeLaneCollection.investors(investor_address)}"
+    )
+    # Assert
+    assert reneeLaneCollection.investors(investor_address)
+
+
 # Todo: Test that investorList is updated when address is not investor.
+def test_investor_list_is_updated_if_minter_is_not_yet_an_investor(
+    transactions=random.randint(0, 15), account_num=random.randint(2, 7)
+):
+    # Arrange
+    gc.collect()
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
+    other_address = get_account(account_num)
+    for i in range(transactions):
+        reneeLaneCollection.mintImage(
+            1, {"value": Web3.toWei(0.12, "ether"), "from": other_address}
+        )
+    investor_address = get_account(1)
+    initial_investor_list = reneeLaneCollection.printInvestorList()
+    print(f"\nThe starting investor list contains: {initial_investor_list}.")
+    print(f"Minting token to {investor_address}.")
+    # Act
+    reneeLaneCollection.mintImage(
+        1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
+    )
+    print(
+        f"The current investor list contains: {reneeLaneCollection.printInvestorList()}"
+    )
+    # Assert
+    assert investor_address in reneeLaneCollection.printInvestorList()
+
+
 # Todo: Test that investors mapping is not updated when address is already investor.
 # Todo: Test that investorList is not updated when address is already investor.
+# I don't know how to write these tests to show that there is less gas usage with this check. Don't think it's particularly important, but I might come back to this if I can find a way to have it compare the opCodes.
+
 # Todo: Test that currentTokenID is incremented after successful mint.
+def test_currentTokenID_increments_correctly(_imageNumber=random.randint(1, 50)):
+    # Arrange
+    gc.collect(generation=2)
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
+    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    if _imageNumber <= 20:
+        transactions = random.randint(0, 17)
+    elif _imageNumber <= 30:
+        transactions = random.randint(0, 7)
+    elif _imageNumber <= 40:
+        transactions = random.randint(0, 3)
+    else:
+        transactions = random.randint(0, 2)
+    for i in range(transactions):
+        reneeLaneCollection.mintImage(_imageNumber, {"value": price, "from": account})
+    original_tokenID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+    # Act
+    reneeLaneCollection.mintImage(_imageNumber, {"value": price, "from": account})
+    currentTokenID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+    print(f"\nThe expected new currentTokenID is: {original_tokenID+1}.")
+    print(f"The returned new currentTokenID is: {currentTokenID}.\n")
+    # Assert
+    assert currentTokenID == original_tokenID + 1
+
+
 # Todo: Test that currentTokenID is not incremented if transaction reverts.
+def test_currentTokenID_does_not_increment_if_transaction_reverts(
+    _imageNumber=random.randint(1, 50)
+):
+    # Arrange
+    gc.collect(generation=2)
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
+    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    if _imageNumber <= 20:
+        transactions = random.randint(0, 17)
+    elif _imageNumber <= 30:
+        transactions = random.randint(0, 7)
+    elif _imageNumber <= 40:
+        transactions = random.randint(0, 3)
+    else:
+        transactions = random.randint(0, 2)
+    for i in range(transactions):
+        reneeLaneCollection.mintImage(_imageNumber, {"value": price, "from": account})
+    original_tokenID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+    # Act
+    with reverts("You didn't send the correct amount of Ether."):
+        reneeLaneCollection.mintImage(
+            _imageNumber, {"value": price + 1, "from": account}
+        )
+    currentTokenID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+    print(f"\nThe expected new currentTokenID is: {original_tokenID}.")
+    print(f"The returned new currentTokenID is: {currentTokenID}.\n")
+    # Assert
+    assert currentTokenID == original_tokenID
