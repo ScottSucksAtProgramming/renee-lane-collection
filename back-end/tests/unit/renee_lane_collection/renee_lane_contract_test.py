@@ -16,7 +16,7 @@ from scripts.helpful_scripts import get_account
 from brownie import accounts, config, network, ReneeLaneCollection, reverts
 from brownie.test import given, strategy
 from web3 import Web3
-import random, string, pytest
+import random, string, pytest, gc
 
 # * ------------------------------- Variables ------------------------------- #
 letters = [string.ascii_letters, string.punctuation]
@@ -32,6 +32,7 @@ PROJECT_WALLET_ADDRESS = 0xDD870FA1B7C4700F2BD7F44238821C26F7392148
 # * ---------------------------- Contract Tests ----------------------------- #
 def test_contract_can_deploy():
     # Arrange
+    gc.collect(generation=2)
     account = get_account()
     # Act
     reneeLaneCollection = ReneeLaneCollection.deploy(
@@ -43,3 +44,4 @@ def test_contract_can_deploy():
     )
     # Assert
     assert reneeLaneCollection.address != 0
+    gc.collect(generation=2)

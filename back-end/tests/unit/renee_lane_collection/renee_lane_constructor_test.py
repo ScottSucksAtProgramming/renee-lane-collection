@@ -16,7 +16,7 @@ from scripts.helpful_scripts import get_account
 from brownie import accounts, config, network, ReneeLaneCollection, reverts
 from brownie.test import given, strategy
 from web3 import Web3
-import random, string, pytest
+import random, string, pytest, gc
 
 # * ------------------------------- Variables ------------------------------- #
 letters = [string.ascii_letters, string.punctuation]
@@ -33,6 +33,7 @@ PROJECT_WALLET_ADDRESS = 0xDD870FA1B7C4700F2BD7F44238821C26F7392148
 # Todo: Test Collection Name
 def test_collection_name_is_correct():
     # Arrange
+    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy(
         {"from": account},
@@ -44,11 +45,13 @@ def test_collection_name_is_correct():
     print(f"The contract name is: {reneeLaneCollection.name()}\n")
     # Assert
     assert reneeLaneCollection.name() == expected_name
+    gc.collect(generation=2)
 
 
 # Todo: Test collection Symbol
 def test_collection_symbol_is_correct():
     # Arrange
+    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy(
         {"from": account},
@@ -60,12 +63,13 @@ def test_collection_symbol_is_correct():
     print(f"The contract symbol is: {reneeLaneCollection.symbol()}\n")
     # Assert
     assert reneeLaneCollection.symbol() == expected_symbol
+    gc.collect(generation=2)
 
 
 # Todo: Confirm artist mapping initiates correctly.
-@pytest.mark.parametrize("artistID", [1, 2, 3, 4, 5])
-def test_artist_mapping_is_correct(artistID):
+def test_artist_mapping_is_correct(artistID=random.randint(1, 5)):
     # Arrange
+    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy(
         {"from": account},
@@ -103,12 +107,15 @@ def test_artist_mapping_is_correct(artistID):
     print(f"The contract directAddress is: {contract_addresses}\n")
     # Assert
     assert contract_addresses == expected_addresses[artistID]
+    gc.collect(generation=2)
 
 
 # Todo: Confirm imageGallery initiates correctly.
-@pytest.mark.parametrize("_imageNumber", [0, 1, 10, 20, 21, 30, 31, 40, 41, 50])
-def test_imageGallery_mapping_is_correct(_imageNumber):
+def test_imageGallery_mapping_is_correct():
     # Arrange
+    gc.collect(generation=2)
+    image_list = [0, 1, 10, 20, 21, 30, 31, 40, 41, 50]
+    _imageNumber = random.choice(image_list)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy(
         {"from": account},
@@ -133,3 +140,4 @@ def test_imageGallery_mapping_is_correct(_imageNumber):
     print(f"The contract image information is: {contract_properties}\n")
     # Assert
     assert contract_properties == expected_properties[_imageNumber]
+    gc.collect(generation=2)
