@@ -17,6 +17,7 @@ from webbrowser import get
 from scripts.deploy_renee_coins import deploy_contract
 from scripts.helpful_scripts import get_account
 from brownie import accounts, config, network, ReneeCoins, reverts
+import gc
 
 # * ------------------------------- Variables -------------------------------- #
 
@@ -25,6 +26,7 @@ from brownie import accounts, config, network, ReneeCoins, reverts
 
 def test_createCoins_can_only_called_by_owner():
     # Arrange
+    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -37,11 +39,12 @@ def test_createCoins_can_only_called_by_owner():
     )
     with reverts("Ownable: caller is not the owner"):
         tx = reneeCoins.createCoins(10_000, {"from": get_account(1)})
-        tx.wait(1)
+    gc.collect(generation=2)
 
 
 def test_createCoins_mints_amount_expected():
     # Arrange
+    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -54,10 +57,12 @@ def test_createCoins_mints_amount_expected():
     print(f"The expected amount of coins is: {expected_amount}.\n")
     # Assert
     assert reneeCoins.totalSupply() == expected_amount
+    gc.collect(generation=2)
 
 
 def test_createCoins_mints_to_correct_wallet():
     # Arrange
+    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -70,3 +75,4 @@ def test_createCoins_mints_to_correct_wallet():
     print(f"The amount of coins expected:   {expected_amount}.\n")
     # Assert
     assert reneeCoins.balanceOf(account) == expected_amount
+    gc.collect(generation=2)
