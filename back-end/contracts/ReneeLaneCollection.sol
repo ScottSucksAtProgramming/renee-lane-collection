@@ -151,7 +151,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
         //Intialize Artist
         artist[1] = Artist({
-            directAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2,
+            directAddress: 0x33A4622B82D4c04a53e170c638B944ce27cffce3,
             royaltyAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
         });
         artist[2] = Artist({
@@ -355,7 +355,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      */
     function withdrawFunds() public {
         require(payoutsOwed[msg.sender] > 0, "No funds owed to this wallet.");
-        require(address(this).balance > 0, "No Funds to Pay Out");
+        require(address(this).balance > 0, "No money in contract.");
         payable(msg.sender).transfer(payoutsOwed[msg.sender]);
         payoutsOwed[msg.sender] = 0;
     }
@@ -381,14 +381,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      * @notice The getContractBalance() function returns current amount of
      * Ether stored in the contract.
      *
-     * @return ContractBalance The amount of Ether (in Wei)
+     * @return contractBalance The amount of Ether (in Wei)
      *
      */
     function getContractBalance()
         public
         view
-        onlyOwner
-        returns (uint256 ContractBalance)
+        returns (uint256 contractBalance)
     {
         return address(this).balance;
     }

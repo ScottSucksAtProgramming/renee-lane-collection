@@ -1,7 +1,9 @@
 dotenv: .env
+
 dependencies:
   - OpenZeppelin/openzeppelin-contracts@4.6.0
   - smartcontractkit/chainlink-brownie-contracts@0.4.0
+
 compiler:
   solc:
     optimizer:
@@ -10,6 +12,7 @@ compiler:
     remappings:
       - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.6.0"
       - "@chainlink=smartcontractkit/chainlink-brownie-contracts@0.4.0"
+
 networks:
   default: development
   development:
@@ -28,10 +31,21 @@ networks:
     verify: True
   mainnet:
     opensea_url: "https://opensea.io/assets/{}/{}"
+
 wallets:
   from_key: ${PRIVATE_KEY}
+
 pinata:
   api: ${PINATA_API_KEY}
   secret: ${PINATA_SECRET_KEY}
   url: "https://api.pinata.cloud"
   pinning_endpoint: "/pinning/pinFileToIPFS"
+
+reports:
+  exclude_paths: null
+  exclude_contracts:
+    - Ownable
+    - Strings
+    - ERC721
+    - ERC2981
+  only_include_project: false

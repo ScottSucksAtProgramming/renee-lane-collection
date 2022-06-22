@@ -31,7 +31,6 @@ def generate_random_string():
 # Todo: Test _baseURI() reverts if token does not exist.
 def test_tokenURI_reverts_for_nonexistent_tokenID():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     bad_token_ID = random.randint(0, 999999)
@@ -40,12 +39,10 @@ def test_tokenURI_reverts_for_nonexistent_tokenID():
     print("If this transaction reverts due to non-existent token ID, test will pass.\n")
     with reverts("ERC721Metadata: URI query for nonexistent token"):
         reneeLaneCollection.tokenURI(bad_token_ID)
-    gc.collect(generation=2)
 
 
 def test_tokenURI_returns_expected_string():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     reneeLaneCollection.mintImage(
@@ -58,24 +55,3 @@ def test_tokenURI_returns_expected_string():
     print(f"The returned string is: {actual_string}.\n")
     # # Assert
     assert actual_string == expected_string
-    gc.collect(generation=2)
-
-
-def test_baseURI_returns_expected_string():
-    # Arrange
-    gc.collect(generation=2)
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    reneeLaneCollection.mintImage(
-        1, {"value": Web3.toWei(0.12, "ether"), "from": account}
-    )
-    # Act
-    expected_string = f"https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/"
-    actual_string = reneeLaneCollection._baseURI(
-        1, {"from": reneeLaneCollection.address}
-    )
-    print(f"\nThe expected string is: {expected_string}.")
-    print(f"The returned string is: {actual_string}.\n")
-    # # Assert
-    assert actual_string == expected_string
-    gc.collect(generation=2)

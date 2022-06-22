@@ -13,15 +13,13 @@
 
 
 # * ------------------------------- Resources -------------------------------- #
-from webbrowser import get
-from scripts.deploy_renee_coins import deploy_contract
 from scripts.helpful_scripts import get_account
 from brownie import accounts, config, network, ReneeCoins, reverts
 import gc
 
 # * ------------------------------- Variables -------------------------------- #
 
-# * ----------------------------- Contract Tests ---------------------------------- #
+# * ---------------------------- Contract Tests ------------------------------ #
 def test_contract_can_deploy():
     # Arrange
     gc.collect(generation=2)

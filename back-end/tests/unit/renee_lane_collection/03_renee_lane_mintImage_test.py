@@ -38,7 +38,6 @@ def test_mintImage_reverts_when_imageNumber_is_out_of_range(
     with reverts():
         reneeLaneCollection.mintImage(_imageNumber, {"from": account})
     del _imageNumber
-    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if _imageNumber is negative.
@@ -54,13 +53,11 @@ def test_mintImage_reverts_when_imageNumber_is_negative(
     with pytest.raises(OverflowError):
         reneeLaneCollection.mintImage(_imageNumber, {"from": account})
     del _imageNumber
-    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if _imageNumber is a float.
 def test_mintImage_reverts_when_imageNumber_is_float(_imageNumber=random.random()):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     print(f"\nAttempting to mint imageNumber: {_imageNumber}.")
@@ -68,7 +65,6 @@ def test_mintImage_reverts_when_imageNumber_is_float(_imageNumber=random.random(
     # Act and Assert
     with reverts("The image you have selected does not exist in this collection."):
         reneeLaneCollection.mintImage(_imageNumber, {"from": account})
-    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if _imageNumber is a string.
@@ -76,7 +72,6 @@ def test_mintImage_reverts_when_imageNumber_is_string(
     _imageNumber=generate_random_string(),
 ):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     print(f"\nAttempting to mint imageNumber: {_imageNumber}.")
@@ -84,13 +79,11 @@ def test_mintImage_reverts_when_imageNumber_is_string(
     # Act and Assert
     with pytest.raises(TypeError):
         reneeLaneCollection.mintImage(_imageNumber, {"from": account})
-    gc.collect(generation=2)
 
 
 # Todo: Test _newTokenID is expected value based on _imageNumber parameter.
 def test_newTokenID_is_set_correctly(transactions=random.randint(0, 10)):
     # Arrange
-    gc.collect(generation=2)
     image = random.randint(1, 10)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
@@ -103,13 +96,11 @@ def test_newTokenID_is_set_correctly(transactions=random.randint(0, 10)):
     print(f"The returned _newTokenID() is: {tx_one.return_value[0]}.")
     # Assert
     assert tx_one.return_value[0] == expected_tokenID
-    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if no more tokens are available.
 def test_mintImage_reverts_if_no_more_tokens_available():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     for i in range(20):
@@ -122,25 +113,21 @@ def test_mintImage_reverts_if_no_more_tokens_available():
     # Act and Assert
     with reverts("No more editions of this image are available."):
         reneeLaneCollection.mintImage(1, {"value": Web3.toWei(0.12, "ether")})
-    gc.collect(generation=2)
 
 
 # Todo: Test transaction reverts if msg.value isn't equal to price.
 def test_mintImage_reverts_if_incorrect_value_sent(_imageNumber=random.randint(1, 50)):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     # Act and Asset
     with reverts("You didn't send the correct amount of Ether."):
         reneeLaneCollection.mintImage(_imageNumber, {"value": Web3.toWei(1, "ether")})
-    gc.collect(generation=2)
 
 
 # Todo: Test payouts owed to artist is adjusted correctly.
 def test_artist_payout_calculated_correctly(_imageNumber=random.randint(1, 50)):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     img_price = reneeLaneCollection.imageGallery(_imageNumber)[1]
@@ -162,7 +149,6 @@ def test_project_payout_calculated_correctly(
     _imageNumber=random.randint(1, 50),
 ):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     project_address = reneeLaneCollection.PROJECT_WALLET_ADDRESS()
@@ -182,7 +168,6 @@ def test_project_payout_calculated_correctly(
 # Todo: Test that investors mapping is updated when address is not investor.
 def test_investors_map_is_updated_if_minter_is_not_yet_an_investor():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     investor_address = get_account(2)
@@ -210,7 +195,6 @@ def test_investor_list_is_updated_if_minter_is_not_yet_an_investor(
     transactions=random.randint(0, 15), account_num=random.randint(2, 7)
 ):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     other_address = get_account(account_num)
@@ -240,7 +224,6 @@ def test_investor_list_is_updated_if_minter_is_not_yet_an_investor(
 # Todo: Test that currentTokenID is incremented after successful mint.
 def test_currentTokenID_increments_correctly(_imageNumber=random.randint(1, 50)):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     price = reneeLaneCollection.imageGallery(_imageNumber)[1]
@@ -269,7 +252,6 @@ def test_currentTokenID_does_not_increment_if_transaction_reverts(
     _imageNumber=random.randint(1, 50)
 ):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     price = reneeLaneCollection.imageGallery(_imageNumber)[1]
@@ -300,7 +282,6 @@ def test_currentTokenID_does_not_increment_if_transaction_reverts(
 # Todo: Test that tokens are minted to the correct owner.
 def test_token_is_minted_to_expected_owner(_imageNumber=random.randint(1, 50)):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
@@ -320,7 +301,6 @@ def test_token_is_minted_to_expected_owner(_imageNumber=random.randint(1, 50)):
 # Todo: Test that tokens are given the expected tokenID.
 def test_token_is_minted_to_with_correct_tokenID(_imageNumber=random.randint(1, 50)):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
@@ -340,7 +320,6 @@ def test_token_is_minted_to_with_correct_tokenID(_imageNumber=random.randint(1, 
 # Todo: Test that tokens are given the correct tokenURI.
 def test_token_URI_is_set_correctly(_imageNumber=random.randint(1, 50)):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
@@ -361,7 +340,6 @@ def test_token_URI_is_set_correctly(_imageNumber=random.randint(1, 50)):
 # Todo: Test that tokens are given the correct Royalty Payout Address.
 def test_token_royalty_address_is_set_correctly(_imageNumber=random.randint(1, 50)):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
@@ -384,7 +362,6 @@ def test_token_royalty_address_is_set_correctly(_imageNumber=random.randint(1, 5
 # Todo: Test that tokens are given the correct Royalty Basis Points.
 def test_token_royalty_address_is_set_correctly(_imageNumber=random.randint(1, 50)):
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))

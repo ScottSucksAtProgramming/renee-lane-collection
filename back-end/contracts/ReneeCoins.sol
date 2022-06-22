@@ -35,11 +35,11 @@
  * @title Renee Coins
  * @author Scott Kostolni
  *
- * @notice Version 0.1.0 Alpha.
+ * @notice Version 1.0.0 Beta.
  *
  * @notice This is a bespoke ERC-20 Contract that provides the social
  * currency, Renee Coins, which grants benefits to investors and artists of
- * The Renee Lane Collection.
+ * The Renee Lane NFT Collection.
  *
  * @notice This contract acts as the ledger for the Renee Coins and allows
  * for Renee Coins to be created, tracked, and transferred or traded between
@@ -58,40 +58,39 @@
  * 06-10-2022 | SRK | Token Cap functionality added.
  * 06-10-2022 | SRK | Token burn functionality added.
  * 06-10-2022 | SRK | airdropReneeCoins() function created.
+ * 06-21-2022 | SRK | Unit Testing of Contract In Progress.
+ * 06-21-2022 | SRK | Contract Ready for Beta Tasting. Version 1.0.0 Beta Released.
  */
 
 //* ------------------------------ Statistics ----------------------------- //
 /**
- * Current Statistics as of 0.1.0 Alpha - Optmizer: 10,000 Runs
- * Deployment Cost                             |   1,345,119 Gas   |   Approx:     $80.71
- * createCoins(From 0)                         |      81,017 Gas   |   Approx:      $4.86
- * createCoins(From Non-Zero)                  |      41,701 Gas   |   Approx:      $2.50
- * burn (Non-Zero to Non-Zero)                 |      38,762 Gas   |   Approx:      $2.33
- * burn (Non-Zero to Zero)                     |      42,072 Gas   |   Approx:      $2.52
- * transfer (Non-Zero => Zero Balance)         |      59,127 Gas   |   Approx:      $3.55
- * transfer (Non-Zero => Non-Zero Balance)     |      39,462 Gas   |   Approx:      $2.38
- * transfer (Zero => Zero Balance)             |      59,127 Gas   |   Approx:      $3.55
- * transfer (Zero => Non-Zero Balance)         |      39,462 Gas   |   Approx:      $2.38
- * Cost to Mint and Then Transfer 10 Tokens (AirDrop) = 41,674 + 59,127 = 100,801 Gas = $6.05
- * Cost of airdropReneeCoins() 10 Tokens = 61,907 Gas = $3.71
- * Cost of airdropReneeCoins() from 0 Balance 10 Tokens = 42,228 Gas = $2.53
+ * @notice Current Gas Useage as of 1.0.0 Beta - Optmizer: 10,000 Runs
+ * ReneeCoins <Contract>
+ *   ├─ deplyment    -  avg: 1347574  avg (confirmed): 1347574  low: 1347574  high: 1347574  USA cost: $29.70
+ *   ├─ constructor  -  avg: 1063254  avg (confirmed): 1063254  low: 1063254  high: 1063254  USD cost: $23.43
+ *   ├─ airdropCoins -  avg:   53304  avg (confirmed):   68496  low:   22923  high:   68502  USD cost:  $1.51
+ *   ├─ createCoins  -  avg:   49957  avg (confirmed):   68005  low:   22422  high:   68009  USD cost:  $1.50
+ *   ├─ symbol       -  avg:   24452  avg (confirmed):   24452  low:   24452  high:   24452  USD cost:  $0.54
+ *   ├─ balanceOf    -  avg:   22718  avg (confirmed):   22718  low:   22718  high:   22718  USD cost:  $0.50
+ *   ├─ owner        -  avg:   22132  avg (confirmed):   22132  low:   22132  high:   22132  USD cost:  $0.49
+ *   ├─ totalSupply  -  avg:   22113  avg (confirmed):   22113  low:   22113  high:   22113  USD cost:  $0.49
+ *   └─ decimals     -  avg:   21309  avg (confirmed):   21309  low:   21309  high:   21309  USD cost:  $0.47
+ * Note: USD Calculations based on Gas Cost: 20 Wei and avg Ethereum price: $1102 from 6-21-2022.
+ * Forumla: TransactionCost =  (Gas (High) * Gas Price * Etherum USD Price) / 1,000,000,000
  */
 
 //* ------------------------------- Tasks --------------------------------- //
 /**
- * Build Basic Contract - Complete (6/10/22)
- * Build Minting function that allows owner to specify number of tokens to
- * mint. - Complete (6/10/22)
- * Set cap to 2,000,000 Tokens - ERC-20Capped OpenZeppelin - Complete
- * (6/10/22)
- * Add Owner Functionality - Ownable Extension OpenZeppelin - Complete
- * (6/10/22)
- * Add burn functionality - Complete (6/10/22)
- * Test build and AirDrop Function. - Complete (6/10/22)
+ * Todo: Deploy Renee Coin Contract for User Beta Testing.
+ * Todo: Complete final unit testing.
+ * Todo: Complete integration testing.
+ * Todo: Identify and resolve any issues found during testing.
+ * Todo: Obtain final approval of code.
+ * Todo: Deploy finalized contract to MainNet for launch.
  */
 
 //* ----------------------------- Resources ------------------------------- //
-
+/// Pragma statements
 pragma solidity 0.8.15;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
@@ -101,25 +100,37 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 //* ----------------------------- Contract -------------------------------- //
 
+/// @notice The ReneeCoin Contract uses OpenZeppelin's ERC20, ERC20Burnable,
+/// ERC20Capped and Ownable extensn to ensure compliance to the current
+/// standards and provide a strong security basis with code that has been
+/// vetted elsewhere.
 contract ReneeCoins is ERC20, ERC20Burnable, ERC20Capped, Ownable {
     //* --------------------------- Constructor --------------------------- //
     /**
-     * @notice In the constructor the total number of Renee Coins which can
-     * be in circulation at any given time is capped at 2,000,000. This cap
-     * is only set during the deployment of this contract and cannot be
+     * @notice The constructor helps set up the initial state of the smart
+     * contract. In the constructor the total number of Renee Coins which
+     * can be in circulation at any given time is capped at 2,000,000. This
+     * cap is only set during the deployment of this contract and cannot be
      * changed later.
+     *
+     * @notice The name of the ERC-20 Token and Symbol are also permanently
+     * set in the constructor.
      */
     constructor() ERC20("Renee Coins", "RC") ERC20Capped(2000000) {}
 
     //* ----------------------- Minting Function -------------------------- //
     /**
-     * @notice The createCoins() function serves as the minting function for
-     * this contract. It can be called only by the owner and allows them to
-     * mint as many Renee Coins as they like, up to the cap. These function
-     * will ONLY create coins in the Owner's wallet. The airdropCoins can be
-     * used to send coins to another wallet address.
+     * @notice When this contract is initially deployed, there are 0 Renee
+     * Coins in existence. New Renee Coins must be 'minted' in order to
+     * create them. createCoins() serves as the mintingfunction for this
+     * contract. It can be called only by the owner and allows them to mint
+     * as many Renee Coins as they like, up to the cap.
      *
-     * @param amount The number of coins that are to be created.
+     * This function will ONLY create coins in the Owner's wallet. The
+     * airdropCoins() function can be used to mint coins directly to someone
+     * else's wallet.
+     *
+     * @param amount The number of coins that are to be minted.
      */
     function createCoins(uint256 amount) public onlyOwner {
         _mint(msg.sender, amount);
@@ -127,10 +138,11 @@ contract ReneeCoins is ERC20, ERC20Burnable, ERC20Capped, Ownable {
 
     //* -------------------- Administrative Functions --------------------- //
     /**
-     * @notice The airdropCoins() function allows the Owner to create new
-     * coins and immediately send them to a specified wallet address. This
-     * is significantly cheaper than minting and transferring the coins
-     * separately. This function can ONLY be called by the Owner.
+     * @notice The airdropCoins() function allows the Owner to mint new Renee
+     * Coins directly into a specified wallet address. This is significantly
+     * cheaper than minting and transferring the coins separately.
+     *
+     * This function can ONLY be called by the Owner.
      *
      * @param recepient The wallet address of the recipeint of the airdrop.
      *

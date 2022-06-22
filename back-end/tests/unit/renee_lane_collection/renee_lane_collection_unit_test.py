@@ -21,9 +21,9 @@ import gc, random, string, pytest
 # * ------------------------------- Variables ------------------------------ #
 
 
-def generate_random_string():
-    _string = "".join(random.choice(characters) for i in range(1, 3))
+def generate_random_string(num_of_characters):
+    _string = "".join(random.choice(characters) for i in range(num_of_characters))
     return _string
 
 
-# * ---------------------------- tokenURI() Tests -------------------------- #
+# * ------------------------ supportsInterface() Tests -------------------- #
