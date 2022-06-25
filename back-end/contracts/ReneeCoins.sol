@@ -59,14 +59,14 @@
   06-10-2022 | SRK | Token burn functionality added.
   06-10-2022 | SRK | airdropReneeCoins() function created.
   06-21-2022 | SRK | Unit Testing of Contract In Progress.
-  06-21-2022 | SRK | Contract Ready for Beta Tasting. Version 1.0.0 Beta Released.
+  06-21-2022 | SRK | Contract Ready for Beta Tasting.
  */
 
 //* ------------------------------ Statistics ----------------------------- //
 /**
  * @notice Current Gas Useage as of 1.0.0 Beta - Optmizer: 10,000 Runs
  * ReneeCoins <Contract>
- *   ├─ deplyment    -  avg: 1347574  avg (confirmed): 1347574  low: 1347574  high: 1347574  USA cost: $29.70
+ *   ├─ deployment   -  avg: 1347574  avg (confirmed): 1347574  low: 1347574  high: 1347574  USD cost: $29.70
  *   ├─ constructor  -  avg: 1063254  avg (confirmed): 1063254  low: 1063254  high: 1063254  USD cost: $23.43
  *   ├─ airdropCoins -  avg:   53304  avg (confirmed):   68496  low:   22923  high:   68502  USD cost:  $1.51
  *   ├─ createCoins  -  avg:   49957  avg (confirmed):   68005  low:   22422  high:   68009  USD cost:  $1.50
@@ -75,8 +75,8 @@
  *   ├─ owner        -  avg:   22132  avg (confirmed):   22132  low:   22132  high:   22132  USD cost:  $0.49
  *   ├─ totalSupply  -  avg:   22113  avg (confirmed):   22113  low:   22113  high:   22113  USD cost:  $0.49
  *   └─ decimals     -  avg:   21309  avg (confirmed):   21309  low:   21309  high:   21309  USD cost:  $0.47
- * Note: USD Calculations based on Gas Cost: 20 Wei and Ethereum price: $1102 from 6-21-2022.
- * Forumla: TransactionCost =  (Gas (High) * Gas Price * Etherum USD Price) / 1,000,000,000
+ * Note: USD Calculations based on Gas Price: 20 Wei and Ethereum price: $1102 from 6-21-2022.
+ * Formula: TransactionCost =  (Gas (High) * Gas Price * Etherum USD Price) / 1,000,000,000
  */
 
 //* ------------------------------- Tasks --------------------------------- //
@@ -147,12 +147,12 @@ contract ReneeCoins is ERC20, ERC20Burnable, ERC20Capped, Ownable {
      *
      * This function can ONLY be called by the Owner.
      *
-     * @param recepient The wallet address of the recipeint of the airdrop.
+     * @param recipient The wallet address of the recipient of the airdrop.
      *
      * @param amount The number of coins that are to be created.
      */
-    function airdropCoins(address recepient, uint256 amount) public onlyOwner {
-        _mint(recepient, amount);
+    function airdropCoins(address recipient, uint256 amount) public onlyOwner {
+        _mint(recipient, amount);
     }
 
     //* ----------------------- Override Functions ------------------------ //

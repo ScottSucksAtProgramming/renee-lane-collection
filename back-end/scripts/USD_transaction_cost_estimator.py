@@ -14,10 +14,9 @@
 # getUSDTransactionCost() takes and returns Gas. - Done
 # getUSDTransactionCost() returns current ethPrice. - Done
 # getUSDTransactionCost() returns gasPrice. - Done
-# Todo: getUSDTransactionCost() returns calculated USDCost.
+# getUSDTransactionCost() returns calculated USDCost. - Done
 
 # ------------------------------- Resources -------------------------------- #
-from getpass import getuser
 import os, random, requests
 from dotenv import load_dotenv
 
@@ -50,10 +49,10 @@ def getUSDTransactionCost(gas):
         ).json()["result"]["SafeGasPrice"]
     )
     transactionCost = "$" + str(round((gas * ethPrice * gasPrice) / 1_000_000_000, 2))
-    print(f"Gas Used:         {gas}")
+    print(f"\nGas Used:       {gas}")
     print(f"Gas Price:        {gasPrice}")
     print(f"Ether Price:      {ethPrice}")
-    print(f"Transaction Cost: {transactionCost}")
+    print(f"Transaction Cost: {transactionCost}\n")
     return (gas, ethPrice, gasPrice, transactionCost)
 
 
@@ -92,7 +91,9 @@ def test_getUSDTransactionCost_calculates_price_in_USD():
     gasUsed = function_info[0]
     ethPrice = function_info[1]
     gasPrice = function_info[2]
-    expected_transaction_cost = (gasUsed * ethPrice * gasPrice) / 1_000_000_000
+    expected_transaction_cost = "$" + str(
+        round((gasUsed * ethPrice * gasPrice) / 1_000_000_000, 2)
+    )
     actual_transaction_cost = function_info[3]
     # Assert
     assert actual_transaction_cost == expected_transaction_cost

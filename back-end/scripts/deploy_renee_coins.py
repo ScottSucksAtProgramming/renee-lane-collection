@@ -16,7 +16,7 @@ from scripts.helpful_scripts import get_account
 # ------------------------------- Variables -------------------------------- #
 
 # ------------------------------ Functions --------------------------------- #
-def deploy_contract():
+def deploy_renee_coins():
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -31,4 +31,4 @@ def deploy_contract():
 
 # ----------------------------- Main Function ------------------------------ #
 def main():
-    deploy_contract()
+    deploy_renee_coins()

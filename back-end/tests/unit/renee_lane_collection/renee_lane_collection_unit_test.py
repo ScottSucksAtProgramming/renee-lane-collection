@@ -12,7 +12,7 @@
 
 
 # * ------------------------------- Resources ------------------------------ #
-from scripts.helpful_scripts import get_account, characters
+from scripts.deploy_renee_coins import deploy_renee_coins
 from brownie import accounts, config, network, ReneeLaneCollection, reverts
 from brownie.test import given, strategy
 from web3 import Web3
