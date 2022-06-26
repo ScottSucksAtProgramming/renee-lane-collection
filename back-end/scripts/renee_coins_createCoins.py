@@ -4,7 +4,7 @@
 #
 #
 # Modification History
-# 06-12-2022 | SRK | Module created.
+# 06-26-2022 | SRK | Module created.
 
 # -------------------------------- Tasks ----------------------------------- #
 
@@ -16,19 +16,15 @@ from scripts.helpful_scripts import get_account
 # ------------------------------- Variables -------------------------------- #
 
 # ------------------------------ Functions --------------------------------- #
-def deploy_renee_coins():
+def create_coins():
     account = get_account()
-    reneeCoins = ReneeCoins.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
-    print(
-        f"The Renee Coins contract has been deployed on the {network.show_active()} network."
-    )
-    print(f"The contract address is {reneeCoins.address}")
+    reneeCoins = ReneeCoins[-1]
+    reneeCoins.createCoins(int(input("How many Renee Coins would you like to create? ")), {"from": account})
+    print(f"Creating Renee Coins in your wallet.")
+    print(f"Your current balance of Renee Coins is {reneeCoins.balanceOf(account)} RC.")
     return reneeCoins
 
 
 # ----------------------------- Main Function ------------------------------ #
 def main():
-    deploy_renee_coins()
+    create_coins()

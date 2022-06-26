@@ -35,8 +35,7 @@ def getUsedGasAmounts():
         gasList.append(int(input(f"Enter gas used in transaction {i}: ")))
     return transactions, gasList
 
-
-def getUSDTransactionCost(gas):
+def getCurrentGasInfo():
     load_dotenv()
     ethPrice = int(
         requests.get(
@@ -48,19 +47,25 @@ def getUSDTransactionCost(gas):
             f"https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey={ETHERSCAN_API}"
         ).json()["result"]["SafeGasPrice"]
     )
+    return (ethPrice, gasPrice)
+
+
+def getUSDTransactionCost(gas, gasPrice, ethPrice):
     transactionCost = "$" + str(round((gas * ethPrice * gasPrice) / 1_000_000_000, 2))
     print(f"\nGas Used:       {gas}")
     print(f"Gas Price:        {gasPrice}")
     print(f"Ether Price:      {ethPrice}")
     print(f"Transaction Cost: {transactionCost}\n")
-    return (gas, ethPrice, gasPrice, transactionCost)
+    return (transactionCost)
 
 
 # ----------------------------- Main Function ------------------------------ #
 def main():
+    _ethPrice = getCurrentGasInfo()[0]
+    _gasPrice = getCurrentGasInfo()[1]
     gasAmounts = getUsedGasAmounts()
     for i in range(gasAmounts[0]):
-        getUSDTransactionCost(gasAmounts[1][i])
+        getUSDTransactionCost(gasAmounts[1][i], _gasPrice, _ethPrice )
 
 
 # ---------------------------- Test Functions ------------------------------ #

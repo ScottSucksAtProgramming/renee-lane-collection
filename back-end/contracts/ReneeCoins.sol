@@ -35,7 +35,7 @@
  * @title Renee Coins
  * @author Scott Kostolni
  *
- * @notice Version 1.0.0 Beta.
+ * @notice Version 0.0.0 Beta
  *
  * @notice This is a bespoke ERC-20 Contract that provides the social
  * currency, Renee Coins, which grants benefits to investors and artists of
@@ -59,23 +59,34 @@
   06-10-2022 | SRK | Token burn functionality added.
   06-10-2022 | SRK | airdropReneeCoins() function created.
   06-21-2022 | SRK | Unit Testing of Contract In Progress.
-  06-21-2022 | SRK | Contract Ready for Beta Tasting.
+  06-26-2022 | SRK | Contract Ready for Beta Tasting.
+  06-26-2022 | SRK | Contract deployed on Rinkeby: 0xbfC39dF8CD38Cb19175650AB1B1ABcD18C8edF6b
  */
 
 //* ------------------------------ Statistics ----------------------------- //
 /**
- * @notice Current Gas Useage as of 1.0.0 Beta - Optmizer: 10,000 Runs
+ * @notice Current Gas Useage as of 0.0.0 Beta - Optmizer: 10,000 Runs
  * ReneeCoins <Contract>
- *   ├─ deployment   -  avg: 1347574  avg (confirmed): 1347574  low: 1347574  high: 1347574  USD cost: $29.70
- *   ├─ constructor  -  avg: 1063254  avg (confirmed): 1063254  low: 1063254  high: 1063254  USD cost: $23.43
- *   ├─ airdropCoins -  avg:   53304  avg (confirmed):   68496  low:   22923  high:   68502  USD cost:  $1.51
- *   ├─ createCoins  -  avg:   49957  avg (confirmed):   68005  low:   22422  high:   68009  USD cost:  $1.50
- *   ├─ symbol       -  avg:   24452  avg (confirmed):   24452  low:   24452  high:   24452  USD cost:  $0.54
- *   ├─ balanceOf    -  avg:   22718  avg (confirmed):   22718  low:   22718  high:   22718  USD cost:  $0.50
- *   ├─ owner        -  avg:   22132  avg (confirmed):   22132  low:   22132  high:   22132  USD cost:  $0.49
- *   ├─ totalSupply  -  avg:   22113  avg (confirmed):   22113  low:   22113  high:   22113  USD cost:  $0.49
- *   └─ decimals     -  avg:   21309  avg (confirmed):   21309  low:   21309  high:   21309  USD cost:  $0.47
- * Note: USD Calculations based on Gas Price: 20 Wei and Ethereum price: $1102 from 6-21-2022.
+ *  ├─ deployment        -  avg: 1347574  avg (confirmed): 1347574  low: 1347574  high: 1347574  USD: $56.98
+ *  ├─ constructor       -  avg: 1063254  avg (confirmed): 1063254  low: 1063254  high: 1063254  USD: $44.95
+ *  ├─ createCoins       -  avg:   64519  avg (confirmed):   67991  low:   22422  high:   68009  USD:  $2.88
+ *  ├─ airdropCoins      -  avg:   53304  avg (confirmed):   68496  low:   22923  high:   68502  USD:  $2.90
+ *  ├─ approve           -  avg:   42090  avg (confirmed):   44110  low:   21925  high:   44120  USD:  $1.87
+ *  ├─ transfer          -  avg:   41514  avg (confirmed):   51009  low:   21946  high:   51009  USD:  $2.16
+ *  ├─ transferFrom      -  avg:   39641  avg (confirmed):   52175  low:   23621  high:   59675  USD:  $2.52
+ *  ├─ burn              -  avg:   31106  avg (confirmed):   35354  low:   22613  high:   35354  USD:  $1.49
+ *  ├─ increaseAllowance -  avg:   30173  avg (confirmed):   30173  low:   30173  high:   30173  USD:  $1.28
+ *  ├─ decreaseAllowance -  avg:   30106  avg (confirmed):   30106  low:   30106  high:   30106  USD:  $1.27
+ *  ├─ burnFrom          -  avg:   26990  avg (confirmed):   28942  low:   23089  high:   28942  USD:  $1.22
+ *  ├─ transferOwnership -  avg:   26444  avg (confirmed):   30117  low:   22772  high:   30117  USD:  $1.27
+ *  ├─ symbol            -  avg:   24452  avg (confirmed):   24452  low:   24452  high:   24452  USD:  $1.03
+ *  ├─ allowance         -  avg:   23258  avg (confirmed):   23258  low:   23258  high:   23258  USD:  $0.98
+ *  ├─ balanceOf         -  avg:   22716  avg (confirmed):   22716  low:   22706  high:   22718  USD:  $0.96
+ *  ├─ owner             -  avg:   22132  avg (confirmed):   22132  low:   22132  high:   22132  USD:  $0.94
+ *  ├─ totalSupply       -  avg:   22113  avg (confirmed):   22113  low:   22113  high:   22113  USD:  $0.93
+ *  ├─ decimals          -  avg:   21309  avg (confirmed):   21309  low:   21309  high:   21309  USD:  $0.90
+ *  └─ renounceOwnership -  avg:   18496  avg (confirmed):   14767  low:   14767  high:   22226  USD:  $0.94
+ * Note: USD Calculations based on Gas Price: 35 Wei and Ethereum price: $1208 from 6-26-2022.
  * Formula: TransactionCost =  (Gas (High) * Gas Price * Etherum USD Price) / 1,000,000,000
  */
 

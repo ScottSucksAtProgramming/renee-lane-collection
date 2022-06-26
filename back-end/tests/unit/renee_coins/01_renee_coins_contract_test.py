@@ -13,8 +13,9 @@
 
 
 # * ------------------------------- Resources -------------------------------- #
+from hashlib import new
 from scripts.helpful_scripts import get_account
-from brownie import accounts, config, network, ReneeCoins, reverts
+from brownie import accounts, config, network, ReneeCoins, reverts, ZERO_ADDRESS
 import gc
 
 # * ------------------------------- Variables -------------------------------- #
@@ -37,3 +38,47 @@ def test_contract_can_deploy():
     # Assert
     assert starting_value == expected
     gc.collect(generation=2)
+
+def test_owner_returns_expected_value():
+    # Arrange
+    owner = get_account()
+    # Act
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    # Assert
+    assert reneeCoins.owner() == owner
+
+
+def test_owner_can_renounceOwnership():
+    # Arrange
+    owner = get_account()
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    # Act
+    reneeCoins.renounceOwnership()
+    # Assert
+    reneeCoins.owner() == ZERO_ADDRESS
+
+def test_renounceOwnership_can_only_be_called_by_owner():
+        # Arrange
+    owner = get_account()
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    # Act and Assert
+    with reverts("Ownable: caller is not the owner"):
+        reneeCoins.renounceOwnership({"from": get_account(2)})
+
+def test_owner_can_transferOwnership():
+    # Arrange
+    owner = get_account()
+    new_owner = get_account(1)
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    # Act
+    reneeCoins.transferOwnership(get_account(1))
+    # Assert
+    reneeCoins.owner() == new_owner
+
+def test_transferOwnership_can_only_be_called_by_owner():
+        # Arrange
+    owner = get_account()
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    # Act and Assert
+    with reverts("Ownable: caller is not the owner"):
+        reneeCoins.transferOwnership(get_account(7),{"from": get_account(2)})
