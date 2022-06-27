@@ -27,7 +27,7 @@ def generate_random_string():
 
 
 # * ---------------------------- tokenURI() Tests -------------------------- #
-#! For other token related tests check renee_lane_mintImage_test.py
+#! For other token related tests check renee_lane_mintArtwork_test.py
 # Todo: Test _baseURI() reverts if token does not exist.
 def test_tokenURI_reverts_for_nonexistent_tokenID():
     # Arrange
@@ -45,7 +45,7 @@ def test_tokenURI_returns_expected_string():
     # Arrange
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": account}
     )
     # Act

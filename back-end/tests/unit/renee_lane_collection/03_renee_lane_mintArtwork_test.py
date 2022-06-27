@@ -1,7 +1,7 @@
 #
 # * ------------------------------ Documentation ---------------------------- #
 # Module:  renee_lane_collection_unit_test.py
-# This module contains all the unit tests for mintImage() function in The
+# This module contains all the unit tests for mintArtwork() function in The
 # Renee Lane Collection smart contract.
 #
 #
@@ -24,7 +24,7 @@ def generate_random_string():
     return _string
 
 
-# *  ------------------------ mintImage() Tests ---------------------------- #
+# *  ------------------------ mintArtwork() Tests ---------------------------- #
 # Todo: Test transaction reverts if _imageNumber is out of range.
 def test_mintImage_reverts_when_imageNumber_is_out_of_range(
     _imageNumber=random.randint(51, 9990)
@@ -36,7 +36,7 @@ def test_mintImage_reverts_when_imageNumber_is_out_of_range(
     print(f"If this transaction reverts, test will pass.\n")
     # Act and Assert
     with reverts():
-        reneeLaneCollection.mintImage(_imageNumber, {"from": account})
+        reneeLaneCollection.mintArtwork(_imageNumber, {"from": account})
     del _imageNumber
 
 
@@ -51,7 +51,7 @@ def test_mintImage_reverts_when_imageNumber_is_negative(
     print(f"If this transaction raises an OverflowError, test will pass.\n")
     # Act and Assert
     with pytest.raises(OverflowError):
-        reneeLaneCollection.mintImage(_imageNumber, {"from": account})
+        reneeLaneCollection.mintArtwork(_imageNumber, {"from": account})
     del _imageNumber
 
 
@@ -64,7 +64,7 @@ def test_mintImage_reverts_when_imageNumber_is_float(_imageNumber=random.random(
     print(f"If this transaction raises an OverflowError, test will pass.\n")
     # Act and Assert
     with reverts("The image you have selected does not exist in this collection."):
-        reneeLaneCollection.mintImage(_imageNumber, {"from": account})
+        reneeLaneCollection.mintArtwork(_imageNumber, {"from": account})
 
 
 # Todo: Test transaction reverts if _imageNumber is a string.
@@ -78,7 +78,7 @@ def test_mintImage_reverts_when_imageNumber_is_string(
     print(f"If this transaction raises an TypeError, test will pass.\n")
     # Act and Assert
     with pytest.raises(TypeError):
-        reneeLaneCollection.mintImage(_imageNumber, {"from": account})
+        reneeLaneCollection.mintArtwork(_imageNumber, {"from": account})
 
 
 # Todo: Test _newTokenID is expected value based on _imageNumber parameter.
@@ -88,10 +88,10 @@ def test_newTokenID_is_set_correctly(transactions=random.randint(0, 10)):
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     for i in range(transactions):
-        reneeLaneCollection.mintImage(image, {"value": Web3.toWei(0.12, "ether")})
+        reneeLaneCollection.mintArtwork(image, {"value": Web3.toWei(0.12, "ether")})
     # Act
-    expected_tokenID = reneeLaneCollection.imageGallery(image)[2]
-    tx_one = reneeLaneCollection.mintImage(image, {"value": Web3.toWei(0.12, "ether")})
+    expected_tokenID = reneeLaneCollection.artGallery(image)[2]
+    tx_one = reneeLaneCollection.mintArtwork(image, {"value": Web3.toWei(0.12, "ether")})
     print(f"\nThe expected _newTokenID() is: {expected_tokenID}.")
     print(f"The returned _newTokenID() is: {tx_one.return_value[0]}.")
     # Assert
@@ -104,15 +104,15 @@ def test_mintImage_reverts_if_no_more_tokens_available():
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     for i in range(20):
-        reneeLaneCollection.mintImage(1, {"value": Web3.toWei(0.12, "ether")})
-    minted_tokens = reneeLaneCollection.imageGallery(1)[2] - 1
-    supply = reneeLaneCollection.imageGallery(1)[3]
+        reneeLaneCollection.mintArtwork(1, {"value": Web3.toWei(0.12, "ether")})
+    minted_tokens = reneeLaneCollection.artGallery(1)[2] - 1
+    supply = reneeLaneCollection.artGallery(1)[3]
     print(f"\nTokens minted for this image: {minted_tokens}/{supply}.")
     print(f"Attempting to mint one more token.")
     print(f"If this transaction reverts correctly, test will pass.\n")
     # Act and Assert
     with reverts("No more editions of this image are available."):
-        reneeLaneCollection.mintImage(1, {"value": Web3.toWei(0.12, "ether")})
+        reneeLaneCollection.mintArtwork(1, {"value": Web3.toWei(0.12, "ether")})
 
 
 # Todo: Test transaction reverts if msg.value isn't equal to price.
@@ -122,7 +122,7 @@ def test_mintImage_reverts_if_incorrect_value_sent(_imageNumber=random.randint(1
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     # Act and Asset
     with reverts("You didn't send the correct amount of Ether."):
-        reneeLaneCollection.mintImage(_imageNumber, {"value": Web3.toWei(1, "ether")})
+        reneeLaneCollection.mintArtwork(_imageNumber, {"value": Web3.toWei(1, "ether")})
 
 
 # Todo: Test payouts owed to artist is adjusted correctly.
@@ -130,12 +130,12 @@ def test_artist_payout_calculated_correctly(_imageNumber=random.randint(1, 50)):
     # Arrange
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    img_price = reneeLaneCollection.imageGallery(_imageNumber)[1]
-    artist_id = reneeLaneCollection.imageGallery(_imageNumber)[4]
+    img_price = reneeLaneCollection.artGallery(_imageNumber)[1]
+    artist_id = reneeLaneCollection.artGallery(_imageNumber)[4]
     artist_address = reneeLaneCollection.artist(artist_id)[0]
     expected_payout = img_price * 0.1
     # Act
-    reneeLaneCollection.mintImage(_imageNumber, {"value": img_price})
+    reneeLaneCollection.mintArtwork(_imageNumber, {"value": img_price})
     # Assert
     print(f"\nThe expected payout for this image is: {expected_payout}.")
     print(
@@ -152,11 +152,11 @@ def test_project_payout_calculated_correctly(
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     project_address = reneeLaneCollection.PROJECT_WALLET_ADDRESS()
-    img_price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    img_price = reneeLaneCollection.artGallery(_imageNumber)[1]
     artist_payout = img_price * 0.1
     expected_payout = img_price - artist_payout
     # Act
-    reneeLaneCollection.mintImage(_imageNumber, {"value": img_price})
+    reneeLaneCollection.mintArtwork(_imageNumber, {"value": img_price})
     # Assert
     print(f"\nThe expected payout for this image is: {expected_payout}.")
     print(
@@ -171,7 +171,7 @@ def test_investors_map_is_updated_if_minter_is_not_yet_an_investor():
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     investor_address = get_account(2)
-    initial_investor_status = reneeLaneCollection.investors(investor_address)
+    initial_investor_status = reneeLaneCollection.investorMap(investor_address)
     if initial_investor_status == True:
         return
     else:
@@ -180,14 +180,14 @@ def test_investors_map_is_updated_if_minter_is_not_yet_an_investor():
         )
         print(f"Minting token to {investor_address}.")
     # Act
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     print(
-        f"The current investor status of {investor_address} is: {reneeLaneCollection.investors(investor_address)}"
+        f"The current investor status of {investor_address} is: {reneeLaneCollection.investorMap(investor_address)}"
     )
     # Assert
-    assert reneeLaneCollection.investors(investor_address)
+    assert reneeLaneCollection.investorMap(investor_address)
 
 
 # Todo: Test that investorList is updated when address is not investor.
@@ -199,7 +199,7 @@ def test_investor_list_is_updated_if_minter_is_not_yet_an_investor(
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     other_address = get_account(account_num)
     for i in range(transactions):
-        reneeLaneCollection.mintImage(
+        reneeLaneCollection.mintArtwork(
             1, {"value": Web3.toWei(0.12, "ether"), "from": other_address}
         )
     investor_address = get_account(1)
@@ -207,7 +207,7 @@ def test_investor_list_is_updated_if_minter_is_not_yet_an_investor(
     print(f"\nThe starting investor list contains: {initial_investor_list}.")
     print(f"Minting token to {investor_address}.")
     # Act
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     print(
@@ -226,7 +226,7 @@ def test_currentTokenID_increments_correctly(_imageNumber=random.randint(1, 50))
     # Arrange
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    price = reneeLaneCollection.artGallery(_imageNumber)[1]
     if _imageNumber <= 20:
         transactions = random.randint(0, 17)
     elif _imageNumber <= 30:
@@ -236,11 +236,11 @@ def test_currentTokenID_increments_correctly(_imageNumber=random.randint(1, 50))
     else:
         transactions = random.randint(0, 2)
     for i in range(transactions):
-        reneeLaneCollection.mintImage(_imageNumber, {"value": price, "from": account})
-    original_tokenID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+        reneeLaneCollection.mintArtwork(_imageNumber, {"value": price, "from": account})
+    original_tokenID = reneeLaneCollection.artGallery(_imageNumber)[2]
     # Act
-    reneeLaneCollection.mintImage(_imageNumber, {"value": price, "from": account})
-    currentTokenID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+    reneeLaneCollection.mintArtwork(_imageNumber, {"value": price, "from": account})
+    currentTokenID = reneeLaneCollection.artGallery(_imageNumber)[2]
     print(f"\nThe expected new currentTokenID is: {original_tokenID+1}.")
     print(f"The returned new currentTokenID is: {currentTokenID}.\n")
     # Assert
@@ -254,7 +254,7 @@ def test_currentTokenID_does_not_increment_if_transaction_reverts(
     # Arrange
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    price = reneeLaneCollection.artGallery(_imageNumber)[1]
     if _imageNumber <= 20:
         transactions = random.randint(0, 17)
     elif _imageNumber <= 30:
@@ -264,14 +264,14 @@ def test_currentTokenID_does_not_increment_if_transaction_reverts(
     else:
         transactions = random.randint(0, 2)
     for i in range(transactions):
-        reneeLaneCollection.mintImage(_imageNumber, {"value": price, "from": account})
-    original_tokenID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+        reneeLaneCollection.mintArtwork(_imageNumber, {"value": price, "from": account})
+    original_tokenID = reneeLaneCollection.artGallery(_imageNumber)[2]
     # Act
     with reverts("You didn't send the correct amount of Ether."):
-        reneeLaneCollection.mintImage(
+        reneeLaneCollection.mintArtwork(
             _imageNumber, {"value": price + 1, "from": account}
         )
-    currentTokenID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+    currentTokenID = reneeLaneCollection.artGallery(_imageNumber)[2]
     print(f"\nThe expected new currentTokenID is: {original_tokenID}.")
     print(f"The returned new currentTokenID is: {currentTokenID}.\n")
     # Assert
@@ -285,9 +285,9 @@ def test_token_is_minted_to_expected_owner(_imageNumber=random.randint(1, 50)):
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
-    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    price = reneeLaneCollection.artGallery(_imageNumber)[1]
     # Act
-    tx = reneeLaneCollection.mintImage(
+    tx = reneeLaneCollection.mintArtwork(
         _imageNumber, {"value": price, "from": minter_account}
     )
     token_ID = tx.return_value[0]
@@ -304,10 +304,10 @@ def test_token_is_minted_to_with_correct_tokenID(_imageNumber=random.randint(1, 
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
-    expected_token_ID = reneeLaneCollection.imageGallery(_imageNumber)[2]
-    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
+    expected_token_ID = reneeLaneCollection.artGallery(_imageNumber)[2]
+    price = reneeLaneCollection.artGallery(_imageNumber)[1]
     # Act
-    tx = reneeLaneCollection.mintImage(
+    tx = reneeLaneCollection.mintArtwork(
         _imageNumber, {"value": price, "from": minter_account}
     )
     actual_token_ID = tx.return_value[0]
@@ -323,11 +323,11 @@ def test_token_URI_is_set_correctly(_imageNumber=random.randint(1, 50)):
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
-    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
-    token_ID = reneeLaneCollection.imageGallery(_imageNumber)[2]
+    price = reneeLaneCollection.artGallery(_imageNumber)[1]
+    token_ID = reneeLaneCollection.artGallery(_imageNumber)[2]
     expected_URI = f"https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/{token_ID}.json"
     # Act
-    tx = reneeLaneCollection.mintImage(
+    tx = reneeLaneCollection.mintArtwork(
         _imageNumber, {"value": price, "from": minter_account}
     )
     actual_URI = reneeLaneCollection.tokenURI(token_ID)
@@ -343,13 +343,13 @@ def test_token_royalty_address_is_set_correctly(_imageNumber=random.randint(1, 5
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
-    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
-    token_ID = reneeLaneCollection.imageGallery(_imageNumber)[2]
-    artist_ID = reneeLaneCollection.imageGallery(_imageNumber)[4]
+    price = reneeLaneCollection.artGallery(_imageNumber)[1]
+    token_ID = reneeLaneCollection.artGallery(_imageNumber)[2]
+    artist_ID = reneeLaneCollection.artGallery(_imageNumber)[4]
     expected_address = reneeLaneCollection.artist(artist_ID)[1]
     secondary_sale_price = Web3.toWei(1, "ether")
     # Act
-    tx = reneeLaneCollection.mintImage(
+    tx = reneeLaneCollection.mintArtwork(
         _imageNumber, {"value": price, "from": minter_account}
     )
     actual_address = reneeLaneCollection.royaltyInfo(token_ID, secondary_sale_price)[0]
@@ -365,13 +365,13 @@ def test_token_royalty_address_is_set_correctly(_imageNumber=random.randint(1, 5
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     minter_account = get_account(random.randint(1, 9))
-    price = reneeLaneCollection.imageGallery(_imageNumber)[1]
-    token_ID = reneeLaneCollection.imageGallery(_imageNumber)[2]
-    artist_ID = reneeLaneCollection.imageGallery(_imageNumber)[4]
+    price = reneeLaneCollection.artGallery(_imageNumber)[1]
+    token_ID = reneeLaneCollection.artGallery(_imageNumber)[2]
+    artist_ID = reneeLaneCollection.artGallery(_imageNumber)[4]
     secondary_sale_price = Web3.toWei(0.5, "ether")
     expected_royalty_amount = secondary_sale_price * 0.10
     # Act
-    tx = reneeLaneCollection.mintImage(
+    tx = reneeLaneCollection.mintArtwork(
         _imageNumber, {"value": price, "from": minter_account}
     )
     actual_royalty_amount = reneeLaneCollection.royaltyInfo(

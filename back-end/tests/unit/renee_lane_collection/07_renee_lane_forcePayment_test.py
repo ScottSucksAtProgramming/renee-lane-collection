@@ -52,7 +52,7 @@ def test_forcePayment_pays_out_correctly():
     # Arrange
     owner = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": owner})
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": owner}
     )
     artist_wallet = get_account(1)
@@ -78,7 +78,7 @@ def test_balance_is_zero_after_forcedPayout():
     # Arrange
     owner = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": owner})
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": owner}
     )
     starting_payout_owed = reneeLaneCollection.payoutsOwed(

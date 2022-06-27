@@ -104,8 +104,8 @@ def test_artist_mapping_is_correct(artistID=random.randint(1, 5)):
     assert contract_addresses == expected_addresses[artistID]
 
 
-# Todo: Confirm imageGallery initiates correctly.
-def test_imageGallery_mapping_is_correct():
+# Todo: Confirm artGallery initiates correctly.
+def test_artGallery_mapping_is_correct():
     # Arrange
     image_list = [0, 1, 10, 20, 21, 30, 31, 40, 41, 50]
     _imageNumber = random.choice(image_list)
@@ -128,7 +128,7 @@ def test_imageGallery_mapping_is_correct():
         50: (50, Web3.toWei(0.60, "ether"), 578, 580, 5),
     }
 
-    contract_properties = reneeLaneCollection.imageGallery(_imageNumber)
+    contract_properties = reneeLaneCollection.artGallery(_imageNumber)
     print(f"\nThe expected image information is: {expected_properties[_imageNumber]}")
     print(f"The contract image information is: {contract_properties}\n")
     # Assert

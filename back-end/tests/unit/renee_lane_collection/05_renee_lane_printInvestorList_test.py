@@ -47,14 +47,14 @@ def test_printInvestorList_returns_correct_investors():
     account = get_account()
     random_account = get_account(random.randint(3, 9))
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": get_account()})
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": get_account(1)}
     )
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": get_account(2)}
     )
     # Act
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": random_account}
     )
     expected_investorList = [

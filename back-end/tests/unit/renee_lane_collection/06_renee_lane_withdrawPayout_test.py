@@ -26,12 +26,12 @@ def generate_random_string():
     return _string
 
 
-# * ------------------------ withdrawFunds() Tests --------------------- #
-# Todo: Test withdrawFunds() reverts if no funds owed.
+# * ------------------------ withdrawPayout() Tests --------------------- #
+# Todo: Test withdrawPayout() reverts if no funds owed.
 # ! This was tested and works correctly. Test was removed because putting
 # ! the require statement 2nd in the function makes it difficult to test,
 # ! but makes sense for gas savings.
-# def test_withdrawFunds_reverts_if_contract_does_not_have_enough_funds():
+# def test_withdrawPayout_reverts_if_contract_does_not_have_enough_funds():
 #     # Arrange
 #     account = get_account()
 #     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
@@ -40,15 +40,15 @@ def generate_random_string():
 #     print(f"\nBalance in contract: {contract_balance}.")
 #     print(f"If transaction reverts due to no funds in contract, test will pass.\n")
 #     with reverts("No money in contract."):
-#         reneeLaneCollection.withdrawFunds({"from": account})
+#         reneeLaneCollection.withdrawPayout({"from": account})
 
 
-# Todo: Test withdrawFunds() reverts if contract has no funds left.
-def test_withdrawFunds_reverts_if_no_payout_owed():
+# Todo: Test withdrawPayout() reverts if contract has no funds left.
+def test_withdrawPayout_reverts_if_no_payout_owed():
     # Arrange
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": account}
     )
     balance_owed = reneeLaneCollection.payoutsOwed(get_account(3))
@@ -56,15 +56,15 @@ def test_withdrawFunds_reverts_if_no_payout_owed():
     print(f"\nBalanced owed to {account}: {balance_owed}.")
     print(f"If transaction reverts due to no funds owed, test will pass.\n")
     with reverts("No funds owed to this wallet."):
-        reneeLaneCollection.withdrawFunds({"from": get_account(3)})
+        reneeLaneCollection.withdrawPayout({"from": get_account(3)})
 
 
-# Todo: Test withdrawFunds() pays out as expected.
-def test_withdrawFunds_pays_out_correctly():
+# Todo: Test withdrawPayout() pays out as expected.
+def test_withdrawPayout_pays_out_correctly():
     # Arrange
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": account}
     )
     artist_wallet = get_account(1)
@@ -77,7 +77,7 @@ def test_withdrawFunds_pays_out_correctly():
     print(
         f"The expected payout for Artist 1 is: {expected_payout}.\nInitiating payout."
     )
-    reneeLaneCollection.withdrawFunds(
+    reneeLaneCollection.withdrawPayout(
         {"from": "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"}
     )
     ending_wallet_amount = get_account(1).balance()
@@ -93,7 +93,7 @@ def test_balance_is_zero_after_fund_withdrawal():
     # Arrange
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    reneeLaneCollection.mintImage(
+    reneeLaneCollection.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": account}
     )
     starting_payout_owed = reneeLaneCollection.payoutsOwed(
@@ -102,7 +102,7 @@ def test_balance_is_zero_after_fund_withdrawal():
     # Act
     print(f"\nStarting payout owed to Artist 1: {starting_payout_owed}.")
     print(f"Paying Artist.")
-    reneeLaneCollection.withdrawFunds({"from": get_account(1)})
+    reneeLaneCollection.withdrawPayout({"from": get_account(1)})
     end_payout_owed = reneeLaneCollection.payoutsOwed(
         "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"
     )
