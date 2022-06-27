@@ -15,6 +15,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+<p align="center">
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -22,6 +23,13 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
+
+</p>
+<p align="center">
+
+[![MythXBadge](https://badgen.net/https/api.mythx.io/v1/projects/f4a48ee3-db16-414a-bc5b-e9c6e172473a/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)](https://docs.mythx.io/dashboard/github-badges)
+</p>
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -148,7 +156,7 @@ _For more examples, please refer to the [Documentation](https://bit.ly/rl_collab
 
 ## Roadmap
 
-- [ ] Design Decisions
+- [x] Design Decisions
 
   - [x] Token Standards
   - [x] Blockchain Choice
@@ -156,7 +164,7 @@ _For more examples, please refer to the [Documentation](https://bit.ly/rl_collab
 - [ ] Smart Contracts
 
   - [ ] Non-Fungible Tokens - Art Collection
-    - [ ] Contract Development
+    - [ ] Contract Development - In Progress (83%)
       - [x] Single Collection
       - [x] Investor and Owner Lists
       - [x] Minting Function
@@ -164,16 +172,30 @@ _For more examples, please refer to the [Documentation](https://bit.ly/rl_collab
         - [x] Minting Payouts
         - [x] Royalty Payouts
       - [ ] Pre-Sale Whitelist
-      - [ ] Gas Optimization
-      - [ ] Testing
+    - [ ] Gas Optimization
+    - [ ] Testing
+      - [ ] Unit Testing - In Progress (92.5%)
+      - [ ] MythX Deep Scan Security Audit 
+      - [ ] User Testing
+      - [ ] Integration Testing
     - [ ] Metadata
-  - [ ] Fungible Tokens - Renee Coins
-    - [ ] Contract Development
+      - [ ] Metadata Script - In Progress (70%)
+      - [ ] JSON Files Created
+      - [ ] Metadata Uploaded to IPFS
+      - [ ] Token URI Information added to contract.
+  - [ ] Fungible Tokens - Renee Coins 
+    - [x] Contract Development
       - [x] Initial Mint
       - [x] Additional Mints
       - [x] Airdrops
       - [x] Trading for Benefits (Will be done manually)
       - [x] Buyback Mechanics (Will be done manually)
+    - [ ] Gas Optimization
+    - [ ] Testing
+      - [x] Unit Testing - Coverage Approximately (95%)
+      - [x] MythX Deep Scan Security Audit 
+      - [ ] User Testing
+      - [ ] Integration Testing
 
 - [ ] Minting Website
   - [ ] TBD
