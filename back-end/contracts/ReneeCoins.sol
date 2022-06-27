@@ -1,4 +1,4 @@
-/// SPDX-License-Identifier: MIT
+//* SPDX-License-Identifier: MIT
 /*
   ___________________________________________________________________________
   ___________________▄▄Æ█▀▀▀███Æ▄▄,_______,▄▄Æ▀██▀▀▀██▄▄_____________________
@@ -92,7 +92,7 @@
 
 //* ------------------------------- Tasks --------------------------------- //
 /*
-  Todo: Deploy Renee Coin Contract for User Beta Testing.
+  Deploy Renee Coin Contract for User Beta Testing. - Complete (6/26/2022)
   Todo: Complete final unit testing.
   Todo: Complete integration testing.
   Todo: Identify and resolve any issues found during testing.
@@ -132,7 +132,7 @@ contract ReneeCoins is ERC20, ERC20Burnable, ERC20Capped, Ownable {
      */
     constructor() ERC20("Renee Coins", "RC") ERC20Capped(2000000) {}
 
-    //* ----------------------- Minting Function -------------------------- //
+    //* ----------------------- Public Functions -------------------------- //
     /**
      * @notice When this contract is initially deployed, there are 0 Renee
      * Coins in existence. New Renee Coins must be 'minted' in order to
@@ -144,13 +144,12 @@ contract ReneeCoins is ERC20, ERC20Burnable, ERC20Capped, Ownable {
      * airdropCoins() function can be used to mint coins directly to someone
      * else's wallet.
      *
-     * @param amount The number of coins that are to be minted.
+     * @param amountOfCoinsToCreate The number of coins that are to be minted.
      */
-    function createCoins(uint256 amount) public onlyOwner {
-        _mint(msg.sender, amount);
+    function createCoins(uint256 amountOfCoinsToCreate) public onlyOwner {
+        _mint(msg.sender, amountOfCoinsToCreate);
     }
 
-    //* -------------------- Administrative Functions --------------------- //
     /**
      * @notice The airdropCoins() function allows the Owner to mint new Renee
      * Coins directly into a specified wallet address. This is significantly
@@ -158,15 +157,19 @@ contract ReneeCoins is ERC20, ERC20Burnable, ERC20Capped, Ownable {
      *
      * This function can ONLY be called by the Owner.
      *
-     * @param recipient The wallet address of the recipient of the airdrop.
+     * @param recipientAddress The wallet address of the recipient of the
+     * airdrop.
      *
-     * @param amount The number of coins that are to be created.
+     * @param amountOfCoinsToAirdrop The number of coins that are to be
+     * created.
      */
-    function airdropCoins(address recipient, uint256 amount) public onlyOwner {
-        _mint(recipient, amount);
+    function airdropCoins(
+        address recipientAddress,
+        uint256 amountOfCoinsToAirdrop
+    ) public onlyOwner {
+        _mint(recipientAddress, amountOfCoinsToAirdrop);
     }
 
-    //* ----------------------- Override Functions ------------------------ //
     /**
      * @notice The decimals() function replaces the inherited functions from
      * the ERC20 and ERC20Capped OpenZeppelin Contracts. For Renee Coins
@@ -186,25 +189,28 @@ contract ReneeCoins is ERC20, ERC20Burnable, ERC20Capped, Ownable {
         return 0;
     }
 
+    //* ----------------------- Internal Functions ------------------------ //
     /**
      * @notice The _mint() function replaces the inherided functions from
      * the ERC20 and ERC20Capped Openzepplin Contracts. This is an internal
      * function which can only be called by the contract itself and is used
      * inside other functions such as createCoins() and airdropCoins().
      *
-     * @param account The wallet address to which coins will be minted.
+     * @param recipientAddress The wallet address to which coins will be
+     * minted.
      *
-     * @param amount The number of coins that are to be created.
+     * @param amountOfCoinsToCreate The number of coins that are to be
+     * created.
      */
-    function _mint(address account, uint256 amount)
+    function _mint(address recipientAddress, uint256 amountOfCoinsToCreate)
         internal
         virtual
         override(ERC20, ERC20Capped)
     {
         require(
-            ERC20.totalSupply() + amount <= cap(),
+            ERC20.totalSupply() + amountOfCoinsToCreate <= cap(),
             "ERC20Capped: cap exceeded"
         );
-        super._mint(account, amount);
+        super._mint(recipientAddress, amountOfCoinsToCreate);
     }
 }
