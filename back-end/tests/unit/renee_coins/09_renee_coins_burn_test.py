@@ -43,7 +43,7 @@ def test_burn_reverts_if_balance_below_amount():
         reneeCoins.burn(amount_to_be_burnt)
 
 
-def test_burn_logs_are_expected():
+def test_burn_logs_from_correctly():
     # Arrange
     owner = get_account()
     reneeCoins = ReneeCoins.deploy({"from": owner})
@@ -56,9 +56,34 @@ def test_burn_logs_are_expected():
     tx = reneeCoins.burn(amount_to_be_burnt)
     # Assert
     assert expected_from == tx.events["Transfer"]["from"]
-    assert expected_to == tx.events["Transfer"]["to"]
-    assert expected_value == tx.events["Transfer"]["value"]
 
+def test_burn_logs_t0_correctly():
+    # Arrange
+    owner = get_account()
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    reneeCoins.createCoins(100)
+    # Act
+    amount_to_be_burnt = 10
+    expected_to = ZERO_ADDRESS
+    expected_from = owner
+    expected_value = amount_to_be_burnt
+    tx = reneeCoins.burn(amount_to_be_burnt)
+    # Assert
+    assert expected_to == tx.events["Transfer"]["to"]
+
+def test_burn_logs_value_correctly():
+    # Arrange
+    owner = get_account()
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    reneeCoins.createCoins(100)
+    # Act
+    amount_to_be_burnt = 10
+    expected_to = ZERO_ADDRESS
+    expected_from = owner
+    expected_value = amount_to_be_burnt
+    tx = reneeCoins.burn(amount_to_be_burnt)
+    # Assert
+    assert expected_value == tx.events["Transfer"]["value"]
 
 def test_spender_can_burnFrom_approved_tokens():
     # Arrange
@@ -86,7 +111,7 @@ def test_burnFrom_reverts_if_spender_not_approved():
         reneeCoins.burnFrom(owner, amount_to_be_burnt, {"from": spender})
 
 
-def test_burnFrom_logs_are_expected():
+def test_burnFrom_logs_from_correctly():
     # Arrange
     owner = get_account()
     spender = get_account(1)
@@ -101,5 +126,35 @@ def test_burnFrom_logs_are_expected():
     tx = reneeCoins.burnFrom(owner, amount_to_be_burnt, {"from": spender})
     # Assert
     assert expected_from == tx.events["Transfer"]["from"]
+
+def test_burnFrom_logs_to_correctly():
+    # Arrange
+    owner = get_account()
+    spender = get_account(1)
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    reneeCoins.createCoins(100)
+    reneeCoins.approve(spender, 10)
+    # Act
+    amount_to_be_burnt = 10
+    expected_to = ZERO_ADDRESS
+    expected_from = owner
+    expected_value = amount_to_be_burnt
+    tx = reneeCoins.burnFrom(owner, amount_to_be_burnt, {"from": spender})
+    # Assert
     assert expected_to == tx.events["Transfer"]["to"]
+
+def test_burnFrom_logs_value_correctly():
+    # Arrange
+    owner = get_account()
+    spender = get_account(1)
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    reneeCoins.createCoins(100)
+    reneeCoins.approve(spender, 10)
+    # Act
+    amount_to_be_burnt = 10
+    expected_to = ZERO_ADDRESS
+    expected_from = owner
+    expected_value = amount_to_be_burnt
+    tx = reneeCoins.burnFrom(owner, amount_to_be_burnt, {"from": spender})
+    # Assert
     assert expected_value == tx.events["Transfer"]["value"]

@@ -45,7 +45,7 @@ def test_ERC20_cannot_approve_zero_address():
         reneeCoins.approve(spender, value)
 
 
-def test_ERC20_approval_logs_correctly():
+def test_ERC20_approval_logs_owner_correctly():
     # Arrange
     owner = get_account()
     spender = get_account(2)
@@ -57,7 +57,31 @@ def test_ERC20_approval_logs_correctly():
     tx = reneeCoins.approve(spender, value)
     # Assert
     assert owner == tx.events["Approval"]["owner"]
+
+def test_ERC20_approval_logs_spender_correctly():
+    # Arrange
+    owner = get_account()
+    spender = get_account(2)
+    recipient = get_account(3)
+    value = 100
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    reneeCoins.createCoins(10000)
+    # Act
+    tx = reneeCoins.approve(spender, value)
+    # Assert
     assert spender == tx.events["Approval"]["spender"]
+
+def test_ERC20_approval_logs_value_correctly():
+    # Arrange
+    owner = get_account()
+    spender = get_account(2)
+    recipient = get_account(3)
+    value = 100
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    reneeCoins.createCoins(10000)
+    # Act
+    tx = reneeCoins.approve(spender, value)
+    # Assert
     assert value == tx.events["Approval"]["value"]
 
 def test_ERC20_can_increase_allowance():

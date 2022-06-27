@@ -75,5 +75,31 @@ def test_ERC20_transferFrom_logs_from_correctly():
     tx = reneeCoins.transferFrom(owner, recipient, 12, {"from": spender})
     # Assert
     assert owner == tx.events["Transfer"]["from"]
+
+def test_ERC20_transferFrom_logs_to_correctly():
+    # Arrange
+    owner = get_account()
+    spender = get_account(2)
+    recipient = get_account(3)
+    value = 12
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    reneeCoins.createCoins(10000, {"from": owner})
+    reneeCoins.approve(spender, value, {"from": owner})
+    # Act
+    tx = reneeCoins.transferFrom(owner, recipient, 12, {"from": spender})
+    # Assert
     assert recipient == tx.events["Transfer"]["to"]
+
+def test_ERC20_transferFrom_value_from_correctly():
+    # Arrange
+    owner = get_account()
+    spender = get_account(2)
+    recipient = get_account(3)
+    value = 12
+    reneeCoins = ReneeCoins.deploy({"from": owner})
+    reneeCoins.createCoins(10000, {"from": owner})
+    reneeCoins.approve(spender, value, {"from": owner})
+    # Act
+    tx = reneeCoins.transferFrom(owner, recipient, 12, {"from": spender})
+    # Assert
     assert value == tx.events["Transfer"]["value"]
