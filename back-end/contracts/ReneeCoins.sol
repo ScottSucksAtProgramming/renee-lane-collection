@@ -35,7 +35,7 @@
  * @title Renee Coins
  * @author Scott Kostolni
  *
- * @notice Version 0.0.0 Beta
+ * @notice Version 0.0.1 Beta
  *
  * @notice This is a bespoke ERC-20 Contract that provides the social
  * currency, Renee Coins, which grants benefits to investors and artists of
