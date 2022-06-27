@@ -14,8 +14,7 @@
 
 # * ------------------------------- Resources -------------------------------- #
 from scripts.helpful_scripts import get_account
-from brownie import accounts, config, network, ReneeCoins, reverts
-import gc
+from brownie import config, network, ReneeCoins, reverts
 
 # * ------------------------------- Variables -------------------------------- #
 
@@ -24,7 +23,6 @@ import gc
 
 def test_airDropCoins_can_only_called_by_owner():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -35,12 +33,10 @@ def test_airDropCoins_can_only_called_by_owner():
     # Act and Assert
     with reverts("Ownable: caller is not the owner"):
         reneeCoins.airdropCoins(get_account(1), 10_000, {"from": get_account(1)})
-    gc.collect(generation=2)
 
 
 def test_airdropCoins_mints_amount_expected():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -55,12 +51,10 @@ def test_airdropCoins_mints_amount_expected():
     print(f"The expected coins to be airdropped: {expected_amount}.\n")
     # Assert
     assert reneeCoins.totalSupply() == expected_amount
-    gc.collect(generation=2)
 
 
 def test_airdropCoins_mints_to_correct_wallet():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -78,4 +72,3 @@ def test_airdropCoins_mints_to_correct_wallet():
     )
     # Assert
     assert reneeCoins.balanceOf(get_account(1)) == expected_amount
-    gc.collect(generation=2)

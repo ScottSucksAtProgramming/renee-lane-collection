@@ -5,5 +5,8 @@
   "python.useIsolation": false,
   "python.testing.unittestEnabled": false,
   "python.terminal.activateEnvInCurrentTerminal": true,
-  "python.formatting.provider": "none"
+  "python.formatting.provider": "none",
+  "cSpell.words": [
+    "Roadmap"
+  ]
 }

@@ -14,7 +14,7 @@
 
 # * ------------------------------- Resources ------------------------------ #
 from scripts.helpful_scripts import get_account
-from brownie import accounts, config, network, ReneeCoins, reverts, ZERO_ADDRESS
+from brownie import ReneeCoins, reverts, ZERO_ADDRESS
 
 # * ------------------------------- Variables ------------------------------ #
 

@@ -14,7 +14,7 @@
 
 # * ------------------------------- Resources ------------------------------ #
 from scripts.helpful_scripts import get_account
-from brownie import accounts, config, network, ReneeCoins, reverts, ZERO_ADDRESS
+from brownie import ReneeCoins, reverts, ZERO_ADDRESS
 
 # * ------------------------------- Variables ------------------------------ #
 
@@ -28,7 +28,7 @@ def test_ERC20_can_approve():
     reneeCoins = ReneeCoins.deploy({"from": owner})
     reneeCoins.createCoins(10000, {"from": owner})
     # Act
-    tx = reneeCoins.approve(spender, value, {"from": owner})
+    reneeCoins.approve(spender, value, {"from": owner})
     # Assert
     assert reneeCoins.allowance(owner, spender) == value
 

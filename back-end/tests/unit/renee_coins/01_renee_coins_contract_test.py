@@ -13,17 +13,14 @@
 
 
 # * ------------------------------- Resources -------------------------------- #
-from hashlib import new
 from scripts.helpful_scripts import get_account
-from brownie import accounts, config, network, ReneeCoins, reverts, ZERO_ADDRESS
-import gc
+from brownie import config, network, ReneeCoins, reverts, ZERO_ADDRESS
 
 # * ------------------------------- Variables -------------------------------- #
 
 # * ---------------------------- Contract Tests ------------------------------ #
 def test_contract_can_deploy():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     # Act
     reneeCoins = ReneeCoins.deploy(
@@ -37,7 +34,6 @@ def test_contract_can_deploy():
     )
     # Assert
     assert starting_value == expected
-    gc.collect(generation=2)
 
 def test_owner_returns_expected_value():
     # Arrange
@@ -55,7 +51,7 @@ def test_owner_can_renounceOwnership():
     # Act
     reneeCoins.renounceOwnership()
     # Assert
-    reneeCoins.owner() == ZERO_ADDRESS
+    assert reneeCoins.owner() == ZERO_ADDRESS
 
 def test_renounceOwnership_can_only_be_called_by_owner():
         # Arrange
@@ -73,7 +69,7 @@ def test_owner_can_transferOwnership():
     # Act
     reneeCoins.transferOwnership(get_account(1))
     # Assert
-    reneeCoins.owner() == new_owner
+    assert reneeCoins.owner() == new_owner
 
 def test_transferOwnership_can_only_be_called_by_owner():
         # Arrange

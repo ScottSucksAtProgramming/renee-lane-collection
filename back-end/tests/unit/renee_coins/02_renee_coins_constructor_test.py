@@ -13,8 +13,7 @@
 
 # * ------------------------------- Resources -------------------------------- #
 from scripts.helpful_scripts import get_account
-from brownie import accounts, config, network, ReneeCoins, reverts
-import gc
+from brownie import config, network, ReneeCoins, reverts
 
 # * ------------------------------- Variables -------------------------------- #
 
@@ -22,7 +21,6 @@ import gc
 # * --------------------------- Constructor Tests ---------------------------- #
 def test_coin_name_is_correct():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -34,12 +32,10 @@ def test_coin_name_is_correct():
     print(f"The contract name is: {reneeCoins.name()}\n")
     # Assert
     assert reneeCoins.name() == expected_name
-    gc.collect(generation=2)
 
 
 def test_coin_name_is_correct():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -51,12 +47,10 @@ def test_coin_name_is_correct():
     print(f"The contract symbol is: {reneeCoins.symbol()}\n")
     # Assert
     assert reneeCoins.symbol() == expected_symbol
-    gc.collect(generation=2)
 
 
 def test_ReneeCoins_cannot_exceed_cap():
     # Arrange
-    gc.collect(generation=2)
     account = get_account()
     reneeCoins = ReneeCoins.deploy(
         {"from": account},
@@ -71,6 +65,4 @@ def test_ReneeCoins_cannot_exceed_cap():
     )
     # Act and Assert
     with reverts("ERC20Capped: cap exceeded"):
-        tx = reneeCoins.createCoins(additional_amount, {"from": account})
-        tx.wait(1)
-    gc.collect(generation=2)
+        reneeCoins.createCoins(additional_amount, {"from": account})
