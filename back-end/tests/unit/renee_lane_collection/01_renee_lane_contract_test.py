@@ -7,39 +7,82 @@
 #
 # Modification History
 # 06-15-22 | SRK | Module Created
+# 06-28-22 | SRK | Improved documentation
+# 06-28-22 | SRK | Added tests for contract level behaviors
 
 # * -------------------------------- Tasks ---------------------------------- #
-
+# * Expected Behaviors:
+# ✓ 1. Contract Deploys and returns address.
+# ✓ 2. Contract has all ERC721 functions.
+# ✓ 3. Contract has ERC721Royalty Functions.
+# ✓ 4. Contract has Ownable Functions.
 
 # * ------------------------------- Resources ------------------------------- #
-from scripts.helpful_scripts import get_account
-from brownie import accounts, config, network, ReneeLaneCollection, reverts
-from brownie.test import given, strategy
-from web3 import Web3
-import random, string, pytest, gc
+from scripts.helpful_scripts import get_account, function_exists
+from scripts.helpful_data import erc721_functions, erc2981_functions, ownable_functions
+from brownie import ReneeLaneCollection
 
 # * ------------------------------- Variables ------------------------------- #
-letters = [string.ascii_letters, string.punctuation]
-
-
-def generate_random_string():
-    _string = "".join(random.choice(letters) for i in range(1, 3))
-    return _string
-
-
-PROJECT_WALLET_ADDRESS = 0xDD870FA1B7C4700F2BD7F44238821C26F7392148
-
-# * ---------------------------- Contract Tests ----------------------------- #
-def test_contract_can_deploy():
+deployer_account = get_account()
+contractObject = ReneeLaneCollection
+# * -------------------------------- Tests ---------------------------------- #
+def test_tests_are_set_up():
+    """Tests to see if the tests are set up correctly."""
     # Arrange
-    account = get_account()
     # Act
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
-    print(
-        f"\nThe Renee Lane Collection contract was deployed to: {reneeLaneCollection.address}.\n"
+    if deployer_account == None:
+        raise Exception("Deployer account is not set.")
+    if contractObject == None:
+        raise Exception("Contract object is not set.")
+    # Assert
+    assert True
+
+
+def test_contract_can_deploy():
+    """Tests to see if the smart contract can be deployed. Test passes if
+    deployed contract returns an address."""
+    # Arrange
+    # Act
+    contract = contractObject.deploy(
+        {"from": deployer_account},
     )
     # Assert
-    assert reneeLaneCollection.address != 0
+    assert contract.address != None
+
+
+def test_contract_has_all_ERC721_public_functions():
+    """Tests to see if the contract has the ERC721 functions. Test passes if the contract has the functions. Matches the
+    expected functions from the ERC721 standard."""
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_functions = erc721_functions
+    # Act
+    result = function_exists(expected_functions, contract)
+    # Assert
+    assert result
+
+
+def test_contract_has_all_ERC721Royalty_functions():
+    """Tests to see if the contract has the ERC721Royalty
+    functions. Test passes if the contract has the functions. Matches the
+    expected functions from the ERC2981 standard."""
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_functions = erc2981_functions
+    # Act
+    result = function_exists(expected_functions, contract)
+    # Assert
+    assert result
+
+
+def test_contract_has_all_Ownable_functions():
+    """Tests to see if the contract has the Ownable
+    functions. Test passes if the contract has the functions. Matches the
+    expected functions from the ERC2981 standard."""
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_functions = ownable_functions
+    # Act
+    result = function_exists(expected_functions, contract)
+    # Assert
+    assert result

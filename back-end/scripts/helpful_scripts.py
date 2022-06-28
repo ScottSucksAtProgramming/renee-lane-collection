@@ -1,17 +1,31 @@
+# *
+# * ------------------------------ Documentation ------------------------------ #
+# * Module:  helpful_scripts.py
+# * This module contains helpful functions for the smart contract tests and development.
+# *
+# *
+# * Modification History
+# * 06-15-2022 | SRK | Module created.
+
+# * -------------------------------- Tasks ----------------------------------- #
+
+# * ------------------------------- Resources -------------------------------- #
 from brownie import (
     network,
     accounts,
     config,
-    # LinkToken,
-    # MockV3Aggregator,
-    # MockOracle,
-    # VRFCoordinatorV2Mock,
-    Contract,
     web3,
 )
+from scripts.helpful_data import letters
 import time
+import random
 
-NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["hardhat", "development", "ganache"]
+
+# * ------------------------------- Variables -------------------------------- #
+
+
+NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = [
+    "hardhat", "development", "ganache"]
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS + [
     "mainnet-fork",
     "binance-fork",
@@ -22,18 +36,11 @@ LOCAL_BLOCKCHAIN_ENVIRONMENTS = NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS + [
 BLOCK_CONFIRMATIONS_FOR_VERIFICATION = (
     1 if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS else 6
 )
-
-# contract_to_mock = {
-#     "link_token": LinkToken,
-#     "eth_usd_price_feed": MockV3Aggregator,
-#     "vrf_coordinator": VRFCoordinatorV2Mock,
-#     "oracle": MockOracle,
-# }
-
 DECIMALS = 18
 INITIAL_VALUE = web3.toWei(2000, "ether")
 BASE_FEE = 100000000000000000  # The premium
 GAS_PRICE_LINK = 1e9  # Some value calculated depending on the Layer 1 cost and Link
+# * ------------------------------ Functions --------------------------------- #
 
 
 def is_verifiable_contract() -> bool:
@@ -86,20 +93,6 @@ def get_account(index=None, id=None):
 #                 f"brownie run scripts/deploy_mocks.py --network {network.show_active()}"
 #             )
 #     return contract
-
-
-# def fund_with_link(
-#     contract_address, account=None, link_token=None, amount=1000000000000000000
-# ):
-#     account = account if account else get_account()
-#     link_token = link_token if link_token else get_contract("link_token")
-#     ### Keep this line to show how it could be done without deploying a mock
-#     # tx = interface.LinkTokenInterface(link_token.address).transfer(
-#     #     contract_address, amount, {"from": account}
-#     # )
-#     tx = link_token.transfer(contract_address, amount, {"from": account})
-#     print("Funded {}".format(contract_address))
-#     return tx
 
 #
 # def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_VALUE):
@@ -162,213 +155,39 @@ def listen_for_event(brownie_contract, event, timeout=200, poll_interval=2):
     return {"event": None}
 
 
-characters = [
-    " ",
-    "!",
-    "#",
-    "$",
-    "%",
-    "&",
-    "'",
-    "(",
-    ")",
-    "*",
-    "+",
-    ",",
-    "-",
-    ".",
-    "/",
-    ":",
-    ";",
-    "<",
-    "=",
-    ">",
-    "?",
-    "@",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-    "[",
-    "]",
-    "^",
-    "_",
-    "`",
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-    "{",
-    "|",
-    "}",
-    "~",
-    "Ç",
-    "ü",
-    "é",
-    "â",
-    "ä",
-    "à",
-    "å",
-    "ç",
-    "ê",
-    "ë",
-    "è",
-    "ï",
-    "î",
-    "ì",
-    "Ä",
-    "Å",
-    "É",
-    "æ",
-    "Æ",
-    "ô",
-    "ö",
-    "ò",
-    "û",
-    "ù",
-    "ÿ",
-    "Ö",
-    "Ü",
-    "ø",
-    "£",
-    "Ø",
-    "×",
-    "ƒ",
-    "á",
-    "í",
-    "ó",
-    "ú",
-    "ñ",
-    "Ñ",
-    "ª",
-    "º",
-    "¿",
-    "®",
-    "¬",
-    "½",
-    "¼",
-    "¡",
-    "«",
-    "»",
-    "░",
-    "▒",
-    "▓",
-    "│",
-    "┤",
-    "Á",
-    "Â",
-    "À",
-    "©",
-    "╣",
-    "║",
-    "╗",
-    "╝",
-    "¢",
-    "¥",
-    "┐",
-    "└",
-    "┴",
-    "┬",
-    "├",
-    "─",
-    "┼",
-    "ã",
-    "Ã",
-    "╚",
-    "╔",
-    "╩",
-    "╦",
-    "╠",
-    "═",
-    "╬",
-    "¤",
-    "ð",
-    "Ð",
-    "Ê",
-    "Ë",
-    "È",
-    "ı",
-    "Í",
-    "Î",
-    "Ï",
-    "┘",
-    "┌",
-    "█",
-    "▄",
-    "Ì",
-    "▀",
-    "ß",
-    "Ô",
-    "Ò",
-    "õ",
-    "Õ",
-    "µ",
-    "þ",
-    "Þ",
-    "Ú",
-    "Û",
-    "Ù",
-    "ý",
-    "Ý",
-    "¯",
-    "´",
-    "¬",
-    "±",
-    "‗",
-    "¾",
-    "¶",
-    "§",
-    "÷",
-    "¸",
-    "°",
-    "¨",
-    "•",
-    "¹",
-    "³",
-    "²",
-    "■",
-]
+def function_exists(function_list, contract):
+    """Checks to see if the contract has the functions in the provided list.
+
+    Args:
+        function_list (list): List of function names to check for.
+        contract (Contract Object): The contract to evaluate.
+
+    Returns:
+        bool: True/False if the contract has the functions.
+    """
+    for function in function_list:
+        if function not in dir(contract):
+            print(f"\n{function} does no exist.\n")
+            return False
+    return True
+
+
+def generate_random_string():
+    _string = "".join(random.choice(letters) for i in range(1, 3))
+    return _string
+
+
+def check_address(address_list, contract):
+    for i in range(len(address_list)):
+        if address_list[i] != contract.artist(i+1):
+            print(f"\nAddress of Artist {i+1} is not set correctly.\n")
+            return False
+    return True
+
+
+def check_properties(property_list, contract):
+    for image in range(1, 50):
+        if property_list[image] != contract.artGallery(image):
+            print(f"Properties for image {image} are not set correctly.")
+            return False
+    return True

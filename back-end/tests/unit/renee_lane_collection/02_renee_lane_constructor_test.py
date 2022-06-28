@@ -6,130 +6,123 @@
 #
 #
 # Modification History
-# 06-15-22 | SRK | Module Created
+# 06-15-2022 | SRK | Module Created
+# 06-26-2022 | SRK | Tests added for constructor level behaviors.
+# 06-26-2022 | SRK | Updated documentation.
 
-# * -------------------------------- Tasks ---------------------------------- #
-
+# * -------------------------------- Tasks ----------------------------------- #
+# * Expected Behaviors:
+# ✓ Tests setup is complete.
+# ✓ Contract name initialized correctly.
+# ✓ Contract symbol initialized correctly.
+# ✓ Contract owner initialized correctly.
+# ✓ Contract artGallery mapping initialized correctly.
+# ✓ Contract isInvestor mapping initialized correctly.
+# ✓ Contract artist mapping initialized correctly.
+# ✓ Contract payoutsOwed mapping initialized correctly.
 
 # * ------------------------------- Resources ------------------------------- #
-from scripts.helpful_scripts import get_account
-from brownie import accounts, config, network, ReneeLaneCollection, reverts
-from brownie.test import given, strategy
-from web3 import Web3
-import random, string, pytest, gc
+from brownie import ReneeLaneCollection
+from scripts.helpful_scripts import get_account, check_address, check_properties
+from scripts.helpful_data import artGallery_properties, artist_addresses
 
 # * ------------------------------- Variables ------------------------------- #
-letters = [string.ascii_letters, string.punctuation]
-
-
-def generate_random_string():
-    _string = "".join(random.choice(letters) for i in range(1, 3))
-    return _string
+deployer_account = get_account()
+contractObject = ReneeLaneCollection
 
 
 PROJECT_WALLET_ADDRESS = 0xDD870FA1B7C4700F2BD7F44238821C26F7392148
 
 # * --------------------------- Constructor Tests --------------------------- #
-# Todo: Test Collection Name
-def test_collection_name_is_correct():
+
+
+def test_tests_are_set_up():
+    """Tests to see if the tests are set up correctly."""
     # Arrange
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
+    if deployer_account == None:
+        raise Exception("Deployer account is not set.")
+    if contractObject == None:
+        raise Exception("Contract object is not set.")
+    # Act
+    # Assert
+    assert True
+
+
+def test_contract_name_is_set_correctly():
+    """Test to see if the contract name is set correctly."""
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
     # Act
     expected_name = "The Renee Lane Collection"
-    print(f"\nThe expected name is: {expected_name}")
-    print(f"The contract name is: {reneeLaneCollection.name()}\n")
     # Assert
-    assert reneeLaneCollection.name() == expected_name
+    assert contract.name() == expected_name
 
 
-# Todo: Test collection Symbol
-def test_collection_symbol_is_correct():
+def test_contract_symbol_is_set_correctly():
+    """Test to see if the contract symbol is set correctly."""
     # Arrange
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
+    contract = contractObject.deploy({"from": deployer_account})
     # Act
     expected_symbol = "TRLC"
-    print(f"\nThe expected symbol is: {expected_symbol}")
-    print(f"The contract symbol is: {reneeLaneCollection.symbol()}\n")
     # Assert
-    assert reneeLaneCollection.symbol() == expected_symbol
+    assert contract.symbol() == expected_symbol
 
 
-# Todo: Confirm artist mapping initiates correctly.
-def test_artist_mapping_is_correct(artistID=random.randint(1, 5)):
+def test_contract_owner_is_set_correctly():
+    """Test to see if the contract owner is set correctly."""
     # Arrange
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
+    contract = contractObject.deploy({"from": deployer_account})
     # Act
-    expected_addresses = [
-        (
-            "0x0000000000000000000000000000000000000000,"
-            "0x0000000000000000000000000000000000000000,"
-        ),
-        (
-            "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3",
-            "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
-        ),
-        (
-            "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
-            "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
-        ),
-        (
-            "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB",
-            "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB",
-        ),
-        (
-            "0x617F2E2fD72FD9D5503197092aC168c91465E7f2",
-            "0x617F2E2fD72FD9D5503197092aC168c91465E7f2",
-        ),
-        (
-            "0x17F6AD8Ef982297579C203069C1DbfFE4348c372",
-            "0x17F6AD8Ef982297579C203069C1DbfFE4348c372",
-        ),
-    ]
-    contract_addresses = reneeLaneCollection.artist(artistID)
-    print(f"\nThe expected directAddress is: {expected_addresses[artistID]}")
-    print(f"The contract directAddress is: {contract_addresses}\n")
+    expected_owner = deployer_account
     # Assert
-    assert contract_addresses == expected_addresses[artistID]
+    assert contract.owner() == expected_owner
 
 
-# Todo: Confirm artGallery initiates correctly.
-def test_artGallery_mapping_is_correct():
+def test_artGallery_mapping_initialized_correctly():
+    """Test to see if the artGallery mapping is initialized correctly."""
     # Arrange
-    image_list = [0, 1, 10, 20, 21, 30, 31, 40, 41, 50]
-    _imageNumber = random.choice(image_list)
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_properties = artGallery_properties
     # Act
-    expected_properties = {
-        0: (0, Web3.toWei(0.0, "ether"), 0, 0, 0),
-        1: (1, Web3.toWei(0.12, "ether"), 1, 20, 1),
-        10: (10, Web3.toWei(0.12, "ether"), 181, 200, 1),
-        20: (20, Web3.toWei(0.24, "ether"), 381, 400, 2),
-        21: (21, Web3.toWei(0.36, "ether"), 401, 410, 3),
-        30: (30, Web3.toWei(0.36, "ether"), 491, 500, 3),
-        31: (31, Web3.toWei(0.48, "ether"), 501, 505, 4),
-        40: (40, Web3.toWei(0.48, "ether"), 546, 550, 4),
-        41: (41, Web3.toWei(0.60, "ether"), 551, 553, 5),
-        50: (50, Web3.toWei(0.60, "ether"), 578, 580, 5),
-    }
-
-    contract_properties = reneeLaneCollection.artGallery(_imageNumber)
-    print(f"\nThe expected image information is: {expected_properties[_imageNumber]}")
-    print(f"The contract image information is: {contract_properties}\n")
+    artGallery_properties_are_correct = check_properties(
+        artGallery_properties, contract)
     # Assert
-    assert contract_properties == expected_properties[_imageNumber]
+    assert artGallery_properties_are_correct
+
+
+def test_isInvestor_mapping_initialized_correctly():
+    """Test to see if the isInvestor mapping is initialized correctly."""
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    # Act
+    if contract.isInvestor(get_account(6)) == False:
+        isInvestor_mapping_is_correct = True
+    else:
+        print("isInvestor mapping is not initialized correctly.")
+    # Assert
+    assert isInvestor_mapping_is_correct
+
+
+def test_artist_mapping_initialized_correctly():
+    """Test to see if the artist mapping is initialized correctly."""
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_addresses = artist_addresses
+    # Act
+    artist_mapping_is_correct = check_address(
+        expected_addresses, contract)
+    # Assert
+    assert artist_mapping_is_correct
+
+
+def test_payoutsOwed_mapping_initialized_correctly():
+    """Test to see if the payoutsOwed mapping is initialized correctly."""
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    # Act
+    if contract.payoutsOwed(get_account(7)) == 0:
+        payoutsOwed_mapping_is_correct = True
+    else:
+        print("isInvestor mapping is not initialized correctly.")
+    # Assert
+    assert payoutsOwed_mapping_is_correct

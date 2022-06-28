@@ -67,3 +67,14 @@ def test_createCoins_mints_to_correct_wallet():
     print(f"The amount of coins expected:   {expected_amount}.\n")
     # Assert
     assert reneeCoins.balanceOf(account) == expected_amount
+
+
+def test_contract_cannot_exceed_cap():
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_amount = 2_000_000
+    additional_amount = 1
+    contract.createCoins(expected_amount, {"from": deployer_account})
+    # Act and Assert
+    with reverts("ERC20Capped: cap exceeded"):
+        contract.createCoins(additional_amount, {"from": deployer_account})

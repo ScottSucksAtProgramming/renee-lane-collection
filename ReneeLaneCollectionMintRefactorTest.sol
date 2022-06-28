@@ -86,7 +86,6 @@
  * 06-27-2022 | SRK | Updated to follow Solidity and Project Style Guides.
  * 06-27-2022 | SRK | Refactored to follow Solidity and Project Style Guides.
  * 06-27-2022 | SRK | Documentation and Comments Updated.
- *
  * 06-27-2022 | SRK | Version 0.5.0 Alpha released.
  */
 
@@ -103,7 +102,7 @@
  * ├─ artGallery             -  avg:   23478  avg (confirmed):   23478  low:   23478  high:   23478  USD:   $1.30
  * ├─ artist                 -  avg:   23280  avg (confirmed):   23280  low:   23280  high:   23280  USD:   $1.29
  * ├─ royaltyInfo            -  avg:   23026  avg (confirmed):   23026  low:   23026  high:   23026  USD:   $1.27
- * ├─ isInvestor             -  avg:   22707  avg (confirmed):   22707  low:   22707  high:   22707  USD:   $1.26
+ * ├─ investorMap            -  avg:   22707  avg (confirmed):   22707  low:   22707  high:   22707  USD:   $1.26
  * ├─ payoutsOwed            -  avg:   22696  avg (confirmed):   22696  low:   22696  high:   22696  USD:   $1.25
  * ├─ forcePayment           -  avg:   22602  avg (confirmed):   22003  low:   22003  high:   23653  USD:   $1.31
  * ├─ ownerOf                -  avg:   22506  avg (confirmed):   22506  low:   22506  high:   22506  USD:   $1.24
@@ -134,39 +133,19 @@
 */
 
 //* ------------------------------ Resources ------------------------------ //
-/**
- * @notice Pragma statements tell the compiler to use the version of
- * solidity this contract was designed for.
- */
+/// Pragma Statements
 pragma solidity 0.8.15;
 
-/**
- * @notice Import statements allow the contract to access features of
- * other contracts. Specifically OpenZeppelin's ERC721, ERC721Royalty, and
- * Ownable libraries.
- */
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 
 //* ------------------------------ Contract ------------------------------- //
-/**
- * @notice the contract statement defines the contract's name, and the
- * libraries that it uses.
- */
+
 contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     //* -------------------------- Structs -------------------------------- //
-    /**
-     * @notice Structs represent items with specific properties. This contract
-     * uses two structs to define the Artwork and the Artists.
-     */
-
-    /**
-     * @notice The Artwork struct is used to define the properties that each piece
-     * of Artwork in this collection must have. In this case each piece of artwork
-     * has an imageNumber (1 through 50), a price in wei, a currentTokenID number
-     * a lastTokenID number and an artistID number (1-5).
-     */
+    // Artwork information stored here. Packages into single 256byte container
+    // when compiled.
     struct Artwork {
         uint64 imgNumber;
         uint64 price;
@@ -175,65 +154,23 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         uint256 artistID;
     }
 
-    /**
-     * @notice The Artist struct is used to define the properties for each
-     * artist. In this case each artist has a directAddress where they will be
-     * paid their portion of the minting proceeds and a RoyaltyAddress where
-     * proceed from secondary sales will be split between the artist and the
-     * project.
-     */
     struct Artist {
         address directAddress;
         address royaltyAddress;
     }
 
     //* --------------------------- Arrays -------------------------------- //
-    /**
-     * @notice Arrays are used to store collections of items.
-     */
-
-    /**
-     * @notice The investorList array is used to permanently store the
-     * addresses of anyone who mints a art piece from this collection. This
-     * array is used in the printInvestorList() function.
-     */
     address[] public investorList;
 
     //* -------------------------- Mappings ------------------------------- //
-    /**
-     * @notice Mappings are gas effecient ways to store collections of items.
-     * They are similar to Arrays but only return specific information based
-     * on a key (or question) provided to them.
-     */
-
-    /**
-     * @notice The artGallery mapping stores information about each piece of
-     * artwork using the Artwork struct. When given an image number
-     * (1 through 50)the mapping will return the imageNumber, price,
-     * currentTokenID,lastTokenID, and artistID for that piece of art.
-     */
+    // Stores Artwork objects for each image by imageNumber.
     mapping(uint256 => Artwork) public artGallery;
 
-    /**
-     * @notice the isInvestoryapping stores information about each investor.
-     * When given a wallet address it will return True if that address has
-     * minted a piece of art from this collection. If they have not it will
-     * return False.
-     */
-    mapping(address => bool) public isInvestor;
+    // Stores a list of investors
+    mapping(address => bool) public investorMap;
 
-    /**
-     * @notice The artist Mapping stores information about each artist. When
-     * given an artistID (1-5) it will return the directAddress and
-     * royaltyAddress for that artist.
-     */
     mapping(uint256 => Artist) public artist;
 
-    /**
-     * @notice The payoutsOwed mapping stores the payouts owed to each artist
-     * and to the project owner. When given a wallet address this mapping will
-     * return the amount of ether (in wei) that is owed to that address.
-     */
     mapping(address => uint256) public payoutsOwed;
     //* ----------------------- State Variables --------------------------- //
     // Stores the project's Wallet Address.
@@ -245,7 +182,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     //* ------------------------- Constructor ----------------------------- //
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
-        //Intialize artist mapping
+        //Intialize Artist
         artist[1] = Artist({
             directAddress: 0x33A4622B82D4c04a53e170c638B944ce27cffce3,
             royaltyAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
@@ -332,14 +269,18 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      * _setTokenRoyalty() function inherited from OpenZeppelin's
      * ERC721Royalty extension.
      *
-     * @notice Finally, The price of the image ii then transferred to a
+     * @notice Finally, The price of the image is then transferred to a
      * MoneyPipe contract which pays out 90% to the project and a 10%
      * commision back to the artist.
      *
      * @param _imageNumber The number of the image the user wants to mint
      * (1-50).
      */
-    function mintArtwork(uint256 _imageNumber) public payable {
+    function mintArtwork(uint256 _imageNumber)
+        public
+        payable
+        returns (uint64, uint64)
+    {
         require(
             _imageNumber > 0 && _imageNumber < 51,
             "The image you have selected does not exist in this collection."
@@ -357,10 +298,21 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         splitPayment(_artist.directAddress, msg.value);
         _safeMint(msg.sender, _newTokenID);
         _setTokenRoyalty(_newTokenID, _artist.royaltyAddress, 1000);
-        if (!isInvestor[msg.sender]) {
-            addNewInvestor(msg.sender);
+        if (!investorMap[msg.sender]) {
+            investorMap[msg.sender] = true;
+            investorList.push(msg.sender);
         }
         artGallery[_imageNumber].currentTokenID++;
+        return (_newTokenID, artGallery[_imageNumber].currentTokenID);
+    }
+
+    function splitPayment(address _artistDirectAddress, uint256 valueSent)
+        internal
+    {
+        int256 _artistCut = int256(valueSent) / 10**1;
+        int256 _projectCut = (int256(valueSent) - _artistCut);
+        payoutsOwed[_artistDirectAddress] += uint256(_artistCut);
+        payoutsOwed[PROJECT_WALLET_ADDRESS] += uint256(_projectCut);
     }
 
     /**
@@ -509,38 +461,5 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     {
         super._burn(tokenID);
         _resetTokenRoyalty(tokenID);
-    }
-
-    /**
-     * @notice The splitPayment() function splits the minting payment
-     * between the artist and project wallet.
-     *
-     * @param _artistDirectAddress The address of the artist's wallet.
-     *
-     * @param valueSent The amount of Ether paid to mint the artwork.
-     *
-     */
-    function splitPayment(address _artistDirectAddress, uint256 valueSent)
-        internal
-    {
-        int256 _artistCut = int256(valueSent) / 10**1;
-        int256 _projectCut = (int256(valueSent) - _artistCut);
-        payoutsOwed[_artistDirectAddress] += uint256(_artistCut);
-        payoutsOwed[PROJECT_WALLET_ADDRESS] += uint256(_projectCut);
-    }
-
-    /**
-     * @notice The addNewInvestor() function adds a new investor to the
-     * isInvestor mapping and InvestorList array. This is an internal function
-     * which can only be called by the contract itself. It is called as part
-     * of the mintArtwork() function.
-     *
-     * @param _minterAddress Wallet address of the person who minted the
-     * artwork.
-     *
-     */
-    function addNewInvestor(address _minterAddress) internal {
-        isInvestor[_minterAddress] = true;
-        investorList.push(_minterAddress);
     }
 }

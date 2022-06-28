@@ -1,68 +1,77 @@
 #
 # * ------------------------------ Documentation ------------------------------ #
 #
-# Module:  renee_coin_constructor_test.py
+# Module:  renee_contract_constructor_test.py
 # This module contains the unit tests for the constructor portion Renee Coins
 # smart contract.
 #
 # Modification History
 # 06-15-2022 | SRK | Module Created
+# 06-26-2022 | SRK | Tests added for constructor level behaviors.
+# 06-26-2022 | SRK | Updated documentation.
 
 # * -------------------------------- Tasks ----------------------------------- #
-
+# * Expected Behaviors:
+# ✓ Tests setup is complete.
+# ✓ Contract name initialized correctly.
+# ✓ Contract symbol initialized correctly.
+# ✓ Contract cap initialized correctly.
+# ✓ Contract owner initialized correctly.
 
 # * ------------------------------- Resources -------------------------------- #
 from scripts.helpful_scripts import get_account
-from brownie import config, network, ReneeCoins, reverts
+from brownie import ReneeCoins
 
 # * ------------------------------- Variables -------------------------------- #
-
+deployer_account = get_account()
+contractObject = ReneeCoins
 
 # * --------------------------- Constructor Tests ---------------------------- #
-def test_coin_name_is_correct():
+
+
+def test_tests_are_set_up():
+    """Tests to see if the tests are set up correctly."""
     # Arrange
-    account = get_account()
-    reneeCoins = ReneeCoins.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
+    if deployer_account == None:
+        raise Exception("Deployer account is not set.")
+    if contractObject == None:
+        raise Exception("Contract object is not set.")
+    # Act
+    # Assert
+    assert True
+
+
+def test_contract_name_is_set_correctly():
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
     # Act
     expected_name = "Renee Coins"
-    print(f"\nThe expected name is: {expected_name}")
-    print(f"The contract name is: {reneeCoins.name()}\n")
     # Assert
-    assert reneeCoins.name() == expected_name
+    assert contract.name() == expected_name
 
 
-def test_coin_name_is_correct():
+def test_contract_symbol_is_set_correctly():
     # Arrange
-    account = get_account()
-    reneeCoins = ReneeCoins.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
+    contract = contractObject.deploy({"from": deployer_account})
     # Act
     expected_symbol = "RC"
-    print(f"\nThe expected symbol is: {expected_symbol}")
-    print(f"The contract symbol is: {reneeCoins.symbol()}\n")
     # Assert
-    assert reneeCoins.symbol() == expected_symbol
+    assert contract.symbol() == expected_symbol
 
 
-def test_ReneeCoins_cannot_exceed_cap():
+def test_contract_cap_is_set_correctly():
     # Arrange
-    account = get_account()
-    reneeCoins = ReneeCoins.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
+    contract = contractObject.deploy({"from": deployer_account})
+    # Act
     expected_amount = 2_000_000
-    additional_amount = 1
-    reneeCoins.createCoins(expected_amount, {"from": account})
-    print(f"\nThe amount of coins in circulation is {reneeCoins.totalSupply()}.")
-    print(
-        f"Attempting to created another {additional_amount} coin. If transaction reverts due to cap, test will pass.\n"
-    )
-    # Act and Assert
-    with reverts("ERC20Capped: cap exceeded"):
-        reneeCoins.createCoins(additional_amount, {"from": account})
+    # Assert
+    assert contract.cap() == expected_amount
+
+
+def test_contract_owner_is_set_correctly():
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    # Act
+    expected_owner = deployer_account
+    # Assert
+    assert contract.owner() == expected_owner

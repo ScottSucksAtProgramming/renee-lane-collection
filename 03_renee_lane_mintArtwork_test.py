@@ -81,23 +81,6 @@ def test_mintImage_reverts_when_imageNumber_is_string(
         reneeLaneCollection.mintArtwork(_imageNumber, {"from": account})
 
 
-# Todo: Test _newTokenID is expected value based on _imageNumber parameter.
-def test_newTokenID_is_set_correctly(transactions=random.randint(0, 10)):
-    # Arrange
-    image = random.randint(1, 10)
-    account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-    for i in range(transactions):
-        reneeLaneCollection.mintArtwork(image, {"value": Web3.toWei(0.12, "ether")})
-    # Act
-    expected_tokenID = reneeLaneCollection.artGallery(image)[2]
-    tx_one = reneeLaneCollection.mintArtwork(image, {"value": Web3.toWei(0.12, "ether")})
-    print(f"\nThe expected _newTokenID() is: {expected_tokenID}.")
-    print(f"The returned _newTokenID() is: {tx_one.return_value[0]}.")
-    # Assert
-    assert tx_one.return_value[0] == expected_tokenID
-
-
 # Todo: Test transaction reverts if no more tokens are available.
 def test_mintImage_reverts_if_no_more_tokens_available():
     # Arrange
@@ -171,7 +154,7 @@ def test_investors_map_is_updated_if_minter_is_not_yet_an_investor():
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
     investor_address = get_account(2)
-    initial_investor_status = reneeLaneCollection.investorMap(investor_address)
+    initial_investor_status = reneeLaneCollection.isInvestor(investor_address)
     if initial_investor_status == True:
         return
     else:
@@ -184,10 +167,10 @@ def test_investors_map_is_updated_if_minter_is_not_yet_an_investor():
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     print(
-        f"The current investor status of {investor_address} is: {reneeLaneCollection.investorMap(investor_address)}"
+        f"The current investor status of {investor_address} is: {reneeLaneCollection.isInvestor(investor_address)}"
     )
     # Assert
-    assert reneeLaneCollection.investorMap(investor_address)
+    assert reneeLaneCollection.isInvestor(investor_address)
 
 
 # Todo: Test that investorList is updated when address is not investor.
@@ -290,7 +273,7 @@ def test_token_is_minted_to_expected_owner(_imageNumber=random.randint(1, 50)):
     tx = reneeLaneCollection.mintArtwork(
         _imageNumber, {"value": price, "from": minter_account}
     )
-    token_ID = tx.return_value[0]
+    token_ID = tx.events["Transfer"]["tokenId"]
     owner_of_token = reneeLaneCollection.ownerOf(token_ID)
     print(f"\nThe expected owner of {token_ID} is: {minter_account}.")
     print(f"The returned owner of {token_ID} is: {owner_of_token}.\n")
@@ -310,7 +293,7 @@ def test_token_is_minted_to_with_correct_tokenID(_imageNumber=random.randint(1, 
     tx = reneeLaneCollection.mintArtwork(
         _imageNumber, {"value": price, "from": minter_account}
     )
-    actual_token_ID = tx.return_value[0]
+    actual_token_ID = tx.events["Transfer"]["tokenId"]
     print(f"\nThe expected tokenID is: {expected_token_ID}.")
     print(f"The returned tokenID is: {actual_token_ID}.\n")
     # Assert

@@ -2,79 +2,104 @@
 # * ------------------------------ Documentation ------------------------------ #
 #
 # Module:  renee_coin_contract_test.py
-# This module contains the unit tests for the contract portion Renee Coins smart
-# contract.
+# This module contains the unit tests for the contract portion Renee Coins
+# smart contract.
 #
 #
 # Modification History
 # 06-15-2022 | SRK | Module Created
+# 06-26-2022 | SRK | Tests added for contract level behaviors.
+# 06-26-2022 | SRK | Updated documentation.
 
 # * -------------------------------- Tasks ----------------------------------- #
-
+# * Expected Behaviors:
+# ✓ 1. Contract Deploys and returns address.
+# ✓ 2. Contract has all ERC20 functions.
+# ✓ 3. Contract has ERC20Burnable Functions.
+# ✓ 4. Contract has ERC20Capped Functions.
+# ✓ 5. Contract has Ownable Functions.
 
 # * ------------------------------- Resources -------------------------------- #
-from scripts.helpful_scripts import get_account
-from brownie import config, network, ReneeCoins, reverts, ZERO_ADDRESS
+from scripts.helpful_scripts import get_account, function_exists
+from scripts.helpful_data import (
+    erc20_functions,
+    erc20burnable_functions,
+    erc20capped_functions,
+    ownable_functions,
+)
+from brownie import ReneeCoins
 
 # * ------------------------------- Variables -------------------------------- #
-
+deployer_account = get_account()
+contractObject = ReneeCoins
 # * ---------------------------- Contract Tests ------------------------------ #
+def test_tests_are_set_up():
+    """Tests to see if the tests are set up correctly."""
+    # Arrange
+    # Act
+    if deployer_account == None:
+        raise Exception("Deployer account is not set.")
+    if contractObject == None:
+        raise Exception("Contract object is not set.")
+    # Assert
+    assert True
+
+
 def test_contract_can_deploy():
+    """Tests to see if the smart contract can be deployed. Test passes if
+    deployed contract returns an address."""
     # Arrange
-    account = get_account()
     # Act
-    reneeCoins = ReneeCoins.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()]["verify"],
-    )
-    starting_value = reneeCoins.totalSupply()
-    expected = 0
-    print(
-        f"\nThe Renee Coins contract was deployed to: {reneeCoins.address}.\nThe total supply of Renee Coins is: {reneeCoins.totalSupply()}\n"
-    )
+    contract = contractObject.deploy({"from": deployer_account})
     # Assert
-    assert starting_value == expected
+    assert contract.address != None
 
-def test_owner_returns_expected_value():
+
+def test_contract_has_all_ERC20_public_functions():
+    """Tests to see if the contract has the ERC20 functions. Test passes if
+    the contract has the functions. Matches the expected functions from the
+    ERC20 standard."""
     # Arrange
-    owner = get_account()
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_functions = erc20_functions
     # Act
-    reneeCoins = ReneeCoins.deploy({"from": owner})
+    has_all_functions = function_exists(expected_functions, contract)
     # Assert
-    assert reneeCoins.owner() == owner
+    assert has_all_functions
 
 
-def test_owner_can_renounceOwnership():
+def test_contract_has_all_ERC20Burnable_public_functions():
+    """Tests to see if the contract has the ERC20Burnable functions. Test passes if
+    the contract has the functions."""
     # Arrange
-    owner = get_account()
-    reneeCoins = ReneeCoins.deploy({"from": owner})
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_functions = erc20burnable_functions
     # Act
-    reneeCoins.renounceOwnership()
+    has_all_functions = function_exists(expected_functions, contract)
     # Assert
-    assert reneeCoins.owner() == ZERO_ADDRESS
+    assert has_all_functions
 
-def test_renounceOwnership_can_only_be_called_by_owner():
-        # Arrange
-    owner = get_account()
-    reneeCoins = ReneeCoins.deploy({"from": owner})
-    # Act and Assert
-    with reverts("Ownable: caller is not the owner"):
-        reneeCoins.renounceOwnership({"from": get_account(2)})
 
-def test_owner_can_transferOwnership():
+def test_contract_has_all_ERC20Capped_public_functions():
+    """Tests to see if the contract has the ERC20Capped functions. Test passes if
+    the contract has the functions."""
     # Arrange
-    owner = get_account()
-    new_owner = get_account(1)
-    reneeCoins = ReneeCoins.deploy({"from": owner})
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_functions = erc20capped_functions
     # Act
-    reneeCoins.transferOwnership(get_account(1))
+    has_all_functions = function_exists(expected_functions, contract)
     # Assert
-    assert reneeCoins.owner() == new_owner
+    assert has_all_functions
 
-def test_transferOwnership_can_only_be_called_by_owner():
-        # Arrange
-    owner = get_account()
-    reneeCoins = ReneeCoins.deploy({"from": owner})
-    # Act and Assert
-    with reverts("Ownable: caller is not the owner"):
-        reneeCoins.transferOwnership(get_account(7),{"from": get_account(2)})
+
+def test_contract_has_all_Ownable_functions():
+    """Tests to see if the ReneeLaneCollection contract has the Ownable
+    functions. Test passes if the contract has the functions. Matches the
+    expected functions from the ERC2981 standard."""
+    # Arrange
+    contract = contractObject.deploy({"from": deployer_account})
+    expected_functions = ownable_functions
+    # Act
+    has_all_functions = function_exists(expected_functions, contract)
+    # Assert
+    assert has_all_functions
