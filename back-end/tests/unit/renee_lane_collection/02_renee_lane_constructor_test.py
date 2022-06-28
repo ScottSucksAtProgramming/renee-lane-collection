@@ -7,8 +7,8 @@
 #
 # Modification History
 # 06-15-2022 | SRK | Module Created
-# 06-26-2022 | SRK | Tests added for constructor level behaviors.
-# 06-26-2022 | SRK | Updated documentation.
+# 06-28-2022 | SRK | Tests added for constructor level behaviors.
+# 06-28-2022 | SRK | Updated documentation.
 
 # * -------------------------------- Tasks ----------------------------------- #
 # * Expected Behaviors:
@@ -29,9 +29,6 @@ from scripts.helpful_data import artGallery_properties, artist_addresses
 # * ------------------------------- Variables ------------------------------- #
 deployer_account = get_account()
 contractObject = ReneeLaneCollection
-
-
-PROJECT_WALLET_ADDRESS = 0xDD870FA1B7C4700F2BD7F44238821C26F7392148
 
 # * --------------------------- Constructor Tests --------------------------- #
 

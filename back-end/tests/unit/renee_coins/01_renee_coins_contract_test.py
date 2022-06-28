@@ -8,8 +8,8 @@
 #
 # Modification History
 # 06-15-2022 | SRK | Module Created
-# 06-26-2022 | SRK | Tests added for contract level behaviors.
-# 06-26-2022 | SRK | Updated documentation.
+# 06-28-2022 | SRK | Tests added for contract level behaviors.
+# 06-28-2022 | SRK | Updated documentation.
 
 # * -------------------------------- Tasks ----------------------------------- #
 # * Expected Behaviors:
@@ -33,6 +33,8 @@ from brownie import ReneeCoins
 deployer_account = get_account()
 contractObject = ReneeCoins
 # * ---------------------------- Contract Tests ------------------------------ #
+
+
 def test_tests_are_set_up():
     """Tests to see if the tests are set up correctly."""
     # Arrange

@@ -7,8 +7,8 @@
 #
 # Modification History
 # 06-15-2022 | SRK | Module Created
-# 06-26-2022 | SRK | Tests added for constructor level behaviors.
-# 06-26-2022 | SRK | Updated documentation.
+# 06-28-2022 | SRK | Tests added for constructor level behaviors.
+# 06-28-2022 | SRK | Updated documentation.
 
 # * -------------------------------- Tasks ----------------------------------- #
 # * Expected Behaviors:
@@ -42,6 +42,7 @@ def test_tests_are_set_up():
 
 
 def test_contract_name_is_set_correctly():
+    """Test to see if the contract name is set correctly."""
     # Arrange
     contract = contractObject.deploy({"from": deployer_account})
     # Act
@@ -51,6 +52,7 @@ def test_contract_name_is_set_correctly():
 
 
 def test_contract_symbol_is_set_correctly():
+    """Test to see if the contract symbol is set correctly."""
     # Arrange
     contract = contractObject.deploy({"from": deployer_account})
     # Act
@@ -60,6 +62,7 @@ def test_contract_symbol_is_set_correctly():
 
 
 def test_contract_cap_is_set_correctly():
+    """Test to see if the contract cap is set correctly."""
     # Arrange
     contract = contractObject.deploy({"from": deployer_account})
     # Act
@@ -69,6 +72,7 @@ def test_contract_cap_is_set_correctly():
 
 
 def test_contract_owner_is_set_correctly():
+    """Test to see if the contract owner is set correctly."""
     # Arrange
     contract = contractObject.deploy({"from": deployer_account})
     # Act

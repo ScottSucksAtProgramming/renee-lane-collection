@@ -26,6 +26,8 @@ from brownie import ReneeLaneCollection
 deployer_account = get_account()
 contractObject = ReneeLaneCollection
 # * -------------------------------- Tests ---------------------------------- #
+
+
 def test_tests_are_set_up():
     """Tests to see if the tests are set up correctly."""
     # Arrange
@@ -57,9 +59,9 @@ def test_contract_has_all_ERC721_public_functions():
     contract = contractObject.deploy({"from": deployer_account})
     expected_functions = erc721_functions
     # Act
-    result = function_exists(expected_functions, contract)
+    ERC721_functions_exist = function_exists(expected_functions, contract)
     # Assert
-    assert result
+    assert ERC721_functions_exist
 
 
 def test_contract_has_all_ERC721Royalty_functions():
@@ -70,9 +72,10 @@ def test_contract_has_all_ERC721Royalty_functions():
     contract = contractObject.deploy({"from": deployer_account})
     expected_functions = erc2981_functions
     # Act
-    result = function_exists(expected_functions, contract)
+    ERC721Royalty_functions_exist = function_exists(
+        expected_functions, contract)
     # Assert
-    assert result
+    assert ERC721Royalty_functions_exist
 
 
 def test_contract_has_all_Ownable_functions():
@@ -83,6 +86,6 @@ def test_contract_has_all_Ownable_functions():
     contract = contractObject.deploy({"from": deployer_account})
     expected_functions = ownable_functions
     # Act
-    result = function_exists(expected_functions, contract)
+    Ownable_functions_exist = function_exists(expected_functions, contract)
     # Assert
-    assert result
+    assert Ownable_functions_exist
