@@ -31,6 +31,7 @@ networks:
     verify: True
   mainnet:
     opensea_url: "https://opensea.io/assets/{}/{}"
+    verify: true
 
 wallets:
   from_key: ${PRIVATE_KEY}
@@ -43,9 +44,5 @@ pinata:
 
 reports:
   exclude_paths: null
-  exclude_contracts:
-    - Ownable
-    - Strings
-    - ERC721
-    - ERC2981
+  exclude_contracts: null
   only_include_project: false
