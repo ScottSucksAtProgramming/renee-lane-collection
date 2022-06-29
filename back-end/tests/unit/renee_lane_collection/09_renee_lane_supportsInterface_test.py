@@ -12,18 +12,10 @@
 
 
 # * ------------------------------- Resources ------------------------------ #
-from scripts.helpful_scripts import get_account, characters
-from brownie import accounts, config, network, ReneeLaneCollection, reverts
-from brownie.test import given, strategy
-from web3 import Web3
-import gc, random, string, pytest
+from scripts.helpful_scripts import get_account
+from brownie import ReneeLaneCollection
 
 # * ------------------------------- Variables ------------------------------ #
-
-
-def generate_random_string(num_of_characters):
-    _string = "".join(random.choice(characters) for i in range(num_of_characters))
-    return _string
 
 
 # * ------------------------ supportsInterface() Tests -------------------- #
@@ -54,7 +46,8 @@ def test_supportsInterface_returns_true_for_ERC165():
 # Todo: Test supportsInterface() returns false for unsupported inputs.
 def test_supportsInterface_returns_false_for_unsupported_inputs():
     # Arrange
-    import os, binascii
+    import os
+    import binascii
 
     account = get_account()
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})

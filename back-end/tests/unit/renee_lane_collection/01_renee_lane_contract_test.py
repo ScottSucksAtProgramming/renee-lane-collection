@@ -23,29 +23,17 @@ from scripts.helpful_data import erc721_functions, erc2981_functions, ownable_fu
 from brownie import ReneeLaneCollection
 
 # * ------------------------------- Variables ------------------------------- #
-deployer_account = get_account()
-contractObject = ReneeLaneCollection
+
 # * -------------------------------- Tests ---------------------------------- #
-
-
-def test_tests_are_set_up():
-    """Tests to see if the tests are set up correctly."""
-    # Arrange
-    # Act
-    if deployer_account == None:
-        raise Exception("Deployer account is not set.")
-    if contractObject == None:
-        raise Exception("Contract object is not set.")
-    # Assert
-    assert True
 
 
 def test_contract_can_deploy():
     """Tests to see if the smart contract can be deployed. Test passes if
     deployed contract returns an address."""
     # Arrange
+    deployer_account = get_account()
     # Act
-    contract = contractObject.deploy(
+    contract = ReneeLaneCollection.deploy(
         {"from": deployer_account},
     )
     # Assert
@@ -56,7 +44,8 @@ def test_contract_has_all_ERC721_public_functions():
     """Tests to see if the contract has the ERC721 functions. Test passes if the contract has the functions. Matches the
     expected functions from the ERC721 standard."""
     # Arrange
-    contract = contractObject.deploy({"from": deployer_account})
+    deployer_account = get_account()
+    contract = ReneeLaneCollection.deploy({"from": deployer_account})
     expected_functions = erc721_functions
     # Act
     ERC721_functions_exist = function_exists(expected_functions, contract)
@@ -69,7 +58,8 @@ def test_contract_has_all_ERC721Royalty_functions():
     functions. Test passes if the contract has the functions. Matches the
     expected functions from the ERC2981 standard."""
     # Arrange
-    contract = contractObject.deploy({"from": deployer_account})
+    deployer_account = get_account()
+    contract = ReneeLaneCollection.deploy({"from": deployer_account})
     expected_functions = erc2981_functions
     # Act
     ERC721Royalty_functions_exist = function_exists(
@@ -83,7 +73,8 @@ def test_contract_has_all_Ownable_functions():
     functions. Test passes if the contract has the functions. Matches the
     expected functions from the ERC2981 standard."""
     # Arrange
-    contract = contractObject.deploy({"from": deployer_account})
+    deployer_account = get_account()
+    contract = ReneeLaneCollection.deploy({"from": deployer_account})
     expected_functions = ownable_functions
     # Act
     Ownable_functions_exist = function_exists(expected_functions, contract)

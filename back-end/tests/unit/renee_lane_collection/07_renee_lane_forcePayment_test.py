@@ -12,18 +12,11 @@
 
 
 # * ------------------------------- Resources ------------------------------ #
-from scripts.helpful_scripts import get_account, characters
-from brownie import accounts, config, network, ReneeLaneCollection, reverts
-from brownie.test import given, strategy
+from scripts.helpful_scripts import get_account
+from brownie import ReneeLaneCollection, reverts
 from web3 import Web3
-import gc, random, string, pytest
 
 # * ------------------------------- Variables ------------------------------ #
-
-
-def generate_random_string():
-    _string = "".join(random.choice(characters) for i in range(1, 3))
-    return _string
 
 
 # * --------------------------- forcePayment() Tests ----------------------- #
@@ -34,7 +27,8 @@ def test_forcePayment_can_only_be_called_by_owner():
     reneeLaneCollection = ReneeLaneCollection.deploy({"from": owner})
     # Act and Assert
     with reverts("Ownable: caller is not the owner"):
-        reneeLaneCollection.forcePayment(get_account(1), {"from": get_account(1)})
+        reneeLaneCollection.forcePayment(
+            get_account(1), {"from": get_account(1)})
 
 
 # Todo: Test forcePayment reverts if no money owed to _address.

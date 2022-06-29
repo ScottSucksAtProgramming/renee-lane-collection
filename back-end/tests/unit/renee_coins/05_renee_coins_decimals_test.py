@@ -23,7 +23,7 @@ from brownie import ReneeCoins
 deployer_account = get_account()
 contractObject = ReneeCoins
 
-# * ------------------------- airdropCoins() Tests --------------------------- #
+# * ------------------------- decimals() Tests --------------------------- #
 
 
 def test_tests_are_set_up():
@@ -37,14 +37,12 @@ def test_tests_are_set_up():
     # Assert
     assert True
 
-# * ------------------------ decimals() Function --------------------------- #
-
 
 def test_decimals_is_set_correctly():
     """Tests to see if the decimals() function is set correctly. Test will 
     pass if decimals returned is 0."""
     # Arrange and Act
-    reneeCoins = ReneeCoins.deploy({"from": deployer_account})
+    contract = contractObject.deploy({"from": deployer_account})
     expected_decimals = 0
     # Assert
-    assert expected_decimals == reneeCoins.decimals()
+    assert expected_decimals == contract.decimals()
