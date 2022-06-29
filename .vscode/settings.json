@@ -3,7 +3,7 @@
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "python.terminal.activateEnvInCurrentTerminal": true,
-    "cSpell.words": ["Roadmap", "TRLC"],
+    "cSpell.words": ["cryto", "Roadmap", "submissives", "TRLC", "Voltairine"],
     "solidity.remappings": [
         "@chainlink/=/Users/scottkostolni/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@4.5.0",
         "@openzeppelin/=/Users/scottkostolni/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.6.0"

@@ -93,7 +93,7 @@
 //* ------------------------------- Tasks --------------------------------- //
 /*
   Deploy Renee Coin Contract for User Beta Testing. - Complete (6/26/2022)
-  Todo: Complete final unit testing.
+  ✓ Complete final unit testing.
   Todo: Complete integration testing.
   Todo: Identify and resolve any issues found during testing.
   Todo: Obtain final approval of code.
