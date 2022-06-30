@@ -67,25 +67,27 @@
 /**
  * @notice Current Gas Useage as of 0.0.0 Beta - Optmizer: 10,000 Runs
  * ReneeCoins <Contract>
- *  ├─ deployment        -  avg: 1347574  avg (confirmed): 1347574  low: 1347574  high: 1347574  USD: $56.98
- *  ├─ constructor       -  avg: 1063254  avg (confirmed): 1063254  low: 1063254  high: 1063254  USD: $44.95
- *  ├─ createCoins       -  avg:   64519  avg (confirmed):   67991  low:   22422  high:   68009  USD:  $2.88
- *  ├─ airdropCoins      -  avg:   53304  avg (confirmed):   68496  low:   22923  high:   68502  USD:  $2.90
- *  ├─ approve           -  avg:   42090  avg (confirmed):   44110  low:   21925  high:   44120  USD:  $1.87
- *  ├─ transfer          -  avg:   41514  avg (confirmed):   51009  low:   21946  high:   51009  USD:  $2.16
- *  ├─ transferFrom      -  avg:   39641  avg (confirmed):   52175  low:   23621  high:   59675  USD:  $2.52
- *  ├─ burn              -  avg:   31106  avg (confirmed):   35354  low:   22613  high:   35354  USD:  $1.49
- *  ├─ increaseAllowance -  avg:   30173  avg (confirmed):   30173  low:   30173  high:   30173  USD:  $1.28
- *  ├─ decreaseAllowance -  avg:   30106  avg (confirmed):   30106  low:   30106  high:   30106  USD:  $1.27
- *  ├─ burnFrom          -  avg:   26990  avg (confirmed):   28942  low:   23089  high:   28942  USD:  $1.22
- *  ├─ transferOwnership -  avg:   26444  avg (confirmed):   30117  low:   22772  high:   30117  USD:  $1.27
- *  ├─ symbol            -  avg:   24452  avg (confirmed):   24452  low:   24452  high:   24452  USD:  $1.03
- *  ├─ allowance         -  avg:   23258  avg (confirmed):   23258  low:   23258  high:   23258  USD:  $0.98
- *  ├─ balanceOf         -  avg:   22716  avg (confirmed):   22716  low:   22706  high:   22718  USD:  $0.96
- *  ├─ owner             -  avg:   22132  avg (confirmed):   22132  low:   22132  high:   22132  USD:  $0.94
- *  ├─ totalSupply       -  avg:   22113  avg (confirmed):   22113  low:   22113  high:   22113  USD:  $0.93
- *  ├─ decimals          -  avg:   21309  avg (confirmed):   21309  low:   21309  high:   21309  USD:  $0.90
- *  └─ renounceOwnership -  avg:   18496  avg (confirmed):   14767  low:   14767  high:   22226  USD:  $0.94
+ *  ├─ deployment             -  avg: 1347574  avg (confirmed): 1347574  low: 1347574  high: 1347574  USD: $56.98
+ *  ├─ constructor            -  avg: 1063242  avg (confirmed): 1063242  low: 1063242  high: 1063242  USD:
+ *  ├─ createCoins            -  avg:   65546  avg (confirmed):   67987  low:   22422  high:   68009  USD:
+ *  ├─ airdropCoins           -  avg:   45935  avg (confirmed):   68490  low:   22923  high:   68490  USD:
+ *  ├─ approve                -  avg:   42875  avg (confirmed):   44108  low:   21925  high:   44120  USD:
+ *  ├─ transfer               -  avg:   41514  avg (confirmed):   51009  low:   21946  high:   51009  USD:
+ *  ├─ transferFrom           -  avg:   39996  avg (confirmed):   45152  low:   23621  high:   59675  USD:
+ *  ├─ burn                   -  avg:   32805  avg (confirmed):   35354  low:   22613  high:   35354  USD:
+ *  ├─ increaseAllowance      -  avg:   30173  avg (confirmed):   30173  low:   30173  high:   30173  USD:
+ *  ├─ decreaseAllowance      -  avg:   30106  avg (confirmed):   30106  low:   30106  high:   30106  USD:
+ *  ├─ burnFrom               -  avg:   27770  avg (confirmed):   28942  low:   23089  high:   28942  USD:
+ *  ├─ transferOwnership      -  avg:   26444  avg (confirmed):   30117  low:   22772  high:   30117  USD:
+ *  ├─ symbol                 -  avg:   24452  avg (confirmed):   24452  low:   24452  high:   24452  USD:
+ *  ├─ name                   -  avg:   24387  avg (confirmed):   24387  low:   24387  high:   24387  USD:
+ *  ├─ allowance              -  avg:   23258  avg (confirmed):   23258  low:   23258  high:   23258  USD:
+ *  ├─ balanceOf              -  avg:   22715  avg (confirmed):   22715  low:   22706  high:   22718  USD:
+ *  ├─ owner                  -  avg:   22132  avg (confirmed):   22132  low:   22132  high:   22132  USD:
+ *  ├─ totalSupply            -  avg:   22113  avg (confirmed):   22113  low:   22113  high:   22113  USD:
+ *  ├─ decimals               -  avg:   21309  avg (confirmed):   21309  low:   21309  high:   21309  USD:
+ *  ├─ cap                    -  avg:   21301  avg (confirmed):   21301  low:   21301  high:   21301  USD:
+ *  └─ renounceOwnership      -  avg:   18496  avg (confirmed):   14767  low:   14767  high:   22226  USD:
  * Note: USD Calculations based on Gas Price: 35 Wei and Ethereum price: $1208 from 6-26-2022.
  * Formula: TransactionCost =  (Gas (High) * Gas Price * Etherum USD Price) / 1,000,000,000
  */
