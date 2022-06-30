@@ -235,6 +235,14 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      * return the amount of ether (in wei) that is owed to that address.
      */
     mapping(address => uint256) public payoutsOwed;
+    /**
+     * @notice The isWhitelisted mapping stores the whitelist status of
+     * addresses. These are addresses that are allowed to mint tokens prior
+     * to the collection launch. When given a wallet address it will return
+     * True if that address is whitelisted. If they are not it will return
+     * False.
+     */
+    mapping(address => bool) public isWhitelisted;
     //* ----------------------- State Variables --------------------------- //
     // Stores the project's Wallet Address.
     address public PROJECT_WALLET_ADDRESS = (
@@ -351,6 +359,12 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      * (1-50).
      */
     function mintArtwork(uint256 _imageNumber) public payable {
+        if (isWhitelisted[address(0)] == false) {
+            require(
+                isWhitelisted[msg.sender] == true,
+                "You are not whitelisted"
+            );
+        }
         require(
             _imageNumber > 0 && _imageNumber < 51,
             "The image you have selected does not exist in this collection."
@@ -483,6 +497,25 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         returns (bool)
     {
         return super.supportsInterface(interfaceID);
+    }
+
+    /**
+     * @notice The addToWhitelist() function sets the isWhiteListed mapping to
+     * return true for the specified address.
+     *
+     * @param _address The address you want to add to the whitelist.
+     */
+    function addToWhitelist(address _address) public onlyOwner {
+        require(
+            !isWhitelisted[_address],
+            "Address is already on the whitelist."
+        );
+        isWhitelisted[_address] = true;
+    }
+
+    function removeFromWhitelist(address _address) public onlyOwner {
+        require(isWhitelisted[_address], "Address is not on the whitelist.");
+        isWhitelisted[_address] = false;
     }
 
     //* --------------------- Internal Functions -------------------------- //
