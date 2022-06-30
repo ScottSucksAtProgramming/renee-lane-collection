@@ -36,7 +36,7 @@ import pytest
 
 
 @pytest.fixture
-def contract_setup():
+def contract_setup_with_open_minting():
     """Setup for the contract."""
     deployer_account = get_account()
     contract = ReneeLaneCollection.deploy(
@@ -46,11 +46,11 @@ def contract_setup():
 # *  ------------------------ mintArtwork() Positive Tests -------------------------- #
 
 
-def test_artist_payout_calculated_correctly(contract_setup):
+def test_artist_payout_calculated_correctly(contract_setup_with_open_minting):
     """Tests to see if artist payout is calculated correctly. Test will pass
     if payouts owed to artist is updated with correct value."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 35
     img_price = Web3.toWei(0.48, "ether")
@@ -62,11 +62,11 @@ def test_artist_payout_calculated_correctly(contract_setup):
     assert contract.payoutsOwed(artist_address) == expected_payout
 
 
-def test_project_payout_calculated_correctly(contract_setup):
+def test_project_payout_calculated_correctly(contract_setup_with_open_minting):
     """Tests to see if project payout is calculated correctly. Test will pass
     if the payout owed to the project owner is correct."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 43
 
@@ -79,11 +79,11 @@ def test_project_payout_calculated_correctly(contract_setup):
     assert contract.payoutsOwed(project_address) == expected_payout
 
 
-def test_currentTokenID_increments_after_successful_mint(contract_setup):
+def test_currentTokenID_increments_after_successful_mint(contract_setup_with_open_minting):
     """Tests to see if currentTokenID increments after successful mint. Test 
     will pass if currentTokenID increments by 1."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 16
     price = Web3.toWei(0.24, "ether")
@@ -103,11 +103,11 @@ def test_currentTokenID_increments_after_successful_mint(contract_setup):
 #* ----------------------------- Log Tests --------------------------------- #
 
 
-def test_mintArtwork_logs_from_address_correctly(contract_setup):
+def test_mintArtwork_logs_from_address_correctly(contract_setup_with_open_minting):
     """Tests to see if mintArtwork logs the correct 'from' address. Test will 
     pass if the correct address is logged."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 49
     price = Web3.toWei(0.6, "ether")
@@ -118,11 +118,11 @@ def test_mintArtwork_logs_from_address_correctly(contract_setup):
     assert tx.events["Transfer"]["from"] == ZERO_ADDRESS
 
 
-def test_mintArtwork_logs_to_address_correctly(contract_setup):
+def test_mintArtwork_logs_to_address_correctly(contract_setup_with_open_minting):
     """Tests to see if mintArtwork logs the correct 'to' address. Test will 
     pass if the correct address is logged."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 49
     price = Web3.toWei(0.6, "ether")
@@ -133,11 +133,11 @@ def test_mintArtwork_logs_to_address_correctly(contract_setup):
     assert tx.events["Transfer"]["to"] == deployer_account
 
 
-def test_mintArtwork_logs_tokenID_correctly(contract_setup):
+def test_mintArtwork_logs_tokenID_correctly(contract_setup_with_open_minting):
     """Tests to see if mintArtwork logs the correct tokenID. Test 
     will pass if the correct tokenID is logged."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 40
     price = Web3.toWei(0.48, "ether")
@@ -150,11 +150,11 @@ def test_mintArtwork_logs_tokenID_correctly(contract_setup):
 #* -------------------------- Reverting Tests ------------------------------ #
 
 
-def test_mintArtwork_reverts_if_no_value_sent(contract_setup):
+def test_mintArtwork_reverts_if_no_value_sent(contract_setup_with_open_minting):
     """Tests to see if mintArtwork reverts if no value sent. Test will pass if
     transaction reverts."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 27
     # Act and Asset
@@ -162,33 +162,33 @@ def test_mintArtwork_reverts_if_no_value_sent(contract_setup):
         contract.mintArtwork(_imageNumber)
 
 
-def test_mintArtwork_reverts_when_imageNumber_is_above_range(contract_setup):
+def test_mintArtwork_reverts_when_imageNumber_is_above_range(contract_setup_with_open_minting):
     """Tests to see if mintArtwork reverts when imageNumber is out of range.
     Test will pass if the transaction reverts."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     # Act and Assert
     with reverts("The image you have selected does not exist in this collection."):
         contract.mintArtwork(250, {"from": deployer_account})
 
 
-def test_mintArtwork_reverts_when_imageNumber_is_below_range(contract_setup):
+def test_mintArtwork_reverts_when_imageNumber_is_below_range(contract_setup_with_open_minting):
     """Tests to see if mintArtwork reverts when imageNumber is out of range.
     Test will pass if the transaction reverts."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     # Act and Assert
     with reverts("The image you have selected does not exist in this collection."):
         contract.mintArtwork(0, {"from": deployer_account})
 
 
-def test_mintArtwork_reverts_when_imageNumber_is_negative(contract_setup):
+def test_mintArtwork_reverts_when_imageNumber_is_negative(contract_setup_with_open_minting):
     """Tests to see if mintArtwork reverts when imageNumber is negative.
     Test will pass if the transaction reverts."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = -234
     # Act and Assert
@@ -196,11 +196,11 @@ def test_mintArtwork_reverts_when_imageNumber_is_negative(contract_setup):
         contract.mintArtwork(_imageNumber, {"from": deployer_account})
 
 
-def test_mintArtwork_reverts_when_imageNumber_is_float(contract_setup):
+def test_mintArtwork_reverts_when_imageNumber_is_float(contract_setup_with_open_minting):
     """Tests to see if mintArtwork reverts when imageNumber is a float.
     Test will pass if the transaction reverts."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 2134.234
     # Act and Assert
@@ -208,11 +208,11 @@ def test_mintArtwork_reverts_when_imageNumber_is_float(contract_setup):
         contract.mintArtwork(_imageNumber, {"from": deployer_account})
 
 
-def test_mintArtwork_reverts_when_imageNumber_is_string(contract_setup):
+def test_mintArtwork_reverts_when_imageNumber_is_string(contract_setup_with_open_minting):
     """Tests to see if mintArtwork reverts when imageNumber is a string.
     Test will pass if the transaction reverts."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = generate_random_string()
     # Act and Assert
@@ -220,11 +220,11 @@ def test_mintArtwork_reverts_when_imageNumber_is_string(contract_setup):
         contract.mintArtwork(_imageNumber, {"from": deployer_account})
 
 
-def test_mintArtwork_reverts_if_no_more_tokens_available(contract_setup):
+def test_mintArtwork_reverts_if_no_more_tokens_available(contract_setup_with_open_minting):
     """Tests to see if mintArtwork reverts if no more tokens are available
     for that image. Test will pass if the transaction reverts."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     for i in range(20):
         contract.mintArtwork(
@@ -234,22 +234,22 @@ def test_mintArtwork_reverts_if_no_more_tokens_available(contract_setup):
         contract.mintArtwork(1, {"value": Web3.toWei(0.12, "ether")})
 
 
-def test_mintArtwork_reverts_if_incorrect_value_sent(contract_setup):
+def test_mintArtwork_reverts_if_incorrect_value_sent(contract_setup_with_open_minting):
     """Tests to see if mintArtwork reverts if incorrect price sent. Test will
     pass if transaction reverts."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     # Act and Asset
     with reverts("You didn't send the correct amount of Ether."):
         contract.mintArtwork(1, {"value": Web3.toWei(1, "ether")})
 
 
-def test_currentTokenID_does_not_increment_if_transaction_reverts(contract_setup):
+def test_currentTokenID_does_not_increment_if_transaction_reverts(contract_setup_with_open_minting):
     """Tests to see if currentTokenID does not increment if minting reverts. 
     Test will pass if ending token ID is the same as starting token ID."""
     # Arrange
-    contract = contract_setup
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 49
     price = Web3.toWei(1, "ether")
