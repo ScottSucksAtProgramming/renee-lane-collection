@@ -17,22 +17,33 @@
 
 # * ------------------------------- Resources ------------------------------ #
 from scripts.helpful_scripts import get_account
-from brownie import ReneeLaneCollection
+from brownie import ReneeLaneCollection, ZERO_ADDRESS
 from web3 import Web3
+import pytest
+
 # * ------------------------------- Variables ------------------------------ #
 
 
+@pytest.fixture
+def contract_setup_with_open_minting():
+    """Setup for the contract. Whitelists the Zero address."""
+    deployer_account = get_account()
+    contract = ReneeLaneCollection.deploy(
+        {"from": deployer_account})
+    contract.addToWhitelist(ZERO_ADDRESS)
+    return contract
 # # *  --------------------------- Token Tests ------------------------------- #
-def test_token_owner_is_set_correctly():
+
+
+def test_token_owner_is_set_correctly(contract_setup_with_open_minting):
     """Tests to see if the token is minted to the correct owner. Test will 
     pass if ownerOf Token is the same as the minter address."""
     # Arrange
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     minter_account = get_account(3)
     _imageNumber = 1
     token_ID = 1
-    contract = ReneeLaneCollection.deploy(
-        {"from": deployer_account})
     # Act
     contract.mintArtwork(
         _imageNumber,
@@ -43,15 +54,15 @@ def test_token_owner_is_set_correctly():
     assert owner_of_token == minter_account
 
 
-def test_tokenID_is_set_correctly():
+def test_tokenID_is_set_correctly(contract_setup_with_open_minting):
     """Tests that minted tokens have the correct tokenID. Test will pass if 
     logged TokenId equals expectedTokenID"""
     # Arrange
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
     _imageNumber = 1
     price = Web3.toWei(0.12, "ether")
     expected_token_ID = 1
-    contract = ReneeLaneCollection.deploy({"from": deployer_account})
     # Act
     tx = contract.mintArtwork(
         _imageNumber, {"value": price, "from": deployer_account}
@@ -61,13 +72,12 @@ def test_tokenID_is_set_correctly():
     assert expected_token_ID == actual_token_ID
 
 
-def test_token_URI_is_set_correctly():
+def test_token_URI_is_set_correctly(contract_setup_with_open_minting):
     """Test to see if the token URI is set correctly. Test will pass if 
     expected URI equals actual URI."""
     # Arrange
+    contract = contract_setup_with_open_minting
     deployer_account = get_account()
-    contract = ReneeLaneCollection.deploy(
-        {"from": deployer_account})
     expected_URI = "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/121.json"
     # Act
     tx = contract.mintArtwork(

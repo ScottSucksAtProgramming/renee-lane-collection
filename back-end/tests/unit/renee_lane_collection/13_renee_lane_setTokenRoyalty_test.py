@@ -16,21 +16,31 @@
 
 # * ------------------------------- Resources ------------------------------ #
 from scripts.helpful_scripts import get_account
-from brownie import ReneeLaneCollection
+from brownie import ReneeLaneCollection, ZERO_ADDRESS
 from web3 import Web3
+import pytest
+
 # * ------------------------------- Variables ------------------------------ #
 
+
+@pytest.fixture
+def contract_setup_with_open_minting():
+    """Setup for the contract. Whitelists the Zero address."""
+    deployer_account = get_account()
+    contract = ReneeLaneCollection.deploy(
+        {"from": deployer_account})
+    contract.addToWhitelist(ZERO_ADDRESS)
+    return contract
 #*  --------------------- _setTokenRoyalty() Tests -------------------------- #
 
 
-def test_token_royalty_address_is_set_correctly():
+def test_token_royalty_address_is_set_correctly(contract_setup_with_open_minting):
     """Tests to see if the token royalty address is set correctly for minted 
     tokens. Test will pass if expected royalty address equals actual royalty 
     address."""
     # Arrange
     deployer_account = get_account()
-    contract = ReneeLaneCollection.deploy(
-        {"from": deployer_account})
+    contract = contract_setup_with_open_minting
     price = Web3.toWei(0.12, "ether")
     _imageNumber = 5
     token_ID = 81
@@ -47,14 +57,13 @@ def test_token_royalty_address_is_set_correctly():
     assert expected_address == actual_address
 
 
-def test_token_royalty_amount_is_set_correctly():
+def test_token_royalty_amount_is_set_correctly(contract_setup_with_open_minting):
     """Tests to see if the token royalty value is calculated correctly for 
     minted tokens. Test will pass if royalty payout equals 10% of secondary 
     sale price."""
     # Arrange
     deployer_account = get_account()
-    contract = ReneeLaneCollection.deploy(
-        {"from": deployer_account})
+    contract = contract_setup_with_open_minting
     _imageNumber = 27
     price = Web3.toWei(0.36, "ether")
     token_ID = 461

@@ -13,23 +13,33 @@
 
 # * ------------------------------- Resources ------------------------------ #
 from scripts.helpful_scripts import get_account
-from brownie import ReneeLaneCollection
+from brownie import ReneeLaneCollection, ZERO_ADDRESS
 from web3 import Web3
 import random
+import pytest
 
 # * ------------------------------- Variables ------------------------------ #
 
+
+@pytest.fixture
+def contract_setup_with_open_minting():
+    """Setup for the contract. Whitelists the Zero address."""
+    deployer_account = get_account()
+    contract = ReneeLaneCollection.deploy(
+        {"from": deployer_account})
+    contract.addToWhitelist(ZERO_ADDRESS)
+    return contract
 # * ------------------------ printInvestorList() Tests --------------------- #
 # Todo: Test printInvestorList() returns no investors when empty.
 
 
-def test_printInvestorList_returns_no_investors_when_empty():
+def test_printInvestorList_returns_no_investors_when_empty(contract_setup_with_open_minting):
     # Arrange
+    contract = contract_setup_with_open_minting
     account = get_account()
-    reneeLaneCollection = ReneeLaneCollection.deploy({"from": get_account()})
     # Act
     expected_investorList = []
-    actual_investorList = reneeLaneCollection.printInvestorList()
+    actual_investorList = contract.printInvestorList()
     print(f"\nExpected investors list is: {expected_investorList}.")
     print(f"Returned investors list is: {actual_investorList}.\n")
     # Assert
@@ -37,19 +47,20 @@ def test_printInvestorList_returns_no_investors_when_empty():
 
 
 # Todo: Test printInvestorList() returns all investors.
-def test_printInvestorList_returns_correct_investors():
+def test_printInvestorList_returns_correct_investors(contract_setup_with_open_minting):
     # Arrange
+    contract = contract_setup_with_open_minting
+
     account = get_account()
     random_account = get_account(random.randint(3, 9))
-    reneeLaneCollection = ReneeLaneCollection.deploy({"from": get_account()})
-    reneeLaneCollection.mintArtwork(
+    contract.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": get_account(1)}
     )
-    reneeLaneCollection.mintArtwork(
+    contract.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": get_account(2)}
     )
     # Act
-    reneeLaneCollection.mintArtwork(
+    contract.mintArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": random_account}
     )
     expected_investorList = [
@@ -57,8 +68,6 @@ def test_printInvestorList_returns_correct_investors():
         str(get_account(2)),
         str(random_account),
     ]
-    actual_investorList = reneeLaneCollection.printInvestorList()
-    print(f"\nExpected investors list is: {expected_investorList}.")
-    print(f"Returned investors list is: {actual_investorList}.\n")
+    actual_investorList = contract.printInvestorList()
     # Assert
     assert actual_investorList == expected_investorList
