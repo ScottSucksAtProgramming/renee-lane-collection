@@ -3,3 +3,13 @@ __pycache__
 .history
 .hypothesis/
 .DS_Store/
+.DS_Store
+GitCommitMessage.txt
+ScrapPaper.txt
+brownie-config.yaml
+VMWalletAddressesForTesting.txt
+.prettierrc
+build/
+.pytest_cache/
+./.vscode/
+settings.json

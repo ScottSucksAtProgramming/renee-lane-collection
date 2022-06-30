@@ -19,20 +19,17 @@ from web3 import Web3
 
 
 # * ------------------------ withdrawPayout() Tests --------------------- #
-# Todo: Test withdrawPayout() reverts if no funds owed.
-# ! This was tested and works correctly. Test was removed because putting
-# ! the require statement 2nd in the function makes it difficult to test,
-# ! but makes sense for gas savings.
-# def test_withdrawPayout_reverts_if_contract_does_not_have_enough_funds():
-#     # Arrange
-#     account = get_account()
-#     reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
-#     contract_balance = reneeLaneCollection.getContractBalance({"from": account})
-#     # Act and Assert
-#     print(f"\nBalance in contract: {contract_balance}.")
-#     print(f"If transaction reverts due to no funds in contract, test will pass.\n")
-#     with reverts("No money in contract."):
-#         reneeLaneCollection.withdrawPayout({"from": account})
+def test_withdrawPayout_reverts_if_contract_does_not_have_enough_funds():
+    # Arrange
+    account = get_account()
+    reneeLaneCollection = ReneeLaneCollection.deploy({"from": account})
+    contract_balance = reneeLaneCollection.getContractBalance(
+        {"from": account})
+    # Act and Assert
+    print(f"\nBalance in contract: {contract_balance}.")
+    print(f"If transaction reverts due to no funds in contract, test will pass.\n")
+    with reverts("No money in contract."):
+        reneeLaneCollection.withdrawPayout({"from": account})
 
 
 # Todo: Test withdrawPayout() reverts if contract has no funds left.
