@@ -58,32 +58,32 @@
           1
         ],
         "Ownable.transferOwnership": [
-          1,
+          0,
           0,
           1
         ],
         "ReneeLaneCollection.addToWhitelist": [
           1,
-          1,
+          0,
           1
         ],
         "ReneeLaneCollection.mintArtwork": [
-          7,
-          7,
+          6,
+          5,
           7
         ],
         "ReneeLaneCollection.removeFromWhitelist": [
-          1,
-          1,
+          0,
+          0,
           1
         ],
         "ReneeLaneCollection.withdrawPayout": [
           0,
-          1,
+          0,
           1
         ],
         "Strings.toString": [
-          0,
+          1,
           0,
           1
         ]
@@ -134,7 +134,7 @@
           2
         ],
         "Ownable.transferOwnership": [
-          2,
+          0,
           2
         ],
         "ReneeLaneCollection.addToWhitelist": [
@@ -142,27 +142,31 @@
           2
         ],
         "ReneeLaneCollection.mintArtwork": [
-          9,
+          8,
           9
         ],
         "ReneeLaneCollection.removeFromWhitelist": [
-          2,
+          0,
           2
         ],
         "ReneeLaneCollection.withdrawPayout": [
-          1,
+          0,
           4
+        ],
+        "Strings.toString": [
+          5,
+          6
         ]
       },
       "totals": {
         "branches": [
-          14,
-          10,
+          12,
+          5,
           27
         ],
         "statements": [
-          28,
-          55
+          27,
+          61
         ]
       }
     }
@@ -174,7 +178,7 @@
           [
             2006,
             2028,
-            "yellow",
+            "red",
             ""
           ]
         ],
@@ -183,7 +187,7 @@
           [
             601,
             611,
-            "red",
+            "orange",
             ""
           ]
         ],
@@ -193,19 +197,19 @@
           [
             23367,
             23391,
-            "green",
+            "yellow",
             ""
           ],
           [
             18585,
             18619,
-            "green",
+            "orange",
             ""
           ],
           [
             18660,
             18693,
-            "green",
+            "red",
             ""
           ],
           [
@@ -241,13 +245,13 @@
           [
             23588,
             23611,
-            "green",
+            "red",
             ""
           ],
           [
             21263,
             21288,
-            "orange",
+            "red",
             ""
           ]
         ],
@@ -357,13 +361,13 @@
           [
             2378,
             2395,
-            "green",
+            "red",
             ""
           ],
           [
             2405,
             2450,
-            "green",
+            "red",
             ""
           ],
           [
@@ -375,19 +379,19 @@
           [
             1732,
             1762,
-            "green",
+            "red",
             ""
           ],
           [
             1998,
             2071,
-            "green",
+            "red",
             ""
           ],
           [
             2081,
             2109,
-            "green",
+            "red",
             ""
           ]
         ],
@@ -402,31 +406,31 @@
           [
             743,
             751,
-            "red",
+            "green",
             ""
           ],
           [
             765,
             775,
-            "red",
+            "green",
             ""
           ],
           [
             877,
             888,
-            "red",
+            "green",
             ""
           ],
           [
             902,
             958,
-            "red",
+            "green",
             ""
           ],
           [
             972,
             983,
-            "red",
+            "green",
             ""
           ]
         ],
@@ -434,7 +438,7 @@
           [
             930,
             977,
-            "green",
+            "red",
             ""
           ]
         ],
@@ -443,7 +447,7 @@
           [
             24056,
             24158,
-            "red",
+            "green",
             ""
           ],
           [
@@ -479,7 +483,7 @@
           [
             22018,
             22086,
-            "green",
+            "red",
             ""
           ],
           [
@@ -497,13 +501,13 @@
           [
             22518,
             22546,
-            "green",
+            "red",
             ""
           ],
           [
             18635,
             18750,
-            "green",
+            "red",
             ""
           ],
           [
@@ -557,19 +561,19 @@
           [
             20827,
             20846,
-            "green",
+            "red",
             ""
           ],
           [
             23580,
             23648,
-            "green",
+            "red",
             ""
           ],
           [
             23658,
             23689,
-            "green",
+            "red",
             ""
           ],
           [
@@ -593,7 +597,7 @@
           [
             23004,
             23047,
-            "green",
+            "red",
             ""
           ],
           [
@@ -605,13 +609,13 @@
           [
             20355,
             20473,
-            "red",
+            "green",
             ""
           ],
           [
             21255,
             21314,
-            "green",
+            "red",
             ""
           ],
           [
@@ -889,7 +893,7 @@
           [
             1688,
             1863,
-            "green",
+            "red",
             ""
           ],
           [
@@ -916,7 +920,7 @@
           [
             1217,
             1260,
-            "green",
+            "red",
             ""
           ]
         ],
@@ -961,7 +965,7 @@
           [
             1526,
             1614,
-            "green",
+            "red",
             ""
           ]
         ],

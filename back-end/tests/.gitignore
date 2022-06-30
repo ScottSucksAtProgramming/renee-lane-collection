@@ -11,5 +11,5 @@ VMWalletAddressesForTesting.txt
 .prettierrc
 build/
 .pytest_cache/
-./.vscode/
-settings.json
+.vscode/
+reports/

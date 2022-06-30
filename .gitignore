@@ -12,3 +12,4 @@ VMWalletAddressesForTesting.txt
 build/
 .pytest_cache/
 .vscode/
+reports/
