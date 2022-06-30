@@ -88,7 +88,7 @@
 [![Cathexis House Screen Shot][product-screenshot]](https://gynarchy.io)
 
 The Renee Lane Collection is a bespoke non-fungible token art collection
-developed by Ms. Viola Voltairine and her submissives. The collections’s main
+developed by Ms. Viola Voltairine and her community. The collections’s main
 components are a set of smart contracts running on the blockchain, a website
 where the gallery can be viewed and individual art pieces can be minted
 directly to collectors. The pieces of artwork contained in this collection were
