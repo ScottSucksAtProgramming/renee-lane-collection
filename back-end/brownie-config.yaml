@@ -44,9 +44,5 @@ pinata:
 
 reports:
   exclude_paths: null
-  exclude_contracts:
-    - ERC2981
-    - ERC721
-    - Ownable
-    - Strings
+  exclude_contracts: null
   only_include_project: false

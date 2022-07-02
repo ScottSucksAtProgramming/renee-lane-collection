@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity 0.8.15;
+
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -22,9 +24,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
 
     mapping(uint256 => Artwork) public artGallery;
 
+    mapping(uint256 => Artist) public artist;
+
     mapping(address => bool) public isInvestor;
 
-    mapping(uint256 => Artist) public artist;
+    mapping(address => bool) public isWhitelisted;
 
     mapping(address => uint256) public payoutsOwed;
 
@@ -44,8 +48,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         int256 indexed projectCut
     );
 
+    event PayoutSent(
+        address indexed caller,
+        address indexed recipientAddress,
+        uint256 indexed amount
+    );
+
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
-        //Intialize artist mapping
         artist[1] = Artist({
             directAddress: 0x33A4622B82D4c04a53e170c638B944ce27cffce3,
             royaltyAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
@@ -118,7 +127,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         }
     }
 
-    function mintArtwork(uint256 _imageNumber) public payable {
+    function mintArtwork(uint256 _imageNumber) external payable {
+        if (isWhitelisted[address(0)] == false) {
+            require(
+                isWhitelisted[msg.sender] == true,
+                "You are not whitelisted"
+            );
+        }
         require(
             _imageNumber > 0 && _imageNumber < 51,
             "The image you have selected does not exist in this collection."
@@ -133,13 +148,74 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             "You didn't send the correct amount of Ether."
         );
         Artist memory _artist = artist[artGallery[_imageNumber].artistID];
-        splitPayment(_artist.directAddress, msg.value);
         _safeMint(msg.sender, _newTokenID);
         _setTokenRoyalty(_newTokenID, _artist.royaltyAddress, 1000);
         if (!isInvestor[msg.sender]) {
             addNewInvestor(msg.sender, _newTokenID);
         }
+        splitPayment(_artist.directAddress, msg.value);
         artGallery[_imageNumber].currentTokenID++;
+    }
+
+    function withdrawPayout() external {
+        require(getContractBalance() > 0, "No money in contract.");
+        address _address;
+        if (msg.sender == owner()) {
+            _address = PROJECT_WALLET_ADDRESS;
+        } else {
+            _address = msg.sender;
+        }
+        uint256 _amount = payoutsOwed[_address];
+        require(_amount > 0, "No funds owed to this wallet.");
+        payable(_address).transfer(_amount);
+        emit PayoutSent(msg.sender, _address, _amount);
+        payoutsOwed[_address] = 0;
+    }
+
+    function addToWhitelist(address _address) external onlyOwner {
+        require(
+            !isWhitelisted[_address],
+            "Address is already on the whitelist."
+        );
+        isWhitelisted[_address] = true;
+    }
+
+    function removeFromWhitelist(address _address) external onlyOwner {
+        require(isWhitelisted[_address], "Address is not on the whitelist.");
+        isWhitelisted[_address] = false;
+    }
+
+    function forcePayment(address _addressToBePayed) external onlyOwner {
+        uint256 _amountOwed = payoutsOwed[_addressToBePayed];
+        require(_amountOwed > 0, "No money owed to this address.");
+        payable(_addressToBePayed).transfer(_amountOwed);
+        emit PayoutSent(msg.sender, _addressToBePayed, _amountOwed);
+        payoutsOwed[_addressToBePayed] = 0;
+    }
+
+    function getContractBalance()
+        public
+        view
+        returns (uint256 contractBalance)
+    {
+        return address(this).balance;
+    }
+
+    function printInvestorList()
+        public
+        view
+        returns (address[] memory allInvestors)
+    {
+        return investorList;
+    }
+
+    function supportsInterface(bytes4 interfaceID)
+        public
+        view
+        override(ERC721, ERC721Royalty)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceID);
     }
 
     function tokenURI(uint256 tokenID)
@@ -161,45 +237,11 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             );
     }
 
-    function printInvestorList()
-        public
-        view
-        returns (address[] memory allInvestors)
-    {
-        return investorList;
+    function addNewInvestor(address _minterAddress, uint64 _tokenID) internal {
+        isInvestor[_minterAddress] = true;
+        investorList.push(_minterAddress);
+        emit NewInvestorAdded(_minterAddress, _tokenID);
     }
-
-    function withdrawPayout() public {
-        require(address(this).balance > 0, "No money in contract.");
-        require(payoutsOwed[msg.sender] > 0, "No funds owed to this wallet.");
-        payable(msg.sender).transfer(payoutsOwed[msg.sender]);
-        payoutsOwed[msg.sender] = 0;
-    }
-
-    function forcePayment(address _address) public onlyOwner {
-        require(payoutsOwed[_address] > 0, "No money owed to this address.");
-        payable(_address).transfer(uint256(payoutsOwed[_address]));
-        payoutsOwed[_address] = 0;
-    }
-
-    function getContractBalance()
-        public
-        view
-        returns (uint256 contractBalance)
-    {
-        return address(this).balance;
-    }
-
-    function supportsInterface(bytes4 interfaceID)
-        public
-        view
-        override(ERC721, ERC721Royalty)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceID);
-    }
-
-    //* --------------------- Internal Functions -------------------------- //
 
     function _baseURI() internal view virtual override returns (string memory) {
         return
@@ -228,11 +270,5 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             _artistCut,
             _projectCut
         );
-    }
-
-    function addNewInvestor(address _minterAddress, uint64 _tokenID) internal {
-        isInvestor[_minterAddress] = true;
-        investorList.push(_minterAddress);
-        emit NewInvestorAdded(_minterAddress, _tokenID);
     }
 }

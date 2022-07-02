@@ -31,6 +31,41 @@ def contract_setup_with_open_minting():
 # * ------------------------ withdrawPayout() Tests --------------------- #
 
 
+def test_withdrawPayout_assigns_PROJECT_WALLET_ADDRESS_when_called_by_owner(contract_setup_with_open_minting):
+    """Test to see if the PROJECT_WALLET_ADDRESS is assigned as the payment 
+    recipient when withdrawPayout is called by the contract owner. Test will 
+    pass if the PayoutSent 'recipientAddress' is equal to the 
+    PROJECT_WALLET_ADDRESS."""
+    # Arrange
+    contract = contract_setup_with_open_minting
+    owner = get_account()
+    contract.mintArtwork(
+        1, {"value": Web3.toWei(0.12, "ether"), "from": owner}
+    )
+    # Act
+    tx = contract.withdrawPayout({"from": owner})
+    # Assert
+    assert tx.events["PayoutSent"]['recipientAddress'] == contract.PROJECT_WALLET_ADDRESS()
+
+
+def test_withdrawPayout_assigns_sends_to_msg_sender_when_called_by_non_owner(contract_setup_with_open_minting):
+    """Test to see if the caller of withdrawPayout is assigned as the payment 
+    recipient when withdrawPayout is called by a non-owner. Test will pass if 
+    the PayoutSent 'recipientAddress' is equal to the caller of 
+    withdrawPayout."""
+    # Arrange
+    contract = contract_setup_with_open_minting
+    owner = get_account()
+    contract.mintArtwork(
+        1, {"value": Web3.toWei(0.12, "ether"), "from": owner}
+    )
+    artist_address = contract.artist(1)[0]
+    # Act
+    tx = contract.withdrawPayout({"from": artist_address})
+    # Assert
+    assert tx.events["PayoutSent"]['recipientAddress'] == artist_address
+
+
 def test_withdrawPayout_reverts_if_contract_does_not_have_enough_funds(contract_setup_with_open_minting):
     # Arrange
     contract = contract_setup_with_open_minting

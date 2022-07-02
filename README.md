@@ -18,8 +18,7 @@
 <p align="center">
 
 [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url] 
-[![Stargazers][stars-shield]][stars-url]
+[![Forks][forks-shield]][forks-url] [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
@@ -171,22 +170,22 @@ _For more examples, please refer to the
 -   [ ] Smart Contracts
 
     -   [ ] Non-Fungible Tokens - Art Collection
-        -   [ ] Contract Development - In Progress (83%)
+        -   [x] Contract Development - Complete
             -   [x] Single Collection
             -   [x] Investor and Owner Lists
             -   [x] Minting Function
             -   [x] Payout Splits
                 -   [x] Minting Payouts
                 -   [x] Royalty Payouts
-            -   [ ] Pre-Sale Whitelist
+            -   [x] Pre-Sale Whitelist
         -   [ ] Gas Optimization
         -   [ ] Testing
-            -   [ ] Unit Testing - In Progress (92.5%)
-            -   [ ] MythX Deep Scan Security Audit
+            -   [x] Unit Testing
+            -   [x] MythX Deep Scan Security Audit
             -   [ ] User Testing
             -   [ ] Integration Testing
         -   [ ] Metadata
-            -   [ ] Metadata Script - In Progress (70%)
+            -   [ ] Metadata Script
             -   [ ] JSON Files Created
             -   [ ] Metadata Uploaded to IPFS
             -   [ ] Token URI Information added to contract.
@@ -199,7 +198,7 @@ _For more examples, please refer to the
             -   [x] Buyback Mechanics (Will be done manually)
         -   [x] Gas Optimization
         -   [ ] Testing
-            -   [x] Unit Testing - Coverage Approximately (95%)
+            -   [x] Unit Testing
             -   [x] MythX Deep Scan Security Audit
             -   [ ] User Testing
             -   [ ] Integration Testing
@@ -222,6 +221,8 @@ for a full list of proposed features (and known issues).
             Released 06/02/2022
     -   [x] [0.4.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.4.0-alpha) -
             Released 06/06/2022
+    -   [x] [0.4.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.5.0-alpha) -
+            Released 07/01/2022
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 

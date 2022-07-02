@@ -1,4 +1,4 @@
-//* SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 /**
  * ___________________________________________________________________________
  * ___________________▄▄Æ█▀▀▀███Æ▄▄,_______,▄▄Æ▀██▀▀▀██▄▄_____________________
@@ -35,7 +35,7 @@
  * @title The Renee Lane Collection
  * @author Scott Kostolni
  *
- * @notice Version 0.5.0 Alpha
+ * @notice Version 0.5.0 alpha
  *
  * @notice This is a bespoke ERC-721 smart contract written to manage creation
  * and tracking of Non-Fungible Tokens for the Renee Lane Collection, a
@@ -86,52 +86,49 @@
  * 06-27-2022 | SRK | Updated to follow Solidity and Project Style Guides.
  * 06-27-2022 | SRK | Refactored to follow Solidity and Project Style Guides.
  * 06-27-2022 | SRK | Documentation and Comments Updated.
- *
- * 06-27-2022 | SRK | Version 0.5.0 Alpha released.
+ * 06-29-2022 | SRK | Added Whitelist Functionality.
+ * 06-30-2022 | SRK | Version 0.5.0 Alpha released.
  */
 
 //* ----------------------------- Statistics ------------------------------ //
 /**
  * @notice Current Gas Usage for version 0.5.0 Alpha - Optmizer: 1,000 Runs
- * ├─ deployment             -  avg: 5532461  avg (confirmed): 5532461  low: 5532461  high: 5532461  USD: $305.90
- * ├─ constructor            -  avg: 4687035  avg (confirmed): 4687035  low: 4687035  high: 4687035  USD: $259.16
- * ├─ mintArtwork            -  avg:  123686  avg (confirmed):  130520  low:   21629  high:  206497  USD:  $11.42
- * ├─ printInvestorList      -  avg:   24771  avg (confirmed):   24771  low:   23158  high:   26150  USD:   $1.45
- * ├─ name                   -  avg:   24519  avg (confirmed):   24519  low:   24519  high:   24519  USD:   $1.36
- * ├─ symbol                 -  avg:   24517  avg (confirmed):   24517  low:   24517  high:   24517  USD:   $1.36
- * ├─ tokenURI               -  avg:   24263  avg (confirmed):   25111  low:   22570  high:   25667  USD:   $1.42
- * ├─ artGallery             -  avg:   23478  avg (confirmed):   23478  low:   23478  high:   23478  USD:   $1.30
- * ├─ artist                 -  avg:   23280  avg (confirmed):   23280  low:   23280  high:   23280  USD:   $1.29
- * ├─ royaltyInfo            -  avg:   23026  avg (confirmed):   23026  low:   23026  high:   23026  USD:   $1.27
- * ├─ isInvestor             -  avg:   22707  avg (confirmed):   22707  low:   22707  high:   22707  USD:   $1.26
- * ├─ payoutsOwed            -  avg:   22696  avg (confirmed):   22696  low:   22696  high:   22696  USD:   $1.25
- * ├─ forcePayment           -  avg:   22602  avg (confirmed):   22003  low:   22003  high:   23653  USD:   $1.31
- * ├─ ownerOf                -  avg:   22506  avg (confirmed):   22506  low:   22506  high:   22506  USD:   $1.24
- * ├─ PROJECT_WALLET_ADDRESS -  avg:   22212  avg (confirmed):   22212  low:   22212  high:   22212  USD:   $1.23
- * ├─ supportsInterface      -  avg:   21903  avg (confirmed):   21903  low:   21795  high:   21958  USD:   $1.21
- * ├─ getContractBalance     -  avg:   21293  avg (confirmed):   21293  low:   21293  high:   21293  USD:   $1.18
- * └─ withdrawPayout         -  avg:   21158  avg (confirmed):   20609  low:   20609  high:   22258  USD:   $1.23
- * Note: USD Calculations based on Gas Price: 46 Wei and Ethereum price: $1202 from 6-27-2022.
+ * ├─ deployment             -  avg: 5993711  avg (confirmed): 5993711  low: 5993711  high: 5993711 USD: $113.82
+ * ├─ constructor            -  avg: 4882094  avg (confirmed): 4882094  low: 4882094  high: 4882094 USD:  $92.71
+ * ├─ mintArtwork            -  avg:  139811  avg (confirmed):  153717  low:   22479  high:  211063 USD:   $4.01
+ * ├─ addToWhitelist         -  avg:   43341  avg (confirmed):   44218  low:   22728  high:   44439 USD:   $0.84
+ * ├─ withdrawPayout         -  avg:   26814  avg (confirmed):   29073  low:   21398  high:   48446 USD:   $0.92
+ * ├─ transferOwnership      -  avg:   26474  avg (confirmed):   30154  low:   22794  high:   30154 USD:   $0.57
+ * ├─ printInvestorList      -  avg:   24716  avg (confirmed):   24716  low:   23203  high:   26195 USD:   $0.50
+ * ├─ name                   -  avg:   24519  avg (confirmed):   24519  low:   24519  high:   24519 USD:   $0.47
+ * ├─ symbol                 -  avg:   24495  avg (confirmed):   24495  low:   24495  high:   24495 USD:   $0.47
+ * ├─ tokenURI               -  avg:   24221  avg (confirmed):   25059  low:   22548  high:   25609 USD:   $0.49
+ * ├─ artGallery             -  avg:   23456  avg (confirmed):   23456  low:   23456  high:   23456 USD:   $0.44
+ * ├─ artist                 -  avg:   23280  avg (confirmed):   23280  low:   23280  high:   23280 USD:   $0.45
+ * ├─ forcePayment           -  avg:   23139  avg (confirmed):   23076  low:   22752  high:   23656 USD:   $0.44
+ * ├─ royaltyInfo            -  avg:   23020  avg (confirmed):   23020  low:   23014  high:   23026 USD:   $0.43
+ * ├─ isInvestor             -  avg:   22751  avg (confirmed):   22751  low:   22751  high:   22763 USD:   $0.43
+ * ├─ isWhitelisted          -  avg:   22742  avg (confirmed):   22742  low:   22742  high:   22742 USD:   $0.43
+ * ├─ payoutsOwed            -  avg:   22741  avg (confirmed):   22741  low:   22741  high:   22741 USD:   $0.42
+ * ├─ ownerOf                -  avg:   22484  avg (confirmed):   22484  low:   22484  high:   22484 USD:   $0.42
+ * ├─ PROJECT_WALLET_ADDRESS -  avg:   22190  avg (confirmed):   22190  low:   22190  high:   22190 USD:   $0.42
+ * ├─ owner                  -  avg:   22140  avg (confirmed):   22140  low:   22140  high:   22140 USD:   $0.41
+ * ├─ supportsInterface      -  avg:   21903  avg (confirmed):   21903  low:   21795  high:   21958 USD:   $0.42
+ * ├─ getContractBalance     -  avg:   21358  avg (confirmed):   21358  low:   21358  high:   21358 USD:   $0.41
+ * ├─ removeFromWhitelist    -  avg:   20416  avg (confirmed):   14749  low:   14749  high:   23706 USD:   $0.45
+ * └─ renounceOwnership      -  avg:   18500  avg (confirmed):   14775  low:   14775  high:   22226 USD:   $0.42
+ * Note: USD Calculations based on Gas Price: 35 Wei and Ethereum price: $1208 from 6-26-2022.
  * Formula: TransactionCost =  (Gas (High) * Gas Price * Etherum USD Price) / 1,000,000,000
  */
 
 //* ------------------------------- Tasks --------------------------------- //
 /**
-  * Update minting functions and counters to model the collection. - Complete 
-  * (05/09/2022)
-  * Add access control support. - Complete (05/10/2022)
-  * Add royalty support. - Complete (05/15/2022)
-  * Add Withdraw Payment functionality. - Complete (5/19/2022)
-  * Implement Minting Payment Splits.  - Complete (5/19/2022)
-  * Implement Royalty Payment Splits.  - Complete (5/19/2022)
-  * Create/Add MoneyPipe Contract Address for Royalty Splits.  - Complete 
-  * (5/19/2022)
-  * Add Investor List functionality. - Complete (6/02/2022)
-  * Clean up code and make self-documenting. - Complete (6/27/2022)
-  * Todo: Update _baseURI to new IPFS metdata address.
-  * Todo: Gas Optimization Passes.
-
-*/
+ * Todo: Release version 0.5.0 alpha
+ * Todo: Deploy Renee Lane Collection contract for Beta testing.
+ * Todo: Begin preparing for beta release.
+ * Todo: Update _baseURI to new IPFS metdata address.
+ * Todo: Gas Optimization Passes.
+ */
 
 //* ------------------------------ Resources ------------------------------ //
 /**
@@ -151,11 +148,27 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 //* ------------------------------ Contract ------------------------------- //
 /**
- * @notice the contract statement defines the contract's name, and the
+ * @notice The contract statement defines the contract's name, and the
  * libraries that it uses.
+ *
+ * @notice The Renee Lane Collection inherits OpenZeppelin's ERC721,
+ * ERC721Royalty, and Ownable extensions to ensure compliance to the current
+ * standards and provide a strong securit basis with code that has been vetted
+ * elsewhere.
  */
 contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
-    //* -------------------------- Structs -------------------------------- //
+    //* ------------------------ Data Structures --------------------------- //
+    /**
+     * @notice Data structures are used to store data in the contract. They
+     * represent real world objects in the code. In this contract there are
+     * stuctures which represent pieces of artwork and the artists. There are
+     * additional structures which represent collection investors, the art
+     * gallery where the collection is managed, a whitelist of people who can
+     * invest in the collection early, and a ledger which tracks the
+     * collection's payouts owed to the artists and the project owner.
+     */
+
+    //* --------------------------- Structs -------------------------------- //
     /**
      * @notice Structs represent items with specific properties. This contract
      * uses two structs to define the Artwork and the Artists.
@@ -215,6 +228,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     mapping(uint256 => Artwork) public artGallery;
 
     /**
+     * @notice The artist Mapping stores information about each artist. When
+     * given an artistID (1-5) it will return the directAddress and
+     * royaltyAddress for that artist.
+     */
+    mapping(uint256 => Artist) public artist;
+
+    /**
      * @notice the isInvestoryapping stores information about each investor.
      * When given a wallet address it will return True if that address has
      * minted a piece of art from this collection. If they have not it will
@@ -223,19 +243,6 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     mapping(address => bool) public isInvestor;
 
     /**
-     * @notice The artist Mapping stores information about each artist. When
-     * given an artistID (1-5) it will return the directAddress and
-     * royaltyAddress for that artist.
-     */
-    mapping(uint256 => Artist) public artist;
-
-    /**
-     * @notice The payoutsOwed mapping stores the payouts owed to each artist
-     * and to the project owner. When given a wallet address this mapping will
-     * return the amount of ether (in wei) that is owed to that address.
-     */
-    mapping(address => uint256) public payoutsOwed;
-    /**
      * @notice The isWhitelisted mapping stores the whitelist status of
      * addresses. These are addresses that are allowed to mint tokens prior
      * to the collection launch. When given a wallet address it will return
@@ -243,28 +250,87 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      * False.
      */
     mapping(address => bool) public isWhitelisted;
+
+    /**
+     * @notice The payoutsOwed mapping stores the payouts owed to each artist
+     * and to the project owner. When given a wallet address this mapping will
+     * return the amount of ether (in wei) that is owed to that address.
+     */
+    mapping(address => uint256) public payoutsOwed;
+
     //* ----------------------- State Variables --------------------------- //
-    // Stores the project's Wallet Address.
+    /**
+     * @notice The PROJECT_OWNER_ADDRESS is address of the project owner. It
+     * cannot be changed after the contract is deployed. Funds owed to the
+     * project owner are paid to this address.
+     */
     address public PROJECT_WALLET_ADDRESS = (
         0xdD870fA1b7C4700F2BD7f44238821C26f7392148
     );
 
     //* --------------------------- Events -------------------------------- //
+    /**
+     * @notice Events are used to log important updates about what The Renee
+     * Lane Collection is doing. When an event is triggered it will log the
+     * information permanently on the blockchain.
+     */
+
+    /**
+     * @notice The NewInvestorAdded event is triggered when a new investor is
+     * added to the investor list and mapping. It logs the investor's address
+     * and the token ID of the first piece of art they minted.
+     *
+     * @notice The NewInvestorAdded event is triggered when addNewInvestor()
+     * function is called.
+     */
     event NewInvestorAdded(
         address indexed investorAddress,
         uint256 indexed tokenID
     );
-
+    /**
+     * @notice The PaymentSplit event is triggered when a minting payment is
+     * received and split between the artist and the project owner. It logs
+     * the amount of ether (in wei) that is due to the artist and the amount
+     * that is due to the project owner.
+     *
+     * @notice The PaymentSplit event is trigged when the splitPayment()
+     * function is called.
+     */
     event PaymentSplit(
         uint256 totalValueReceived,
         address indexed artistAddress,
         int256 indexed artistCut,
         int256 indexed projectCut
     );
+    /**
+     * @notice the PayoutSent event is triggered when a payout is sent from
+     * the contract. It logs the address of the person who initiated the
+     * payout, the address of the recipient and the amount of ether (in wei)
+     * that was sent.
+     *
+     * @notice The PayoutSent event is triggered when the withdrawPayout() or
+     * forcePayment() functions are called.
+     */
+    event PayoutSent(
+        address indexed caller,
+        address indexed recipientAddress,
+        uint256 indexed amount
+    );
 
     //* ------------------------- Constructor ----------------------------- //
+    /**
+     * @notice The constructor helps set up the initial state of the smart
+     * contract. It is called when the contract is deployed.
+     *
+     * @notice It first sets the name of the Art Collection and the Symbol the
+     * tokens will have.
+     */
     constructor() ERC721("The Renee Lane Collection", "TRLC") {
-        //Intialize artist mapping
+        /**
+         * @notice Here the constructor populates the artist mapping by
+         * assigning the direct and royalty addresses to each artist by their
+         * ID number.
+         */
         artist[1] = Artist({
             directAddress: 0x33A4622B82D4c04a53e170c638B944ce27cffce3,
             royaltyAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
@@ -286,8 +352,13 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             royaltyAddress: 0x17F6AD8Ef982297579C203069C1DbfFE4348c372
         });
 
-        // Initializes Artwork Struct Objects. I couldn't come up with a
-        // better way to do this math. This works.
+        /**
+         * @notice Here the constructor populates the artGallery mapping by
+         * creating Artwork objects for each image in the collection. The image
+         * number, price, starting token ID, and artist who created the image
+         * are all assigned. The lastTokenID is also set which limits the
+         * number of tokens that can be minted for that piece of art.
+         */
         artGallery[1] = Artwork(1, .12 ether, 1, 20, 1);
         for (uint64 index = 2; index <= 10; index++) {
             artGallery[index] = Artwork({
@@ -339,26 +410,43 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         }
     }
 
-    //* ---------------------- Public Functions -------------------------- //
+    //* --------------------- External Functions -------------------------- //
+    /**
+     * @notice External functions can ONLY be called from other contracts, or
+     * users.
+     */
 
     /**
-     * @notice This function will mint a token of the specified image passed
-     * to it.  It wll revert if the image number is out side of this
-     * collection, if there are no tokens left for that image, or if the
-     * minter failed to send enough ether to cover the price.
+     * @notice The mintImage() function was renamed to mintArtwork() to better
+     * fit the theme of the project. The minter must specify the number of the
+     * image they wish to purchse, and pay the correct amount of Ether.
      *
-     * @notice Following the minting the royalty information is set via the
-     * _setTokenRoyalty() function inherited from OpenZeppelin's
-     * ERC721Royalty extension.
+     * @notice The function will check to see if the minter is authorized to
+     * mint the image by checking the isWhitelisted mapping. It insures that
+     * the minter has selected an art piece contained within the collection
+     * and that there are still editions of that artpiece available.
      *
-     * @notice Finally, The price of the image ii then transferred to a
-     * MoneyPipe contract which pays out 90% to the project and a 10%
-     * commision back to the artist.
+     * @notice If all checks are passed the token will be minted and assigned
+     * to the minter via the _safeMint() function inherited from
+     * OpenZeppelin's ERC721 contract. Royalty preferences for that token are
+     * set using the _setTokenRoyalty() function inherited from OpenZeppelin's
+     * ERC721Royalty contract and by using the ERC2981 royalty standard.
+     *
+     * @notice If this is the first artpiece purchased by the minter their
+     * address will be added to the investorList and isInvestor mapping.
+     *
+     * @notice The payment received from the minter is split between the
+     * artist and the PROJECT_WALLET_ADDRESS using the splitPayment()
+     * function. These payouts can be withdrawn later.
+     *
+     * @notice Finally the mintArtwork() function increments the
+     * currentTokenID for that artpiece removing one edition of that image
+     * from the amount available.
      *
      * @param _imageNumber The number of the image the user wants to mint
      * (1-50).
      */
-    function mintArtwork(uint256 _imageNumber) public payable {
+    function mintArtwork(uint256 _imageNumber) external payable {
         if (isWhitelisted[address(0)] == false) {
             require(
                 isWhitelisted[msg.sender] == true,
@@ -379,19 +467,168 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             "You didn't send the correct amount of Ether."
         );
         Artist memory _artist = artist[artGallery[_imageNumber].artistID];
-        splitPayment(_artist.directAddress, msg.value);
         _safeMint(msg.sender, _newTokenID);
         _setTokenRoyalty(_newTokenID, _artist.royaltyAddress, 1000);
         if (!isInvestor[msg.sender]) {
             addNewInvestor(msg.sender, _newTokenID);
         }
+        splitPayment(_artist.directAddress, msg.value);
         artGallery[_imageNumber].currentTokenID++;
     }
 
     /**
-     * @notice The tokenURI() function works in conjunction with the
-     * _baseURI() function to set the tokenURI address for the specified
-     * token.
+     * @notice The withdrawPayout() function allows the caller to withdraw the
+     * Ether owed to them. This function can be called by anyone but will
+     * revert if no money is owed to them or if there is no Ether stored in
+     * the contract. When called by the owner they payment will be disbursed
+     * to the PROJECT_WALLET_ADDRESS, otherwise payment will be disbursed to
+     * the caller's address.
+     *
+     * @notice Once the payment has been sent the PayoutSent event is
+     * triggered to log the payout. The balance owed to that address is set to
+     * 0.
+     */
+    function withdrawPayout() external {
+        require(getContractBalance() > 0, "No money in contract.");
+        address _address;
+        if (msg.sender == owner()) {
+            _address = PROJECT_WALLET_ADDRESS;
+        } else {
+            _address = msg.sender;
+        }
+        uint256 _amount = payoutsOwed[_address];
+        require(_amount > 0, "No funds owed to this wallet.");
+        payable(_address).transfer(_amount);
+        emit PayoutSent(msg.sender, _address, _amount);
+        payoutsOwed[_address] = 0;
+    }
+
+    //* -------------------- OnlyOwner Functions -------------------------- //
+    /**
+     * @notice OnlyOwner functions are only callable by the owner of the
+     * contract. They are subclass of External Functions.
+     */
+
+    /**
+     * @notice The addToWhitelist() function allows the contract owner to
+     * authorize new addresses to mint tokens early by setting their address
+     * to return True from the isWhitelisted mapping.
+     *
+     * @notice The function will first check to ensure the address is not
+     * already whitelisted. This function can only be called by the owner.
+     *
+     *! @notice Note: If the owner adds the Zero Address to the whitelist the
+     *! mintArtwork() function will allow ALL addresses to mint artwork.
+     *
+     * @param _address The address to be added to the whitelist.
+     */
+    function addToWhitelist(address _address) external onlyOwner {
+        require(
+            !isWhitelisted[_address],
+            "Address is already on the whitelist."
+        );
+        isWhitelisted[_address] = true;
+    }
+
+    /**
+     * @notice The removeFromWhitelist() function allows the contract owner to
+     * deauthorize an address from minting tokens early by setting their
+     * address to return False from the isWhitelisted mapping.
+     *
+     * @notice The function will first check to ensure the address is
+     * currently on the whitelist. This function can only be called by the
+     * owner.
+     *
+     * @param _address The address to be removed from the whitelist.
+     */
+    function removeFromWhitelist(address _address) external onlyOwner {
+        require(isWhitelisted[_address], "Address is not on the whitelist.");
+        isWhitelisted[_address] = false;
+    }
+
+    /**
+     * @notice The forcePayment() function allows the contract owner to force
+     * a payment to be sent to an address they specify. This function can only
+     * be called by the owner and is designed to be used in a situation where
+     * the artist cannot request their own payout using the withdrawPayout()
+     * function.
+     *! @notice This function is less secure than withdrawPayout() and should
+     *! only be used when absolutely necessary. It does not follow the
+     *! recommended pull design pattern.
+     *
+     * @notice This function will revert if no payment is owed to the
+     * specified address, or when the caller is not the owner. After paying
+     * the specified address, a PayoutSent event is triggered and the balance
+     * owed to that address is set to 0.
+     *
+     * @param _addressToBePayed The address of the wallet payment will be sent
+     * to.
+     *
+     */
+    function forcePayment(address _addressToBePayed) external onlyOwner {
+        uint256 _amountOwed = payoutsOwed[_addressToBePayed];
+        require(_amountOwed > 0, "No money owed to this address.");
+        payable(_addressToBePayed).transfer(_amountOwed);
+        emit PayoutSent(msg.sender, _addressToBePayed, _amountOwed);
+        payoutsOwed[_addressToBePayed] = 0;
+    }
+
+    //* ---------------------- Public Functions -------------------------- //
+    /**
+     * @notice Public functions can be seen and called from other contracts,
+     * users as well as from the contract itself.
+     */
+
+    /**
+     * @notice The getContractBalance() function returns the current balance
+     * of Ether (in Wei) currently stored in the contract.
+     *
+     * @return contractBalance The amount of Ether (in Wei)
+     */
+    function getContractBalance()
+        public
+        view
+        returns (uint256 contractBalance)
+    {
+        return address(this).balance;
+    }
+
+    /**
+     * @notice The printInvestosList() function returns the list of investor
+     * addresses from the investorList array.
+     *
+     * @return allInvestors The address stored on the investorList[] array.
+     *
+     */
+    function printInvestorList()
+        public
+        view
+        returns (address[] memory allInvestors)
+    {
+        return investorList;
+    }
+
+    /**
+     * @notice The supportsInterface() function returns 'true' for supported
+     * interfaces. Returns 'false' if the interface is not supported.
+     *
+     * @param interfaceID The 4 byte identifier for an interface.
+     *
+     * @return bool A True of False value.
+     *
+     */
+    function supportsInterface(bytes4 interfaceID)
+        public
+        view
+        override(ERC721, ERC721Royalty)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceID);
+    }
+
+    /**
+     * @notice The tokenURI() function returns the Token URI for the specified
+     * tokenID. It will revert if the tokenID provided does not exist.
      *
      * @param tokenID - The number of the token for which the URI is being
      * set.
@@ -418,110 +655,32 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             );
     }
 
-    /**
-     * @notice The printInvestorList() function will return each address
-     * stored in the investorList[] array.
-     *
-     * @return allInvestors The address stored on the investorList[] array.
-     *
-     */
-    function printInvestorList()
-        public
-        view
-        returns (address[] memory allInvestors)
-    {
-        return investorList;
-    }
-
-    /**
-     * @notice The withdrawPayout() function can be called by anyone, it will
-     * check to see if the caller's wallet address is owed any funds. If so
-     * those funds will paid out and the balance of that wallet address will
-     * be set to 0. If no money is owed to that address the transaction is
-     * reverted.
-     *
-     *
-     */
-    function withdrawPayout() public {
-        require(address(this).balance > 0, "No money in contract.");
-        require(payoutsOwed[msg.sender] > 0, "No funds owed to this wallet.");
-        payable(msg.sender).transfer(payoutsOwed[msg.sender]);
-        payoutsOwed[msg.sender] = 0;
-    }
-
-    /**
-     * @notice The forcePayment() function pays out the balance owed to the
-     * specified artist and sets their owed balance to 0. These balances
-     * are stored inside the Artist struct.
-     *
-     * @notice This is an internal function which is not called on it's
-     * own, it is called as part of the payoutFunds() function.
-     *
-     * @param _address The address of the wallet you want to force payment to.
-     *
-     */
-    function forcePayment(address _address) public onlyOwner {
-        require(payoutsOwed[_address] > 0, "No money owed to this address.");
-        payable(_address).transfer(uint256(payoutsOwed[_address]));
-        payoutsOwed[_address] = 0;
-    }
-
-    /**
-     * @notice The getContractBalance() function returns current amount of
-     * Ether stored in the contract.
-     *
-     * @return contractBalance The amount of Ether (in Wei)
-     *
-     */
-    function getContractBalance()
-        public
-        view
-        returns (uint256 contractBalance)
-    {
-        return address(this).balance;
-    }
-
-    /**
-     * @notice The supportsInterface() function returns 'true' for supported
-     * interfaces. Returns 'false' if the interface is not supported.
-     *
-     * @param interfaceID The 4 byte identifier for an interface.
-     *
-     * @return bool A True of False value.
-     *
-     */
-    function supportsInterface(bytes4 interfaceID)
-        public
-        view
-        override(ERC721, ERC721Royalty)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceID);
-    }
-
-    /**
-     * @notice The addToWhitelist() function sets the isWhiteListed mapping to
-     * return true for the specified address.
-     *
-     * @param _address The address you want to add to the whitelist.
-     */
-    function addToWhitelist(address _address) public onlyOwner {
-        require(
-            !isWhitelisted[_address],
-            "Address is already on the whitelist."
-        );
-        isWhitelisted[_address] = true;
-    }
-
-    function removeFromWhitelist(address _address) public onlyOwner {
-        require(isWhitelisted[_address], "Address is not on the whitelist.");
-        isWhitelisted[_address] = false;
-    }
-
     //* --------------------- Internal Functions -------------------------- //
     /**
-     * @notice The _baseURI() function sets the base IPFS address where this
-     * collection's metadata is stored.
+     * @notice Internal functions are only callable by the contract itself.
+     * They are not available to users, the owner, or other contracts.
+     */
+
+    /**
+     * @notice The addNewInvestor() function will add a new investor to the
+     * investorList and set their isInvestor mapping result to true.
+     *
+     * @notice This function emits the NewInvestorAdded event.
+     *
+     * @param _minterAddress Wallet address of the person who minted the
+     * artwork.
+     *
+     * @param _tokenID the tokenID of the artwork they minted.
+     */
+    function addNewInvestor(address _minterAddress, uint64 _tokenID) internal {
+        isInvestor[_minterAddress] = true;
+        investorList.push(_minterAddress);
+        emit NewInvestorAdded(_minterAddress, _tokenID);
+    }
+
+    /**
+     * @notice The _baseURI() function returns the IPFS address where this
+     * collection's metadata and assets are stored.
      *
      * @return string The baseURI address.
      *
@@ -532,10 +691,16 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-     * @notice The _burn() function allows token owners to destroy the
-     * specified token which they own. The Royalty information for that token
-     * will also be removed. WARNING: This is irreversible. If you burn your
-     * token it can NEVER be recovered.
+     * @notice The _burn() function is used to burn a token. This is function
+     * which is required by the libraries this contract uses to interact with
+     * the blockchain but there is no way to call this function
+     * (or to burn tokens) for artwork from this collection.
+     *
+     * @notice If a token is burned it will be removed from the collection,
+     * the royalty information will be erased.
+     *
+     *! @notice Burning a token is irreversible. If you burn your token it can
+     *! NEVER be recovered.
      *
      * @param tokenID The token ID which is to be destroyed.
      *
@@ -550,13 +715,16 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     }
 
     /**
-     * @notice The splitPayment() function splits the minting payment
-     * between the artist and project wallet.
+     * @notice The splitPayment() function splits payments received during
+     * the minting process. The artist receives 10% of the payment, and the
+     * project receives the remaining 90%.
+     *
+     * @notice This function emits the PayoutSplit event.
      *
      * @param _artistDirectAddress The address of the artist's wallet.
      *
-     * @param valueSent The amount of Ether paid to mint the artwork.
-     *
+     * @param valueSent The amount of Ether received when the artwork was
+     * minted.
      */
     function splitPayment(address _artistDirectAddress, uint256 valueSent)
         internal
@@ -571,23 +739,5 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             _artistCut,
             _projectCut
         );
-    }
-
-    /**
-     * @notice The addNewInvestor() function adds a new investor to the
-     * isInvestor mapping and InvestorList array. This is an internal function
-     * which can only be called by the contract itself. It is called as part
-     * of the mintArtwork() function.
-     *
-     * This functions emits the NewInvestorAdded event.
-     *
-     * @param _minterAddress Wallet address of the person who minted the
-     * artwork.
-     *
-     */
-    function addNewInvestor(address _minterAddress, uint64 _tokenID) internal {
-        isInvestor[_minterAddress] = true;
-        investorList.push(_minterAddress);
-        emit NewInvestorAdded(_minterAddress, _tokenID);
     }
 }
