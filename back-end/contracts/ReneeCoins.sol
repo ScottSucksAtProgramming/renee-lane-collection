@@ -35,7 +35,7 @@
  * @title Renee Coins
  * @author Scott Kostolni
  *
- * @notice Version 0.0.1 beta
+ * @notice Version 0.0.0 beta
  *
  * @notice This is a bespoke ERC-20 Contract that provides the social
  * currency, Renee Coins, which grants benefits to investors and artists of
@@ -58,7 +58,7 @@
 
 //* ------------------------------ Statistics ----------------------------- //
 /**
- * @notice Current Gas Useage as of 0.0.1 Beta - Optmizer: 1,000 Runs
+ * @notice Current Gas Useage as of 0.0.0 Beta - Optmizer: 1,000 Runs
  * ReneeCoins <Contract>
  *  ├─ deployment             -  avg: 1347574  avg (confirmed): 1347574  low: 1347574  high: 1347574  USD: $18.52
  *  ├─ constructor            -  avg: 1063242  avg (confirmed): 1063242  low: 1063242  high: 1063242  USD: $14.61
@@ -89,10 +89,13 @@
 /**
  * ✓ Deploy Renee Coin Contract for User Beta Testing. - Complete (6/26/2022)
  * ✓ Complete final unit testing.
+ * Todo: Build Python Scripts for managing the contract.
+ * Todo: Get feedback from beta testers.
  * Todo: Complete integration testing.
- * Todo: Identify and resolve any issues found during testing.
- * Todo: Obtain final approval of code.
- * Todo: Deploy finalized contract to MainNet for launch.
+ * Todo: Resolve any issues with the contract.
+ * Todo: Update code for production release.
+ * Todo: Release version 1.0.0
+ * Todo: Celebrate?!
  */
 
 //* ----------------------------- Resources ------------------------------- //
