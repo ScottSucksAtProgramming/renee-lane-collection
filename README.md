@@ -169,7 +169,7 @@ _For more examples, please refer to the
 
 -   [ ] Smart Contracts
 
-    -   [ ] Non-Fungible Tokens - Art Collection
+    -   [x] Non-Fungible Tokens - Art Collection
         -   [x] Contract Development - Complete
             -   [x] Single Collection
             -   [x] Investor and Owner Lists
@@ -178,18 +178,18 @@ _For more examples, please refer to the
                 -   [x] Minting Payouts
                 -   [x] Royalty Payouts
             -   [x] Pre-Sale Whitelist
-        -   [ ] Gas Optimization
+        -   [x] Gas Optimization
         -   [ ] Testing
             -   [x] Unit Testing
             -   [x] MythX Deep Scan Security Audit
             -   [ ] User Testing
             -   [ ] Integration Testing
         -   [ ] Metadata
-            -   [ ] Metadata Script
+            -   [x] Metadata Script
             -   [ ] JSON Files Created
             -   [ ] Metadata Uploaded to IPFS
             -   [ ] Token URI Information added to contract.
-    -   [ ] Fungible Tokens - Renee Coins
+    -   [x] Fungible Tokens - Renee Coins
         -   [x] Contract Development
             -   [x] Initial Mint
             -   [x] Additional Mints
@@ -223,6 +223,9 @@ for a full list of proposed features (and known issues).
             Released 06/06/2022
     -   [x] [0.4.0 Alpha](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.5.0-alpha) -
             Released 07/01/2022
+-   [ ] Beta
+    -   [x] [0.0.0 Beta](https://github.com/ScottSucksAtProgramming/renee-lane-collection/releases/tag/v0.0.0-beta) -
+            Released 07/03/2022
 
 <p  align="right">(<a  href="#top">back to top</a>)</p>
 
