@@ -65,29 +65,7 @@
 
 //* ------------------------ Modification History ------------------------- //
 /**
- * 04-28-2022 | SRK | Project Created.
- * 04-30-2022 | SRK | Added counters to a struct to help save gas.
- * 05-03-2022 | SRK | Code imported into Renee Lane Collection Project.
- * 05-09-2022 | SRK | Minting Function Completed.
- * 05-10-2022 | SRK | Contract Ownership Functionality Added.
- * 05-15-2022 | SRK | Royalty Functionality Added.
- * 05-15-2022 | SRK | Version 0.1.0 Alpha released.
- * 05-18-2022 | SRK | mintArtwork() gas optimization pass.
- * 05-19-2022 | SRK | Implemented Minting and Royalty Payouts.
- * 05-19-2022 | SRK | Version 0.2.0 Alpha released.
- * 06-02-2022 | SRK | Implemented Investor List functionality.
- * 06-02-2022 | SRK | Version 0.3.0 Alpha released.
- * 06-06-2022 | SRK | Updated to pull-style payouts.
- * 06-06-2022 | SRK | Updated documentation to NatSpec standard.
- * 06-06-2022 | SRK | Version 0.4.0 Alpha released.
- * 06-07-2022 | SRK | Updated to follow Solidity and Project Style Guides.
- * 06-10-2022 | SRK | Adjusted Image prices for readability.
- * 06-12-2022 | SRK | Updated fund withdrawal with more secure logic.
- * 06-27-2022 | SRK | Updated to follow Solidity and Project Style Guides.
- * 06-27-2022 | SRK | Refactored to follow Solidity and Project Style Guides.
- * 06-27-2022 | SRK | Documentation and Comments Updated.
- * 06-29-2022 | SRK | Added Whitelist Functionality.
- * 06-30-2022 | SRK | Version 0.5.0 Alpha released.
+ * 07-03-2022 | SRK | Contract Deployed on Rinkeby: 0xd732dEC77Bd7725C55A8325D762904876CE8aDB0
  */
 
 //* ----------------------------- Statistics ------------------------------ //
@@ -123,11 +101,15 @@
 
 //* ------------------------------- Tasks --------------------------------- //
 /**
- * Todo: Release version 0.5.0 alpha
- * Todo: Deploy Renee Lane Collection contract for Beta testing.
- * Todo: Begin preparing for beta release.
- * Todo: Update _baseURI to new IPFS metdata address.
- * Todo: Gas Optimization Passes.
+ * ✓ Release version 0.0.0 beta - Complete (7/3/2022)
+ * ✓ Deploy Renee Lane Collection contract for Beta testing. - Complete (7/3/2022)
+ * Todo: Build Python Scripts for managaging the contract.
+ * Todo: Get feedback from beta testers.
+ * Todo: Complete Integration Testing.
+ * Todo: Resolve any issues with the contract.
+ * Todo: Update code for production release.
+ * Todo: Release version 1.0.0
+ * Todo: Celebrate?!
  */
 
 //* ------------------------------ Resources ------------------------------ //
@@ -235,7 +217,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     mapping(uint256 => Artist) public artist;
 
     /**
-     * @notice the isInvestoryapping stores information about each investor.
+     * @notice The isInvestoryapping stores information about each investor.
      * When given a wallet address it will return True if that address has
      * minted a piece of art from this collection. If they have not it will
      * return False.
@@ -303,7 +285,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
         int256 indexed projectCut
     );
     /**
-     * @notice the PayoutSent event is triggered when a payout is sent from
+     * @notice The PayoutSent event is triggered when a payout is sent from
      * the contract. It logs the address of the person who initiated the
      * payout, the address of the recipient and the amount of ether (in wei)
      * that was sent.
@@ -687,7 +669,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      */
     function _baseURI() internal view virtual override returns (string memory) {
         return
-            "https://ipfs.io/ipfs/QmYGK13J2L5r7f6GDsqcstnXWFQRKCdZuDnGCKcgeJUPHj/"; // Old URI
+            "https://ipfs.io/ipfs/QmNvnTpZVSW9ej8PdS4xzuKDFqCwhFLkhVfTA1JiLBS8EN/"; // Old URI
     }
 
     /**
