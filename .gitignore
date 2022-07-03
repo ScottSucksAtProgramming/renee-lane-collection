@@ -13,3 +13,4 @@ build/
 .pytest_cache/
 .vscode/
 reports/
+deployment_resources/

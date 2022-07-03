@@ -35,7 +35,7 @@
  * @title The Renee Lane Collection
  * @author Scott Kostolni
  *
- * @notice Version 0.5.0 alpha
+ * @notice Version 0.0.0 beta
  *
  * @notice This is a bespoke ERC-721 smart contract written to manage creation
  * and tracking of Non-Fungible Tokens for the Renee Lane Collection, a
@@ -92,7 +92,7 @@
 
 //* ----------------------------- Statistics ------------------------------ //
 /**
- * @notice Current Gas Usage for version 0.5.0 Alpha - Optmizer: 1,000 Runs
+ * @notice Current Gas Usage for version 0.0.0 beta - Optmizer: 1,000 Runs
  * ├─ deployment             -  avg: 5993711  avg (confirmed): 5993711  low: 5993711  high: 5993711 USD: $113.82
  * ├─ constructor            -  avg: 4882094  avg (confirmed): 4882094  low: 4882094  high: 4882094 USD:  $92.71
  * ├─ mintArtwork            -  avg:  139811  avg (confirmed):  153717  low:   22479  high:  211063 USD:   $4.01
@@ -265,7 +265,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      * project owner are paid to this address.
      */
     address public PROJECT_WALLET_ADDRESS = (
-        0xdD870fA1b7C4700F2BD7f44238821C26f7392148
+        0xbbd68C8318087E5641b28698C69c779F23E50FFB
     );
 
     //* --------------------------- Events -------------------------------- //
@@ -332,24 +332,24 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
          * ID number.
          */
         artist[1] = Artist({
-            directAddress: 0x33A4622B82D4c04a53e170c638B944ce27cffce3,
-            royaltyAddress: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
+            directAddress: 0x110969C24Da5268842Fd3756F499299056EB4DBf,
+            royaltyAddress: 0xE709Ebdb07B30052D241024b6f9a3cd9482a30Df
         });
         artist[2] = Artist({
-            directAddress: 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db,
-            royaltyAddress: 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db
+            directAddress: 0x3CC74a8eAd939BfC631bad2e010cdE26D6d9f057,
+            royaltyAddress: 0x3dC3c88E15e77F6d79A08b94cac30a59d04D1Ec0
         });
         artist[3] = Artist({
-            directAddress: 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB,
-            royaltyAddress: 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB
+            directAddress: 0x58C6558fB57114444f23b77a42b475bBE9146107,
+            royaltyAddress: 0xd39e01d5931A81a6ed2C8B77A2c6366b92378686
         });
         artist[4] = Artist({
-            directAddress: 0x617F2E2fD72FD9D5503197092aC168c91465E7f2,
-            royaltyAddress: 0x617F2E2fD72FD9D5503197092aC168c91465E7f2
+            directAddress: 0x4cf55451AB4274b043D5d17dd8112ed825E565c9,
+            royaltyAddress: 0x47eD0FF0A62383465199428290CFCAc406cCE64E
         });
         artist[5] = Artist({
-            directAddress: 0x17F6AD8Ef982297579C203069C1DbfFE4348c372,
-            royaltyAddress: 0x17F6AD8Ef982297579C203069C1DbfFE4348c372
+            directAddress: 0x10B7D462EDe680429344B20f16e3245E01F22FA4,
+            royaltyAddress: 0x68a53E615Ea6B30cd27Ae15c6A8D972eE1ff7867
         });
 
         /**
@@ -687,7 +687,7 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
      */
     function _baseURI() internal view virtual override returns (string memory) {
         return
-            "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/"; // Old URI
+            "https://ipfs.io/ipfs/QmYGK13J2L5r7f6GDsqcstnXWFQRKCdZuDnGCKcgeJUPHj/"; // Old URI
     }
 
     /**
