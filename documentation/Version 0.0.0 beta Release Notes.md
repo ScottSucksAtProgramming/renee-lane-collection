@@ -499,3 +499,11 @@ createCoins() and airdropCoins().
 # Items Removed
 
 No items were moved for this release
+
+# Python Scripts
+
+Begun creating Python scripts to help manage the contract.
+
+# README.md
+
+The readme file was updated to reflect this release.
