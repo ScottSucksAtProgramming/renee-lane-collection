@@ -29,6 +29,8 @@ networks:
     opensea_url: "https://testnets.opensea.io/assets/{}/{}"
     fee: 100000000000000000
     verify: True
+    ReneeLaneCollection: "0xd732dEC77Bd7725C55A8325D762904876CE8aDB0"
+    ReneeCoins: "0xbfC39dF8CD38Cb19175650AB1B1ABcD18C8edF6b"
   mainnet:
     opensea_url: "https://opensea.io/assets/{}/{}"
     verify: true
@@ -45,4 +47,4 @@ pinata:
 reports:
   exclude_paths: null
   exclude_contracts: null
-  only_include_project: false
+  only_include_project: true

@@ -35,7 +35,7 @@
  * @title The Renee Lane Collection
  * @author Scott Kostolni
  *
- * @notice Version 0.0.0 beta
+ * @notice Version 0.0.1 beta
  *
  * @notice This is a bespoke ERC-721 smart contract written to manage creation
  * and tracking of Non-Fungible Tokens for the Renee Lane Collection, a
@@ -341,54 +341,56 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
          * are all assigned. The lastTokenID is also set which limits the
          * number of tokens that can be minted for that piece of art.
          */
-        artGallery[1] = Artwork(1, .12 ether, 1, 20, 1);
-        for (uint64 index = 2; index <= 10; index++) {
-            artGallery[index] = Artwork({
-                imgNumber: index,
-                price: .12 ether,
-                currentTokenID: artGallery[index - 1].currentTokenID + 20,
-                lastTokenID: artGallery[index - 1].lastTokenID + 20,
-                artistID: 1
-            });
-        }
-        for (uint64 index = 11; index <= 20; index++) {
-            artGallery[index] = Artwork({
-                imgNumber: index,
-                price: .24 ether,
-                currentTokenID: artGallery[index - 1].currentTokenID + 20,
-                lastTokenID: artGallery[index - 1].lastTokenID + 20,
-                artistID: 2
-            });
-        }
-        artGallery[21] = Artwork(21, .36 ether, 401, 410, 3);
-        for (uint64 index = 22; index <= 30; index++) {
-            artGallery[index] = Artwork({
-                imgNumber: index,
-                price: .36 ether,
-                currentTokenID: artGallery[index - 1].currentTokenID + 10,
-                lastTokenID: artGallery[index - 1].lastTokenID + 10,
-                artistID: 3
-            });
-        }
-        artGallery[31] = Artwork(31, .48 ether, 501, 505, 4);
-        for (uint64 index = 32; index <= 40; index++) {
-            artGallery[index] = Artwork({
-                imgNumber: index,
-                price: .48 ether,
-                currentTokenID: artGallery[index - 1].currentTokenID + 5,
-                lastTokenID: artGallery[index - 1].lastTokenID + 5,
-                artistID: 4
-            });
-        }
-        artGallery[41] = Artwork(41, .6 ether, 551, 553, 5);
-        for (uint64 index = 42; index <= 50; index++) {
-            artGallery[index] = Artwork({
-                imgNumber: index,
-                price: .6 ether,
-                currentTokenID: artGallery[index - 1].currentTokenID + 3,
-                lastTokenID: artGallery[index - 1].lastTokenID + 3,
-                artistID: 5
-            });
+        unchecked {
+            artGallery[1] = Artwork(1, .12 ether, 1, 20, 1);
+            for (uint64 index = 2; index <= 10; index++) {
+                artGallery[index] = Artwork({
+                    imgNumber: index,
+                    price: .12 ether,
+                    currentTokenID: artGallery[index - 1].currentTokenID + 20,
+                    lastTokenID: artGallery[index - 1].lastTokenID + 20,
+                    artistID: 1
+                });
+            }
+            for (uint64 index = 11; index <= 20; index++) {
+                artGallery[index] = Artwork({
+                    imgNumber: index,
+                    price: .24 ether,
+                    currentTokenID: artGallery[index - 1].currentTokenID + 20,
+                    lastTokenID: artGallery[index - 1].lastTokenID + 20,
+                    artistID: 2
+                });
+            }
+            artGallery[21] = Artwork(21, .36 ether, 401, 410, 3);
+            for (uint64 index = 22; index <= 30; index++) {
+                artGallery[index] = Artwork({
+                    imgNumber: index,
+                    price: .36 ether,
+                    currentTokenID: artGallery[index - 1].currentTokenID + 10,
+                    lastTokenID: artGallery[index - 1].lastTokenID + 10,
+                    artistID: 3
+                });
+            }
+            artGallery[31] = Artwork(31, .48 ether, 501, 505, 4);
+            for (uint64 index = 32; index <= 40; index++) {
+                artGallery[index] = Artwork({
+                    imgNumber: index,
+                    price: .48 ether,
+                    currentTokenID: artGallery[index - 1].currentTokenID + 5,
+                    lastTokenID: artGallery[index - 1].lastTokenID + 5,
+                    artistID: 4
+                });
+            }
+            artGallery[41] = Artwork(41, .6 ether, 551, 553, 5);
+            for (uint64 index = 42; index <= 50; index++) {
+                artGallery[index] = Artwork({
+                    imgNumber: index,
+                    price: .6 ether,
+                    currentTokenID: artGallery[index - 1].currentTokenID + 3,
+                    lastTokenID: artGallery[index - 1].lastTokenID + 3,
+                    artistID: 5
+                });
+            }
         }
     }
 
@@ -455,7 +457,9 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
             addNewInvestor(msg.sender, _newTokenID);
         }
         splitPayment(_artist.directAddress, msg.value);
-        artGallery[_imageNumber].currentTokenID++;
+        unchecked {
+            artGallery[_imageNumber].currentTokenID++;
+        }
     }
 
     /**
@@ -713,8 +717,10 @@ contract ReneeLaneCollection is ERC721, ERC721Royalty, Ownable {
     {
         int256 _artistCut = int256(valueSent) / 10**1;
         int256 _projectCut = (int256(valueSent) - _artistCut);
-        payoutsOwed[_artistDirectAddress] += uint256(_artistCut);
-        payoutsOwed[PROJECT_WALLET_ADDRESS] += uint256(_projectCut);
+        unchecked {
+            payoutsOwed[_artistDirectAddress] += uint256(_artistCut);
+            payoutsOwed[PROJECT_WALLET_ADDRESS] += uint256(_projectCut);
+        }
         emit PaymentSplit(
             valueSent,
             _artistDirectAddress,
