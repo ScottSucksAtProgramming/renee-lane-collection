@@ -13,9 +13,11 @@
 from scripts.helpful_scripts import get_account
 from brownie import ZERO_ADDRESS, ReneeLaneCollection, network, Contract
 from web3 import Web3
-from scripts.control_center import contract_functions
+from control_center import contract_functions
 import pytest
 #* ------------------------------ Variables -------------------------------- #
+
+#* ------------------------------- Fixtures -------------------------------- #
 
 
 @pytest.fixture
@@ -23,12 +25,14 @@ def load_contract():
     contract = Contract.from_explorer(
         "0xd732dEC77Bd7725C55A8325D762904876CE8aDB0")
     return contract
+
+
 #* ------------------------------- Tests ----------------------------------- #
 
 #* ----------------------------- Functions --------------------------------- #
 
 
-def test_can_PROJECT_WALLET_ADDRESS_returns_address():
+def test_PROJECT_WALLET_ADDRESS_returns_address():
     # Arrange
     # Act
     # Assert
@@ -153,3 +157,14 @@ def test_tokenURI_returns_string():
     # Act
     # Assert
     assert contract_functions.tokenURI(1) != None
+
+#* ----------------------- Contract Write Functions ------------------------ #
+
+
+def test_addToWhitelist_adds_correct_address():
+    # Arrange
+    new_address = get_account(7)
+
+    # Act
+    # Assert
+    assert contract_functions.addToWhitelist(get_account()) == True

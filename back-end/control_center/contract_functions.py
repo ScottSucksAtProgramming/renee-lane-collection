@@ -8,17 +8,19 @@
 #
 # Modification History
 # 07-03-2022 | SRK | Module Created.
+# 07-27-2022 | SRK | All contract functions added.
 
 #* -------------------------------- Tasks ---------------------------------- #
 
 #* ------------------------------- Imports --------------------------------- #
 from scripts.helpful_scripts import get_account
-from brownie import config, Contract, network, ReneeLaneCollection, ZERO_ADDRESS
+from brownie import config, Contract, network, ReneeLaneCollection, ZERO_ADDRESS, Transaction
 from web3 import Web3
 #* ------------------------------ Variables -------------------------------- #
 contract_address = "0xd732dEC77Bd7725C55A8325D762904876CE8aDB0"
 contract_network = "rinkeby"
 contract_container = ReneeLaneCollection
+owner_address = "0x0715534cc021ddc49915ac27f8ebcde8f5c99b35"
 #* ---------------------------- Main Function ------------------------------ #
 
 #* ----------------------------- Functions --------------------------------- #
@@ -107,7 +109,7 @@ def artGallery_mapping(image_number: int = None) -> dict:
         raw_properties[3] - raw_properties[2]) + 1
     image_properties["Artist"] = raw_properties[4]
 
-    return image_properties
+    return raw_properties
 
 
 def artist_mapping(artist_id: int = None) -> dict:
@@ -387,3 +389,229 @@ def tokenURI(token_id: int) -> str:
     return token_URI
 
 #* ----------------------- Contract Write Functions ------------------------ #
+
+
+def addToWhitelist(_address: str, sender_address: str):
+    """Adds the specified address to the whitelist.
+
+    Args:
+        _address (str): The address to be added to the whitelist.
+
+        sender_address (str): The wallet address of the sender of the
+        transaction.
+
+    Returns:
+        transaction (str): The transaction hash of the transaction.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.addToWhitelist(_address, {'from': sender_address})
+
+    return Transaction
+
+
+def removeFromWhitelist(_address, sender_address):
+    """Removes the specified address from the whitelist.
+
+    Args:
+        _address (str): The address to be removed from the whitelist.
+
+        sender_address (str): The wallet address of the sender of the
+        transaction.
+
+    Returns:
+        transaction (str): The transaction hash of the transaction.
+    """
+    contract = load_contract()
+
+    Transaction = contract.removeFromWhitelist(
+        _address, {'from': sender_address}
+    )
+
+    return Transaction
+
+
+def approve_address_for_tokenId(to: str, tokenID: int, sender_address: str):
+    """Approves the specified address to use the specified token.
+
+    Args:
+        to (str): The address to be approved to use the specified
+        token.
+
+        tokenId (int): The ID of the token you're approving to use.
+
+        sender_address (str): The wallet address of the sender of the
+        transaction.
+
+    Returns:
+        transaction (str): The transaction hash of the transaction.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.approve(to, tokenID, {'from': sender_address})
+    return Transaction
+
+
+def forcePayment(_addressToBePayed: str, sender_address: str):
+    """Forces a payout to the specified address. Can only be called by owner.
+
+    Args:
+        _addressToBePayed (str): The address to be forced to pay their
+        payouts.
+
+        sender_address (str): The wallet address of the sender of the
+        transaction.
+
+    Returns:
+        transaction (str): The transaction hash of the transaction.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.forcePayment(
+        _addressToBePayed, {'from': sender_address})
+    return Transaction
+
+
+def mintArtwork(_imageNumber: int, sender_address: str):
+    """Mints a new artwork token..
+
+    Args:
+        _imageNumber (int): The number of the artwork you're minting.
+
+        sender_address (str): The address of the person who's minting the
+        token.
+
+    """
+    contract = load_contract()
+    image_price = artGallery_mapping(_imageNumber)[1]
+
+    Transaction = contract.mintArtwork(
+        _imageNumber, {'from': sender_address, "value": image_price}
+    )
+    return Transaction
+
+
+def renounceOwnership(sender_address):
+    """Renounces ownership of the contract.
+
+    Args:
+        sender_address (str): The wallet address of the sender of the transaction.
+
+    Returns:
+        transaction (str): The transaction hash of the transaction.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.renounceOwnership({'from': sender_address})
+    return Transaction
+
+
+def safeTransferFrom(sender_address: str, to: str, tokenID: int):
+    """Transfer token from one address to another.
+
+    Args:
+        sender_address (str): Address of the sender of the transaction and 
+        token.
+
+        to (str): Address of the recipient of the token.
+
+        tokenID (int): ID number of the token being transferred.
+
+    Returns:
+        transaction: The transaction object.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.safeTransferFrom(
+        sender_address, to, tokenID, sender_address)
+
+    return Transaction
+
+
+def setApprovalForAll(approvee: str, approved: bool, sender_address: str):
+    """Sets the approval for all tokens to the specified address.
+
+    Args:
+        approvee (str): The address of the person who is getting approved.
+
+        approved (bool): Whether or not the operation is approved.
+
+        sender_address (str): The wallet address of the sender of the
+        transaction.
+
+    Returns:
+        transaction (str): The transaction hash of the transaction.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.setApprovalForAll(
+        approvee, approved, {'from': sender_address})
+
+    return Transaction
+
+
+def transferFrom(sender_address: str, to: str, tokenID: int):
+    """Transfer token from one address to another.
+
+    Args:
+        sender_address (str): Address of the sender of the transaction and 
+        token.
+
+        to (str): Address of the recipient of the token.
+
+        tokenID (int): ID number of the token being transferred.
+
+    Returns:
+        transaction: The transaction object.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.transferFrom(
+        sender_address, to, tokenID, {"from": sender_address})
+
+    return Transaction
+
+
+def transferOwnership(newOwner: str, sender_address: str):
+    """Transfer ownership of the contract.
+
+    Args:
+        newOwner (str): Address of the person who is being made owner.
+        sender_address (str): address of the transaction sender.
+
+    Returns:
+
+        transaction (str): The transaction hash of the transaction.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.transferOwnership(
+        newOwner, {'from': sender_address})
+
+    return Transaction
+
+
+def withdrawPayout(sender_address: str):
+    """Withdraws the payout from the contract.
+
+    Args:
+        sender_address (str): The wallet address of the sender of the
+        transaction.
+
+    Returns:
+        transaction (str): The transaction hash of the transaction.
+    """
+
+    contract = load_contract()
+
+    Transaction = contract.withdrawPayout({'from': sender_address})
+
+    return Transaction
