@@ -14,7 +14,7 @@
 
 #* ------------------------------- Imports --------------------------------- #
 from scripts.helpful_scripts import get_account
-from brownie import config, Contract, network, ReneeLaneCollection, ZERO_ADDRESS, Transaction
+from brownie import config, Contract, network, ReneeLaneCollection, ZERO_ADDRESS
 from web3 import Web3
 #* ------------------------------ Variables -------------------------------- #
 contract_address = "0xd732dEC77Bd7725C55A8325D762904876CE8aDB0"
@@ -406,9 +406,9 @@ def addToWhitelist(_address: str, sender_address: str):
 
     contract = load_contract()
 
-    Transaction = contract.addToWhitelist(_address, {'from': sender_address})
+    transaction = contract.addToWhitelist(_address, {'from': sender_address})
 
-    return Transaction
+    return transaction
 
 
 def removeFromWhitelist(_address, sender_address):
@@ -425,11 +425,11 @@ def removeFromWhitelist(_address, sender_address):
     """
     contract = load_contract()
 
-    Transaction = contract.removeFromWhitelist(
+    transaction = contract.removeFromWhitelist(
         _address, {'from': sender_address}
     )
 
-    return Transaction
+    return transaction
 
 
 def approve_address_for_tokenId(to: str, tokenID: int, sender_address: str):
@@ -450,8 +450,8 @@ def approve_address_for_tokenId(to: str, tokenID: int, sender_address: str):
 
     contract = load_contract()
 
-    Transaction = contract.approve(to, tokenID, {'from': sender_address})
-    return Transaction
+    transaction = contract.approve(to, tokenID, {'from': sender_address})
+    return transaction
 
 
 def forcePayment(_addressToBePayed: str, sender_address: str):
@@ -470,9 +470,9 @@ def forcePayment(_addressToBePayed: str, sender_address: str):
 
     contract = load_contract()
 
-    Transaction = contract.forcePayment(
+    transaction = contract.forcePayment(
         _addressToBePayed, {'from': sender_address})
-    return Transaction
+    return transaction
 
 
 def mintArtwork(_imageNumber: int, sender_address: str):
@@ -488,10 +488,10 @@ def mintArtwork(_imageNumber: int, sender_address: str):
     contract = load_contract()
     image_price = artGallery_mapping(_imageNumber)[1]
 
-    Transaction = contract.mintArtwork(
+    transaction = contract.mintArtwork(
         _imageNumber, {'from': sender_address, "value": image_price}
     )
-    return Transaction
+    return transaction
 
 
 def renounceOwnership(sender_address):
@@ -506,8 +506,8 @@ def renounceOwnership(sender_address):
 
     contract = load_contract()
 
-    Transaction = contract.renounceOwnership({'from': sender_address})
-    return Transaction
+    transaction = contract.renounceOwnership({'from': sender_address})
+    return transaction
 
 
 def safeTransferFrom(sender_address: str, to: str, tokenID: int):
@@ -527,10 +527,10 @@ def safeTransferFrom(sender_address: str, to: str, tokenID: int):
 
     contract = load_contract()
 
-    Transaction = contract.safeTransferFrom(
-        sender_address, to, tokenID, sender_address)
+    transaction = contract.safeTransferFrom(
+        sender_address, to, tokenID, {"from": sender_address})
 
-    return Transaction
+    return transaction
 
 
 def setApprovalForAll(approvee: str, approved: bool, sender_address: str):
@@ -550,10 +550,10 @@ def setApprovalForAll(approvee: str, approved: bool, sender_address: str):
 
     contract = load_contract()
 
-    Transaction = contract.setApprovalForAll(
+    transaction = contract.setApprovalForAll(
         approvee, approved, {'from': sender_address})
 
-    return Transaction
+    return transaction
 
 
 def transferFrom(sender_address: str, to: str, tokenID: int):
@@ -573,10 +573,10 @@ def transferFrom(sender_address: str, to: str, tokenID: int):
 
     contract = load_contract()
 
-    Transaction = contract.transferFrom(
+    transaction = contract.transferFrom(
         sender_address, to, tokenID, {"from": sender_address})
 
-    return Transaction
+    return transaction
 
 
 def transferOwnership(newOwner: str, sender_address: str):
@@ -593,10 +593,10 @@ def transferOwnership(newOwner: str, sender_address: str):
 
     contract = load_contract()
 
-    Transaction = contract.transferOwnership(
+    transaction = contract.transferOwnership(
         newOwner, {'from': sender_address})
 
-    return Transaction
+    return transaction
 
 
 def withdrawPayout(sender_address: str):
@@ -612,6 +612,6 @@ def withdrawPayout(sender_address: str):
 
     contract = load_contract()
 
-    Transaction = contract.withdrawPayout({'from': sender_address})
+    transaction = contract.withdrawPayout({'from': sender_address})
 
-    return Transaction
+    return transaction
