@@ -2,9 +2,9 @@
 
 ## User
 
-    1. User Mints a Token.
-    2. User Mints 2nd Token.
-    3. User Transfer's a Token.
+    1. User Mints a Token. - Done
+    2. User Mints 2nd Token. - Done
+    3. User Transfer's a Token. - Done
     4. User Lists token for sale on opensea.
     5. User lists token for sale on rarible.
     6. User Sells token though OpenSea
@@ -12,9 +12,9 @@
 
 # Owner
 
-    1. Whitelist's an address
-    2. Removes Whitelist of Address
-    3. Whitelists Zero Address.
+    1. Whitelist's an address - Done
+    2. Removes Whitelist of Address - Done
+    3. Whitelists Zero Address. - Done
     4. Retrieves Payout.
     5. Forces Payments.
 
