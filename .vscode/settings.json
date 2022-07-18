@@ -74,5 +74,43 @@
             "bold": false,
             "italic": false
         }
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".pytest_cache": true,
+        ".vscode": true,
+        "back-end/.pytest_cache": true,
+        "back-end/control_center/__pycache__": true,
+        "back-end/control_center/.pytest_cache": true,
+        "back-end/metadata/__pycache__": true,
+        "back-end/scripts/__pycache__": true,
+        "back-end/tests/__pycache__": true,
+        "back-end/tests/integration/renee_lane_collection/__pycache__": true,
+        "back-end/tests/unit/__pycache__": true,
+        "back-end/tests/unit/control_center/__pycache__": true,
+        "back-end/tests/unit/metadata_builder/__pycache__": true,
+        "back-end/tests/unit/renee_coins/__pycache__": true,
+        "back-end/tests/unit/renee_lane_collection/__pycache__": true
+    },
+    "hide-files.files": [
+        ".pytest_cache",
+        ".vscode",
+        "back-end/.pytest_cache",
+        "back-end/control_center/__pycache__",
+        "back-end/control_center/.pytest_cache",
+        "back-end/metadata/__pycache__",
+        "back-end/scripts/__pycache__",
+        "back-end/tests/__pycache__",
+        "back-end/tests/integration/renee_lane_collection/__pycache__",
+        "back-end/tests/unit/__pycache__",
+        "back-end/tests/unit/control_center/__pycache__",
+        "back-end/tests/unit/metadata_builder/__pycache__",
+        "back-end/tests/unit/renee_coins/__pycache__",
+        "back-end/tests/unit/renee_lane_collection/__pycache__"
     ]
 }
