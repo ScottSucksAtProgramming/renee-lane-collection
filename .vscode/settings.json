@@ -94,7 +94,8 @@
         "back-end/tests/unit/control_center/__pycache__": true,
         "back-end/tests/unit/metadata_builder/__pycache__": true,
         "back-end/tests/unit/renee_coins/__pycache__": true,
-        "back-end/tests/unit/renee_lane_collection/__pycache__": true
+        "back-end/tests/unit/renee_lane_collection/__pycache__": true,
+        ".vscode": true
     },
     "hide-files.files": [
         ".pytest_cache",
@@ -109,7 +110,8 @@
         "back-end/tests/unit/control_center/__pycache__",
         "back-end/tests/unit/metadata_builder/__pycache__",
         "back-end/tests/unit/renee_coins/__pycache__",
-        "back-end/tests/unit/renee_lane_collection/__pycache__"
+        "back-end/tests/unit/renee_lane_collection/__pycache__",
+        ".vscode"
     ],
     "vsicons.associations.folders": [
         {
