@@ -83,7 +83,6 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         ".pytest_cache": true,
-        ".vscode": true,
         "back-end/.pytest_cache": true,
         "back-end/control_center/__pycache__": true,
         "back-end/control_center/.pytest_cache": true,
@@ -99,7 +98,6 @@
     },
     "hide-files.files": [
         ".pytest_cache",
-        ".vscode",
         "back-end/.pytest_cache",
         "back-end/control_center/__pycache__",
         "back-end/control_center/.pytest_cache",
@@ -112,5 +110,26 @@
         "back-end/tests/unit/metadata_builder/__pycache__",
         "back-end/tests/unit/renee_coins/__pycache__",
         "back-end/tests/unit/renee_lane_collection/__pycache__"
+    ],
+    "vsicons.associations.folders": [
+        {
+            "icon": "test",
+            "extensions": [
+                "unit",
+                "tests",
+                ".tests",
+                "test",
+                ".test",
+                "__tests__",
+                "__test__",
+                "spec",
+                ".spec",
+                "specs",
+                ".specs",
+                "integration"
+            ],
+            "format": "svg",
+            "overrides": "test"
+        }
     ]
 }
