@@ -50,7 +50,7 @@ def test_investors_map_is_updated_if_minter_is_not_yet_an_investor(contract_setu
     if initial_investor_status == True:
         assert False
     # Act
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     # Assert
@@ -70,12 +70,12 @@ def test_investor_list_is_updated_if_minter_is_not_yet_an_investor(contract_setu
     other_address = get_account(7)
     investor_address = get_account(1)
     for i in range(2):
-        contract.mintArtwork(
+        contract.purchaseArtwork(
             1, {"value": Web3.toWei(0.12, "ether"), "from": other_address}
         )
     initial_investor_list = contract.printInvestorList()
     # Act
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     # Assert
@@ -92,14 +92,14 @@ def test_investor_not_added_if_already_an_investor(contract_setup_with_open_mint
     deployer_account = get_account()
 
     investor_address = get_account(2)
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     initial_investor_status = contract.isInvestor(investor_address)
     if initial_investor_status == False:
         assert False
     # Act
-    tx = contract.mintArtwork(
+    tx = contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     # Assert
@@ -122,7 +122,7 @@ def test_NewInvestorAdded_event_is_emitted_when_addNewInvestor_is_called(contrac
     if initial_investor_status == True:
         assert False
     # Act
-    tx = contract.mintArtwork(
+    tx = contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     # Assert
@@ -141,7 +141,7 @@ def test_addNewInvestor_logs_investor_address_correctly(contract_setup_with_open
     if initial_investor_status == True:
         assert False
     # Act
-    tx = contract.mintArtwork(
+    tx = contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     loggedAddress = tx.events["NewInvestorAdded"]["investorAddress"]
@@ -158,17 +158,17 @@ def test_addNewInvestor_logs_tokenID_correctly(contract_setup_with_open_minting)
     investor_address = get_account(2)
     expected_tokenId = "3"
 
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": deployer_account}
     )
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": deployer_account}
     )
     initial_investor_status = contract.isInvestor(investor_address)
     if initial_investor_status == True:
         assert False
     # Act
-    tx = contract.mintArtwork(
+    tx = contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": investor_address}
     )
     loggedTokenID = tx.events["NewInvestorAdded"]["tokenID"]

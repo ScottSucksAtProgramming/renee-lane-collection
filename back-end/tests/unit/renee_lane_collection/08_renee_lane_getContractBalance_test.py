@@ -40,7 +40,7 @@ def test_getContractBalance_returns_expected_result(contract_setup_with_open_min
     account = get_account()
     # Act
     for i in range(transactions):
-        contract.mintArtwork(
+        contract.purchaseArtwork(
             1, {"value": Web3.toWei(0.12, "ether"), "from": account}
         )
     expected_contract_balance = Web3.toWei(0.12, "ether") * transactions

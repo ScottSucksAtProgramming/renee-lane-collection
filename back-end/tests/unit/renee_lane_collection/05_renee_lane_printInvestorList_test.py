@@ -53,14 +53,14 @@ def test_printInvestorList_returns_correct_investors(contract_setup_with_open_mi
 
     account = get_account()
     random_account = get_account(random.randint(3, 9))
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": get_account(1)}
     )
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": get_account(2)}
     )
     # Act
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": random_account}
     )
     expected_investorList = [

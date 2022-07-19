@@ -475,7 +475,7 @@ def forcePayment(_addressToBePayed: str, sender_address: str):
     return transaction
 
 
-def mintArtwork(_imageNumber: int, sender_address: str):
+def purchaseArtwork(_imageNumber: int, sender_address: str):
     """Mints a new artwork token..
 
     Args:
@@ -488,7 +488,7 @@ def mintArtwork(_imageNumber: int, sender_address: str):
     contract = load_contract()
     image_price = artGallery_mapping(_imageNumber)[1]
 
-    transaction = contract.mintArtwork(
+    transaction = contract.purchaseArtwork(
         _imageNumber, {'from': sender_address, "value": image_price}
     )
     return transaction

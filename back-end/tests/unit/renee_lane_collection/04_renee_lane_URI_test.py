@@ -30,7 +30,7 @@ def contract_setup_with_open_minting():
     contract.addToWhitelist(ZERO_ADDRESS)
     return contract
 # * ---------------------------- tokenURI() Tests -------------------------- #
-#! For other token related tests check renee_lane_mintArtwork_test.py
+#! For other token related tests check renee_lane_purchaseArtwork_test.py
 # Todo: Test _baseURI() reverts if token does not exist.
 
 
@@ -48,11 +48,11 @@ def test_tokenURI_returns_expected_string(contract_setup_with_open_minting):
     # Arrange
     contract = contract_setup_with_open_minting
     account = get_account()
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": account}
     )
     # Act
-    expected_string = f"https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/1.json"
+    expected_string = f"https://ipfs.io/ipfs/QmNvnTpZVSW9ej8PdS4xzuKDFqCwhFLkhVfTA1JiLBS8EN/1.json"
     actual_string = contract.tokenURI(1)
     # # Assert
     assert actual_string == expected_string

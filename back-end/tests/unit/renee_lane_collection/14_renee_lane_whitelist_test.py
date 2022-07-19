@@ -16,9 +16,9 @@
 # ✓ can remove address from whitelist mapping.
 # ✓ removeFromWhitelist can only be called by owner.
 # ✓ removeFromWhitelist reverts if address is not on whitelist.
-# ✓ address can call mintArtwork if whitelisted.
-# ✓ address cannot call mintArtwork if not whitelisted.
-# ✓ all addresses can call mintArtwork if ZERO_ADDRESS is whitelisted.
+# ✓ address can call purchaseArtwork if whitelisted.
+# ✓ address cannot call purchaseArtwork if not whitelisted.
+# ✓ all addresses can call purchaseArtwork if ZERO_ADDRESS is whitelisted.
 
 
 # * ------------------------------- Resources ------------------------------ #
@@ -130,34 +130,34 @@ def test_removeFromWhitelist_reverts_if_address_is_not_whitelisted(contract_setu
         contract.removeFromWhitelist(new_address)
 
 
-def test_address_can_call_mintArtwork_if_whitelisted(contract_setup):
-    """Tests to see if mintArtwork can be called by a whitelisted address. 
+def test_address_can_call_purchaseArtwork_if_whitelisted(contract_setup):
+    """Tests to see if purchaseArtwork can be called by a whitelisted address. 
     Test will pass if Transfer event is emitted."""
     # Arrange
     contract = contract_setup
     minter = get_account(4)
     contract.addToWhitelist(minter)
     # Act
-    tx = contract.mintArtwork(1, {"value": Web3.toWei(
+    tx = contract.purchaseArtwork(1, {"value": Web3.toWei(
         0.12, "ether"), "from": minter})
     # Assert
     assert tx.events["Transfer"]
 
 
-def test_address_cannot_call_mintArtwork_if_not_whitelisted(contract_setup):
-    """Tests to see if mintArtwork can be called by a non-whitelisted address. 
+def test_address_cannot_call_purchaseArtwork_if_not_whitelisted(contract_setup):
+    """Tests to see if purchaseArtwork can be called by a non-whitelisted address. 
     Test will pass if transaction reverts."""
     # Arrange
     contract = contract_setup
     minter = get_account(4)
     # Act and Assert
     with reverts("You are not whitelisted"):
-        contract.mintArtwork(1, {"value": Web3.toWei(
+        contract.purchaseArtwork(1, {"value": Web3.toWei(
             0.12, "ether"), "from": minter})
 
 
-def test_all_addresses_can_call_mintArtwork_if_zero_address_is_whitelisted(contract_setup):
-    """Tests to see if mintArtwork can be called by a non-whitelisted address. 
+def test_all_addresses_can_call_purchaseArtwork_if_zero_address_is_whitelisted(contract_setup):
+    """Tests to see if purchaseArtwork can be called by a non-whitelisted address. 
     when the zero address is whitelisted. Test will pass if Transfer event is 
     emitted."""
     # Arrange
@@ -165,7 +165,7 @@ def test_all_addresses_can_call_mintArtwork_if_zero_address_is_whitelisted(contr
     minter = get_account(4)
     contract.addToWhitelist(ZERO_ADDRESS)
     # Act
-    tx = contract.mintArtwork(1, {"value": Web3.toWei(
+    tx = contract.purchaseArtwork(1, {"value": Web3.toWei(
         0.12, "ether"), "from": minter})
     # Assert
     assert tx.events["Transfer"]

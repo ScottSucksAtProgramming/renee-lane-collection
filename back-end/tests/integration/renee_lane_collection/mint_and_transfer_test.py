@@ -16,7 +16,6 @@
 #* -------------------------------- Tasks ---------------------------------- #
 
 #* ------------------------------- Imports --------------------------------- #
-from configparser import NoSectionError
 from brownie import accounts, config, ZERO_ADDRESS
 from control_center import contract_functions
 import pytest
@@ -69,7 +68,7 @@ def test_token_is_created_when_minted(load_wallets):
     user_account = investor_1_address
 
     print(f"Attempting to mint token for {user_account}")
-    transaction = contract_functions.mintArtwork(25, user_account)
+    transaction = contract_functions.purchaseArtwork(25, user_account)
     transaction.wait(1)
     print(f"Transaction Completed.")
     print(transaction.info())

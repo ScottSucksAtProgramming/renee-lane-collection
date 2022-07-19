@@ -13,7 +13,7 @@
 
 # * ------------------------------- Resources ------------------------------ #
 from scripts.helpful_scripts import get_account
-from brownie import ReneeLaneCollection, reverts, ZERO_ADDRESS
+from brownie import accounts, ReneeLaneCollection, reverts, ZERO_ADDRESS
 from web3 import Web3
 import pytest
 # * ------------------------------- Variables ------------------------------ #
@@ -39,7 +39,7 @@ def test_withdrawPayout_assigns_PROJECT_WALLET_ADDRESS_when_called_by_owner(cont
     # Arrange
     contract = contract_setup_with_open_minting
     owner = get_account()
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": owner}
     )
     # Act
@@ -56,7 +56,7 @@ def test_withdrawPayout_assigns_sends_to_msg_sender_when_called_by_non_owner(con
     # Arrange
     contract = contract_setup_with_open_minting
     owner = get_account()
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": owner}
     )
     artist_address = contract.artist(1)[0]
@@ -84,7 +84,7 @@ def test_withdrawPayout_reverts_if_no_payout_owed(contract_setup_with_open_minti
     # Arrange
     contract = contract_setup_with_open_minting
     account = get_account()
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": account}
     )
     balance_owed = contract.payoutsOwed(get_account(3))
@@ -100,23 +100,23 @@ def test_withdrawPayout_pays_out_correctly(contract_setup_with_open_minting):
     # Arrange
     contract = contract_setup_with_open_minting
     account = get_account()
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": account}
     )
-    artist_wallet = get_account(1)
+    artist_wallet = accounts.at("0x110969C24Da5268842Fd3756F499299056EB4DBf")
     # Act
-    starting_wallet_amount = get_account(1).balance()
+    starting_wallet_amount = artist_wallet.balance()
     expected_payout = contract.payoutsOwed(
-        "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"
+        "0x110969C24Da5268842Fd3756F499299056EB4DBf"
     )
     print(f"\nThe starting balance for Artist 1 is: {starting_wallet_amount}")
     print(
         f"The expected payout for Artist 1 is: {expected_payout}.\nInitiating payout."
     )
     contract.withdrawPayout(
-        {"from": "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"}
+        {"from": "0x110969C24Da5268842Fd3756F499299056EB4DBf"}
     )
-    ending_wallet_amount = get_account(1).balance()
+    ending_wallet_amount = artist_wallet.balance()
     print(f"The ending balance for Artist 1 is: {ending_wallet_amount}.\n")
     artist_payout = ending_wallet_amount - starting_wallet_amount
 
@@ -129,18 +129,19 @@ def test_balance_is_zero_after_fund_withdrawal(contract_setup_with_open_minting)
     # Arrange
     contract = contract_setup_with_open_minting
     account = get_account()
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": account}
     )
     starting_payout_owed = contract.payoutsOwed(
-        "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"
+        "0x110969C24Da5268842Fd3756F499299056EB4DBf"
     )
     # Act
     print(f"\nStarting payout owed to Artist 1: {starting_payout_owed}.")
     print(f"Paying Artist.")
-    contract.withdrawPayout({"from": get_account(1)})
+    contract.withdrawPayout(
+        {"from": "0x110969C24Da5268842Fd3756F499299056EB4DBf"})
     end_payout_owed = contract.payoutsOwed(
-        "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"
+        "0x110969C24Da5268842Fd3756F499299056EB4DBf"
     )
     print(f"Payment Complete. Remaining payout owed: {end_payout_owed}")
     # Assert

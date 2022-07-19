@@ -45,7 +45,7 @@ def test_token_owner_is_set_correctly(contract_setup_with_open_minting):
     _imageNumber = 1
     token_ID = 1
     # Act
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         _imageNumber,
         {"value": Web3.toWei(0.12, "ether"),
          "from": minter_account})
@@ -64,7 +64,7 @@ def test_tokenID_is_set_correctly(contract_setup_with_open_minting):
     price = Web3.toWei(0.12, "ether")
     expected_token_ID = 1
     # Act
-    tx = contract.mintArtwork(
+    tx = contract.purchaseArtwork(
         _imageNumber, {"value": price, "from": deployer_account}
     )
     actual_token_ID = tx.events["Transfer"]["tokenId"]
@@ -78,9 +78,9 @@ def test_token_URI_is_set_correctly(contract_setup_with_open_minting):
     # Arrange
     contract = contract_setup_with_open_minting
     deployer_account = get_account()
-    expected_URI = "https://ipfs.io/ipfs/bafybeiff5pj3vrijyvbbizpdekt467lexwexa5s4old5rantfvbpk5eb3e/121.json"
+    expected_URI = "https://ipfs.io/ipfs/QmNvnTpZVSW9ej8PdS4xzuKDFqCwhFLkhVfTA1JiLBS8EN/121.json"
     # Act
-    tx = contract.mintArtwork(
+    tx = contract.purchaseArtwork(
         7, {"value": Web3.toWei(0.12, "ether"), "from": deployer_account}
     )
     actual_URI = contract.tokenURI(121)

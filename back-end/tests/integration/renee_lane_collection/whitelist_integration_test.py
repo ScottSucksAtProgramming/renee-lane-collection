@@ -114,4 +114,4 @@ def test_owner_sets_open_minting(load_wallets):
         print(tx.info())
 
     with pytest.raises(ValueError):
-        contract_functions.mintArtwork(900, new_address)
+        contract_functions.purchaseArtwork(900, new_address)

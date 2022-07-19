@@ -13,7 +13,7 @@
 
 # * ------------------------------- Resources ------------------------------ #
 from scripts.helpful_scripts import get_account
-from brownie import ReneeLaneCollection, reverts, ZERO_ADDRESS
+from brownie import accounts, ReneeLaneCollection, reverts, ZERO_ADDRESS
 from web3 import Web3
 import pytest
 
@@ -57,23 +57,24 @@ def test_forcePayment_pays_out_correctly(contract_setup_with_open_minting):
     # Arrange
     owner = get_account()
     contract = contract_setup_with_open_minting
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": owner}
     )
-    artist_wallet = get_account(1)
+    artist_wallet = accounts.at(
+        "0x110969C24Da5268842Fd3756F499299056EB4DBf", force=True)
     # Act
-    starting_wallet_amount = get_account(1).balance()
+    starting_wallet_amount = artist_wallet.balance()
     expected_payout = contract.payoutsOwed(
-        "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"
+        artist_wallet
     )
     print(f"\nThe starting balance for Artist 1 is: {starting_wallet_amount}")
     print(
         f"The expected payout for Artist 1 is: {expected_payout}.\nInitiating payout."
     )
     contract.forcePayment(
-        "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3", {"from": owner}
+        artist_wallet, {"from": owner}
     )
-    ending_wallet_amount = get_account(1).balance()
+    ending_wallet_amount = artist_wallet.balance()
     print(f"The ending balance for Artist 1 is: {ending_wallet_amount}.\n")
     artist_payout = ending_wallet_amount - starting_wallet_amount
 
@@ -81,22 +82,23 @@ def test_forcePayment_pays_out_correctly(contract_setup_with_open_minting):
 # Todo: Test forcePayment sets balance to zero after completion.
 def test_balance_is_zero_after_forcedPayout(contract_setup_with_open_minting):
     # Arrange
+    artist_wallet = accounts.at("0x110969C24Da5268842Fd3756F499299056EB4DBf")
     owner = get_account()
     contract = contract_setup_with_open_minting
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         1, {"value": Web3.toWei(0.12, "ether"), "from": owner}
     )
     starting_payout_owed = contract.payoutsOwed(
-        "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"
+        artist_wallet
     )
     # Act
     print(f"\nStarting payout owed to Artist 1: {starting_payout_owed}.")
     print(f"Paying Artist.")
     contract.forcePayment(
-        "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3", {"from": owner}
+        artist_wallet, {"from": owner}
     )
     end_payout_owed = contract.payoutsOwed(
-        "0x33A4622B82D4C04A53E170C638B944CE27CFFCE3"
+        artist_wallet
     )
     print(f"Payment Complete. Remaining payout owed: {end_payout_owed}")
     # Assert

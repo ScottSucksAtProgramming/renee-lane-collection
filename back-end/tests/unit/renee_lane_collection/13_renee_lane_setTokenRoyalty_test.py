@@ -48,7 +48,7 @@ def test_token_royalty_address_is_set_correctly(contract_setup_with_open_minting
     expected_address = contract.artist(artist_ID)[1]
     secondary_sale_price = Web3.toWei(1, "ether")
     # Act
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         _imageNumber, {"value": price, "from": deployer_account}
     )
     actual_address = contract.royaltyInfo(
@@ -70,7 +70,7 @@ def test_token_royalty_amount_is_set_correctly(contract_setup_with_open_minting)
     secondary_sale_price = Web3.toWei(0.5, "ether")
     expected_royalty_amount = Web3.toWei(0.05, "ether")
     # Act
-    contract.mintArtwork(
+    contract.purchaseArtwork(
         _imageNumber, {"value": price, "from": deployer_account}
     )
     actual_royalty_amount = contract.royaltyInfo(
