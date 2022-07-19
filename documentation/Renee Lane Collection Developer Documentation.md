@@ -1,3 +1,35 @@
+## Statistics
+
+### Gas Usage
+
+    Current Gas Usage for version 0.0.0 beta - Optimizer: 1,000 Runs
+    ├─ deployment             -  avg: 5993711  low: 5993711  high: 5993711 USD: $113.82
+    ├─ constructor            -  avg: 4882094  low: 4882094  high: 4882094 USD:  $92.71
+    ├─ mintArtwork            -  avg:  139811  low:   22479  high:  211063 USD:   $4.01
+    ├─ addToWhitelist         -  avg:   43341  low:   22728  high:   44439 USD:   $0.84
+    ├─ withdrawPayout         -  avg:   26814  low:   21398  high:   48446 USD:   $0.92
+    ├─ transferOwnership      -  avg:   26474  low:   22794  high:   30154 USD:   $0.57
+    ├─ printInvestorList      -  avg:   24716  low:   23203  high:   26195 USD:   $0.50
+    ├─ name                   -  avg:   24519  low:   24519  high:   24519 USD:   $0.47
+    ├─ symbol                 -  avg:   24495  low:   24495  high:   24495 USD:   $0.47
+    ├─ tokenURI               -  avg:   24221  low:   22548  high:   25609 USD:   $0.49
+    ├─ artGallery             -  avg:   23456  low:   23456  high:   23456 USD:   $0.44
+    ├─ artist                 -  avg:   23280  low:   23280  high:   23280 USD:   $0.45
+    ├─ forcePayment           -  avg:   23139  low:   22752  high:   23656 USD:   $0.44
+    ├─ royaltyInfo            -  avg:   23020  low:   23014  high:   23026 USD:   $0.43
+    ├─ isInvestor             -  avg:   22751  low:   22751  high:   22763 USD:   $0.43
+    ├─ isWhitelisted          -  avg:   22742  low:   22742  high:   22742 USD:   $0.43
+    ├─ payoutsOwed            -  avg:   22741  low:   22741  high:   22741 USD:   $0.42
+    ├─ ownerOf                -  avg:   22484  low:   22484  high:   22484 USD:   $0.42
+    ├─ PROJECT_WALLET_ADDRESS -  avg:   22190  low:   22190  high:   22190 USD:   $0.42
+    ├─ owner                  -  avg:   22140  low:   22140  high:   22140 USD:   $0.41
+    ├─ supportsInterface      -  avg:   21903  low:   21795  high:   21958 USD:   $0.42
+    ├─ getContractBalance     -  avg:   21358  low:   21358  high:   21358 USD:   $0.41
+    ├─ removeFromWhitelist    -  avg:   20416  low:   14749  high:   23706 USD:   $0.45
+    └─ renounceOwnership      -  avg:   18500  low:   14775  high:   22226 USD:   $0.42
+    Note: USD Calculations based on Gas Price: 35 Wei and Ethereum price: $1208 from 6-26-2022.
+    Formula: TransactionCost =  (Gas (High) * Gas Price * Ethereum USD Price) / 1,000,000,000
+
 # Resources
 
 @notice Pragma statements tell the compiler to use the version of solidity this
