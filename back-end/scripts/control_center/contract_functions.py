@@ -68,7 +68,7 @@ def explore_contract(contract: Contract) -> list:
 #* ----------------------- Contract Read Functions ------------------------- #
 
 
-def PROJECT_WALLET_ADDRESS() -> str:
+def PROJECT_WALLET_ADDRESS(contract) -> str:
     """Returns the address of the project wallet.
 
     Returns:
@@ -76,13 +76,12 @@ def PROJECT_WALLET_ADDRESS() -> str:
         of profits will be deposited.
     """
 
-    contract = load_contract()
     project_wallet_address = contract.PROJECT_WALLET_ADDRESS()
 
     return project_wallet_address
 
 
-def artGallery_mapping(image_number: int = None) -> dict:
+def artGallery_mapping(contract, image_number: int = None) -> dict:
     """Returns the properties of the specified image from the artGallery
     mapping of the contract as a dictionary.
 
@@ -92,7 +91,6 @@ def artGallery_mapping(image_number: int = None) -> dict:
         Artist ID.
     """
 
-    contract = load_contract()
     if image_number is None:
         image_number: int = int(
             input("Which image would you like the properties of? ")
@@ -112,7 +110,7 @@ def artGallery_mapping(image_number: int = None) -> dict:
     return raw_properties
 
 
-def artist_mapping(artist_id: int = None) -> dict:
+def artist_mapping(contract, artist_id: int = None) -> dict:
     """Returns the properties of the specified artist from the artist mapping.
 
     Args:
@@ -124,7 +122,6 @@ def artist_mapping(artist_id: int = None) -> dict:
         Direct Address, and Royalty Address.
     """
 
-    contract = load_contract()
     if artist_id is None:
         artist_id = int(
             input("Which artist would you like the properties of? (1-5)"))
@@ -138,7 +135,7 @@ def artist_mapping(artist_id: int = None) -> dict:
     return artist_properties
 
 
-def balanceOf(address: str = None) -> int:
+def balanceOf(contract, address: str = None) -> int:
     """Returns the number of tokens owned by the specified address.
 
     Args:
@@ -150,7 +147,6 @@ def balanceOf(address: str = None) -> int:
         address.
     """
 
-    contract = load_contract()
     if address is None:
         address = str(input("Which address would you like to check? "))
 
@@ -159,7 +155,7 @@ def balanceOf(address: str = None) -> int:
     return number_of_tokens
 
 
-def getApproved(token_id: str = None) -> str:
+def getApproved(contract, token_id: str = None) -> str:
     """_summary_
 
     Args:
@@ -171,7 +167,6 @@ def getApproved(token_id: str = None) -> str:
          token.
     """
 
-    contract = load_contract()
     if token_id == None:
         token_id = int(input("Which token ID would you like to check? "))
     approved_address = contract.getApproved(token_id)
@@ -182,7 +177,7 @@ def getApproved(token_id: str = None) -> str:
     return approved_address
 
 
-def getContractBalance() -> int:
+def getContractBalance(contract, ) -> int:
     """Returns the balance of Ether currently stored in the contract.
 
     Returns:
@@ -190,14 +185,12 @@ def getContractBalance() -> int:
         contract.
     """
 
-    contract = load_contract()
-
     contract_balance = contract.getContractBalance()
 
     return contract_balance
 
 
-def investorList_array(investor_index: int) -> str:
+def investorList_array(contract, investor_index: int) -> str:
     """Returns the list of investors from the contract.
 
     Returns:
@@ -205,13 +198,12 @@ def investorList_array(investor_index: int) -> str:
         contract at the specified index.
     """
 
-    contract = load_contract()
     investor_address = contract.investorList(investor_index)
 
     return investor_address
 
 
-def isApprovedForAll(token_owner_address: str = None, approvee_address: str = None) -> bool:
+def isApprovedForAll(contract, token_owner_address: str = None, approvee_address: str = None) -> bool:
     """Returns whether or not the approvee's address is approved for tokens of a particular owner.
 
     Args:
@@ -226,7 +218,6 @@ def isApprovedForAll(token_owner_address: str = None, approvee_address: str = No
         otherwise false.
     """
 
-    contract = load_contract()
     if token_owner_address is None:
         token_owner_address = str(
             input("What is the address of the owner of the tokens? "))
@@ -240,7 +231,7 @@ def isApprovedForAll(token_owner_address: str = None, approvee_address: str = No
     return approval_status
 
 
-def isInvestor(wallet_address: str = ZERO_ADDRESS) -> bool:
+def isInvestor(contract, wallet_address: str = ZERO_ADDRESS) -> bool:
     """Returns whether or not the specified wallet address is an investor.
 
     Args:
@@ -252,14 +243,12 @@ def isInvestor(wallet_address: str = ZERO_ADDRESS) -> bool:
         otherwise returns False.
     """
 
-    contract = load_contract()
-
     investor_status = contract.isInvestor(wallet_address)
 
     return investor_status
 
 
-def isWhitelisted(wallet_address: str = ZERO_ADDRESS) -> bool:
+def isWhitelisted(contract, wallet_address: str = ZERO_ADDRESS) -> bool:
     """Returns whether or not the specified wallet address is on the
     whitelist.
 
@@ -271,42 +260,36 @@ def isWhitelisted(wallet_address: str = ZERO_ADDRESS) -> bool:
         bool: True if the address is on the whitelist, otherwise false.
     """
 
-    contract = load_contract()
-
     whitelisted_status = contract.isWhitelisted(wallet_address)
 
     return whitelisted_status
 
 
-def name() -> str:
+def name(contract, ) -> str:
     """Returns the name of the collection of tokens.
 
     Returns:
         (str): The name of the collection of tokens.
     """
 
-    contract = load_contract()
-
     name = contract.name()
 
     return name
 
 
-def owner() -> str:
+def owner(contract, ) -> str:
     """Returns the wallet address of the owner of the contract.
 
     Returns:
         str: The wallet address of the owner of the contract.
     """
 
-    contract = load_contract()
-
     owner = contract.owner()
 
     return owner
 
 
-def ownerOf(token_ID: int = None) -> str:
+def ownerOf(contract, token_ID: int = None) -> str:
     """Returns the wallet address of the owner of the specified token.
 
     Args:
@@ -317,14 +300,12 @@ def ownerOf(token_ID: int = None) -> str:
         owner_of_token str: Wallet address of the owner of the specified
     """
 
-    contract = load_contract()
-
     owner_of_token = contract.ownerOf(token_ID)
 
     return owner_of_token
 
 
-def payoutsOwed(wallet_address: str) -> int:
+def payoutsOwed(contract, wallet_address: str) -> int:
     """Returns the amount of Ether (in Wei) owed to the specified wallet
     address.
 
@@ -337,42 +318,36 @@ def payoutsOwed(wallet_address: str) -> int:
             specified wallet address.
         """
 
-    contract = load_contract()
-
     payouts_owed = contract.payoutsOwed(wallet_address)
 
     return payouts_owed
 
 
-def printInvestorList() -> list[str]:
+def printInvestorList(contract,) -> list[str]:
     """Returns the list of investors from the contract.
 
     Returns:
         investor_list (list[str]): The list of investors from the contract.
     """
 
-    contract = load_contract()
-
     investor_list = contract.printInvestorList()
 
     return investor_list
 
 
-def symbol() -> str:
+def symbol(contract,) -> str:
     """Returns the symbol of the collection of tokens.
 
     Returns:
         (str): The symbol of the collection of tokens.
     """
 
-    contract = load_contract()
-
     symbol = contract.symbol()
 
     return symbol
 
 
-def tokenURI(token_id: int) -> str:
+def tokenURI(contract, token_id: int) -> str:
     """Returns the URI of the specified token.
 
         Args:
@@ -382,8 +357,6 @@ def tokenURI(token_id: int) -> str:
             token_uri (str): The URI of the specified token.
         """
 
-    contract = load_contract()
-
     token_URI = contract.tokenURI(token_id)
 
     return token_URI
@@ -391,7 +364,7 @@ def tokenURI(token_id: int) -> str:
 #* ----------------------- Contract Write Functions ------------------------ #
 
 
-def addToWhitelist(_address: str, sender_address: str):
+def addToWhitelist(contract, _address: str, sender_address: str):
     """Adds the specified address to the whitelist.
 
     Args:
@@ -404,14 +377,12 @@ def addToWhitelist(_address: str, sender_address: str):
         transaction (str): The transaction hash of the transaction.
     """
 
-    contract = load_contract()
-
     transaction = contract.addToWhitelist(_address, {'from': sender_address})
 
     return transaction
 
 
-def removeFromWhitelist(_address, sender_address):
+def removeFromWhitelist(contract, _address, sender_address):
     """Removes the specified address from the whitelist.
 
     Args:
@@ -423,7 +394,6 @@ def removeFromWhitelist(_address, sender_address):
     Returns:
         transaction (str): The transaction hash of the transaction.
     """
-    contract = load_contract()
 
     transaction = contract.removeFromWhitelist(
         _address, {'from': sender_address}
@@ -432,7 +402,7 @@ def removeFromWhitelist(_address, sender_address):
     return transaction
 
 
-def approve_address_for_tokenId(to: str, tokenID: int, sender_address: str):
+def approve_address_for_tokenId(contract, to: str, tokenID: int, sender_address: str):
     """Approves the specified address to use the specified token.
 
     Args:
@@ -448,13 +418,11 @@ def approve_address_for_tokenId(to: str, tokenID: int, sender_address: str):
         transaction (str): The transaction hash of the transaction.
     """
 
-    contract = load_contract()
-
     transaction = contract.approve(to, tokenID, {'from': sender_address})
     return transaction
 
 
-def forcePayment(_addressToBePayed: str, sender_address: str):
+def forcePayment(contract, _addressToBePayed: str, sender_address: str):
     """Forces a payout to the specified address. Can only be called by owner.
 
     Args:
@@ -468,14 +436,12 @@ def forcePayment(_addressToBePayed: str, sender_address: str):
         transaction (str): The transaction hash of the transaction.
     """
 
-    contract = load_contract()
-
     transaction = contract.forcePayment(
         _addressToBePayed, {'from': sender_address})
     return transaction
 
 
-def purchaseArtwork(_imageNumber: int, sender_address: str):
+def purchaseArtwork(contract, _imageNumber: int, sender_address: str):
     """Mints a new artwork token..
 
     Args:
@@ -485,16 +451,15 @@ def purchaseArtwork(_imageNumber: int, sender_address: str):
         token.
 
     """
-    contract = load_contract()
     image_price = artGallery_mapping(_imageNumber)[1]
 
-    transaction = contract.purchaseArtwork(
+    transaction = contract.mintArtwork(
         _imageNumber, {'from': sender_address, "value": image_price}
     )
     return transaction
 
 
-def renounceOwnership(sender_address):
+def renounceOwnership(contract, sender_address):
     """Renounces ownership of the contract.
 
     Args:
@@ -504,13 +469,11 @@ def renounceOwnership(sender_address):
         transaction (str): The transaction hash of the transaction.
     """
 
-    contract = load_contract()
-
     transaction = contract.renounceOwnership({'from': sender_address})
     return transaction
 
 
-def safeTransferFrom(sender_address: str, to: str, tokenID: int):
+def safeTransferFrom(contract, sender_address: str, to: str, tokenID: int):
     """Transfer token from one address to another.
 
     Args:
@@ -525,15 +488,13 @@ def safeTransferFrom(sender_address: str, to: str, tokenID: int):
         transaction: The transaction object.
     """
 
-    contract = load_contract()
-
     transaction = contract.safeTransferFrom(
         sender_address, to, tokenID, {"from": sender_address})
 
     return transaction
 
 
-def setApprovalForAll(approvee: str, approved: bool, sender_address: str):
+def setApprovalForAll(contract, approvee: str, approved: bool, sender_address: str):
     """Sets the approval for all tokens to the specified address.
 
     Args:
@@ -548,15 +509,13 @@ def setApprovalForAll(approvee: str, approved: bool, sender_address: str):
         transaction (str): The transaction hash of the transaction.
     """
 
-    contract = load_contract()
-
     transaction = contract.setApprovalForAll(
         approvee, approved, {'from': sender_address})
 
     return transaction
 
 
-def transferFrom(sender_address: str, to: str, tokenID: int):
+def transferFrom(contract, sender_address: str, to: str, tokenID: int):
     """Transfer token from one address to another.
 
     Args:
@@ -571,15 +530,13 @@ def transferFrom(sender_address: str, to: str, tokenID: int):
         transaction: The transaction object.
     """
 
-    contract = load_contract()
-
     transaction = contract.transferFrom(
         sender_address, to, tokenID, {"from": sender_address})
 
     return transaction
 
 
-def transferOwnership(newOwner: str, sender_address: str):
+def transferOwnership(contract, newOwner: str, sender_address: str):
     """Transfer ownership of the contract.
 
     Args:
@@ -591,15 +548,13 @@ def transferOwnership(newOwner: str, sender_address: str):
         transaction (str): The transaction hash of the transaction.
     """
 
-    contract = load_contract()
-
     transaction = contract.transferOwnership(
         newOwner, {'from': sender_address})
 
     return transaction
 
 
-def withdrawPayout(sender_address: str):
+def withdrawPayout(contract, sender_address: str):
     """Withdraws the payout from the contract.
 
     Args:
@@ -609,8 +564,6 @@ def withdrawPayout(sender_address: str):
     Returns:
         transaction (str): The transaction hash of the transaction.
     """
-
-    contract = load_contract()
 
     transaction = contract.withdrawPayout({'from': sender_address})
 
