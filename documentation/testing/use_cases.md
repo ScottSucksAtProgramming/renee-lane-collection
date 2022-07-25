@@ -8,7 +8,7 @@
     4. User Lists token for sale on opensea.
     5. User lists token for sale on rarible.
     6. User Sells token though OpenSea
-    7. User Sells Token though Rarible.
+    7. User Sells Token though Rarible. - Done Works As expected.
 
 # Owner
 
